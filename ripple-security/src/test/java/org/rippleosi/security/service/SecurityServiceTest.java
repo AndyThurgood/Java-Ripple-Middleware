@@ -23,14 +23,15 @@ import static org.junit.Assert.assertTrue;
 
 public class SecurityServiceTest {
 
-    private final String ID_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyOEFEODU3Ni0xOTQ4LTRDODQtOEI1RS01" +
-        "NUZCN0VFMDI3Q0UiLCJnaXZlbl9uYW1lIjoiSm9obiIsImZhbWlseV9uYW1lIjoiU21pdGgiLCJlbWFpbCI6ImpvaG4uc21pdGhAbmhzLmd" +
-        "vdi51ayIsImVtYWlsX3ZlcmlmaWVkIjoidHJ1ZSIsImV4cCI6MTQ2MzY3MzIzM30.RqlR3KFgxTgERllenBUyZlpMYd3wiMI4EfBjHQqBNio";
+    private static final String ID_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyOEFEODU3Ni0xOTQ4LTRDOD" +
+        "QtOEI1RS01NUZCN0VFMDI3Q0UiLCJnaXZlbl9uYW1lIjoiSm9obiIsImZhbWlseV9uYW1lIjoiU21pdGgiLCJlbWFpbCI6ImpvaG4uc21" +
+        "pdGhAbmhzLmdvdi51ayIsImVtYWlsX3ZlcmlmaWVkIjoidHJ1ZSIsImV4cCI6MTQ2MzY3MzIzM30.RqlR3KFgxTgERllenBUyZlpMYd3w" +
+        "iMI4EfBjHQqBNio";
 
-    private final String ACCESS_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGllbnRfaWQiOiJUZXN0LUNsaWVudCIsInN" +
-        "jb3BlIjpbInRlc3RTY29wZSJdLCJzdWIiOiIyOEFEODU3Ni0xOTQ4LTRDODQtOEI1RS01NUZCN0VFMDI3Q0UiLCJ0ZW5hbnQiOiJUZXN0LVR" +
-        "lbmFudCIsInJvbGUiOiJUZXN0LVJvbGUiLCJuaHNfbnVtYmVyIjoiOTk5OTk5OTAwMCIsImV4cCI6MTQ2MzY3NjUzM30.2T2auUynL2RcFaH" +
-        "9W5iONV1wZSRI784QCOFOQU6WOP4";
+    private static final String ACCESS_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGllbnRfaWQiOiJUZXN0LUNsa" +
+        "WVudCIsInNjb3BlIjpbInRlc3RTY29wZSJdLCJzdWIiOiIyOEFEODU3Ni0xOTQ4LTRDODQtOEI1RS01NUZCN0VFMDI3Q0UiLCJ0ZW5hbn" +
+        "QiOiJUZXN0LVRlbmFudCIsInJvbGUiOiJQSFIiLCJuaHNfbnVtYmVyIjoiOTk5OTk5OTAwMCIsImV4cCI6MTQ2MzY3NjUzM30.DyqEi4b" +
+        "8fNLR-HouJvGA0YHn86FxNx4j6sfmH7_N2Ko";
 
     private SecurityService securityService;
 
@@ -90,7 +91,7 @@ public class SecurityServiceTest {
         final List<String> roles = userProfile.getRoles();
 
         assertNotNull("The user role wasn't saved whilst setting up the security context.", roles);
-        assertEquals("The user role saved doesn't correspond to the input value.", "Test-Role", roles.get(0));
+        assertEquals("The user role saved doesn't correspond to the input value.", "PHR", roles.get(0));
     }
 
     @Test
@@ -105,20 +106,6 @@ public class SecurityServiceTest {
         final List<String> permissions = userProfile.getPermissions();
 
         assertNotNull("The user's permissions have not been saved in the user profile.", permissions);
-    }
-
-    @Test
-    public void userPermissionsMustBeNoneIfInvalidRoleIsUsed() {
-        final WebContext context = setUpWebContext();
-
-        securityService.setupSecurityContext(context);
-
-        final ProfileManager manager = new ProfileManager(context);
-        final UserProfile userProfile = manager.get(true);
-
-        final List<String> permissions = userProfile.getPermissions();
-
-        assertEquals("If an invalid user role is used, the user cannot be granted permissions.", "NONE", permissions.get(0));
     }
 
     @Test
