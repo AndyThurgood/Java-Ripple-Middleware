@@ -38,9 +38,7 @@ public class LoginService {
         final Jwt idToken = JwtHelper.decode(rawIDToken);
         final Jwt accessToken = JwtHelper.decode(rawAccessToken);
 
-        final BearerAccessToken bearerAccessToken = generateBearerToken(context, rawAccessToken);
-
-        final OidcProfile profile = new OidcProfile(bearerAccessToken);
+        final OidcProfile profile = generateOidcProfile(context, rawAccessToken);
         profile.setIdTokenString(rawIDToken);
 
         final String idClaims = idToken.getClaims();
@@ -72,11 +70,14 @@ public class LoginService {
         }
     }
 
-    private BearerAccessToken generateBearerToken(final WebContext context, final String rawAccessToken) {
+    private OidcProfile generateOidcProfile(final WebContext context, final String rawAccessToken) {
         final String tokenScope = context.getRequestParameter("scope");
         final String tokenExpiry = context.getRequestParameter("expires_in");
 
-        return new BearerAccessToken(rawAccessToken, Long.parseLong(tokenExpiry), Scope.parse(tokenScope));
+        final BearerAccessToken bearerAccessToken =
+            new BearerAccessToken(rawAccessToken, Long.parseLong(tokenExpiry), Scope.parse(tokenScope));
+
+        return new OidcProfile(bearerAccessToken);
     }
 
     private void saveToProfileManager(final WebContext context, final UserProfile profile) {
