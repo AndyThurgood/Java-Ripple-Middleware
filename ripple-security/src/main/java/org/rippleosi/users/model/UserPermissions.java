@@ -33,6 +33,10 @@ public class UserPermissions {
                 permissions.add("IG");
                 break;
             }
+            case "NONE": {
+                permissions.add("NONE");
+                break;
+            }
             case "": {
                 permissions.add("NONE");
                 break;
