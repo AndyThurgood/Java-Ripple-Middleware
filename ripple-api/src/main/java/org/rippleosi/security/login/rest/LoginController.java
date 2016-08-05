@@ -27,6 +27,7 @@ import org.pac4j.core.context.J2EContext;
 import org.pac4j.core.context.Pac4jConstants;
 import org.pac4j.core.context.WebContext;
 import org.pac4j.core.util.CommonHelper;
+import org.rippleosi.common.service.SecurityService;
 import org.rippleosi.login.service.LoginService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,6 +48,9 @@ public class LoginController {
 
     @Autowired
     private LoginService loginService;
+
+    @Autowired
+    private SecurityService securityService;
 
     @Autowired
     protected Config config;
@@ -74,6 +78,6 @@ public class LoginController {
 
         loginService.saveUserProfile(context);
 
-        return loginService.generateRedirectResponseEntity(defaultUrl, null, HttpStatus.SEE_OTHER);
+        return securityService.generateRedirectResponseEntity(defaultUrl, null, HttpStatus.SEE_OTHER);
     }
 }
