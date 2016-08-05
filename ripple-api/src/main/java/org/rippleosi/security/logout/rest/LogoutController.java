@@ -22,6 +22,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class LogoutController {
 
+    @Value("${authentication.server.url}")
+    protected String authServerUrl;
+
     @Value("${pac4j.applicationLogout.logoutUrl}")
     protected String logoutUrl;
 
@@ -42,6 +45,8 @@ public class LogoutController {
         final Map<String, String> queryParams = new HashMap<>();
         queryParams.put("id_token_hint", idToken);
 
-        return securityService.generateRedirectResponseEntity(logoutUrl, queryParams, HttpStatus.OK);
+        String fullLogoutUrl = authServerUrl + logoutUrl;
+
+        return securityService.generateRedirectResponseEntity(fullLogoutUrl, queryParams, HttpStatus.OK);
     }
 }
