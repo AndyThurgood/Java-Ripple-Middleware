@@ -6,8 +6,8 @@ import org.pac4j.core.profile.UserProfile;
 import org.rippleosi.users.model.UserDetails;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 public class UserProfileToUserDetailsTransformerTest {
 
@@ -26,7 +26,7 @@ public class UserProfileToUserDetailsTransformerTest {
         userProfile.addAttribute("tenant", "Test Tenant");
         userProfile.addAttribute("nhs_number", "1234567890");
 
-        userProfile.addRole("TEST_ROLE");
+        userProfile.addRole("");
 
         transformer = new UserProfileToUserDetailsTransformer();
     }
@@ -59,6 +59,7 @@ public class UserProfileToUserDetailsTransformerTest {
         assertEquals("UserDetails 'role' field was not set.", userProfile.getRoles().get(0), userDetails.getRole());
 
         assertNotNull("UserDetails 'permissions' field was not set.", userDetails.getPermissions());
-        assertTrue("UserDetails 'permissions' field is empty.", userDetails.getPermissions().size() > 0);
+
+        assertFalse("UserDetails 'permissions' field is empty.", userDetails.getPermissions().isEmpty());
     }
 }
