@@ -1,4 +1,4 @@
-package org.rippleosi.security.user.rest;
+package org.rippleosi.api.user.rest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

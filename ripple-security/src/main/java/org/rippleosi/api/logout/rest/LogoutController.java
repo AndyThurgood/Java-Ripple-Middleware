@@ -1,4 +1,4 @@
-package org.rippleosi.security.logout.rest;
+package org.rippleosi.api.logout.rest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,7 +11,6 @@ import org.pac4j.core.context.WebContext;
 import org.pac4j.core.profile.ProfileManager;
 import org.pac4j.oidc.profile.OidcProfile;
 import org.rippleosi.common.service.SecurityService;
-import org.rippleosi.login.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
