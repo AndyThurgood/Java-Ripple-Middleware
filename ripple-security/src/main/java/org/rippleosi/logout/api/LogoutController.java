@@ -1,4 +1,4 @@
-package org.rippleosi.api.logout.rest;
+package org.rippleosi.logout.api;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
