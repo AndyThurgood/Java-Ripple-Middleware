@@ -16,8 +16,8 @@
 package org.rippleosi.config;
 
 import org.pac4j.core.config.Config;
-import org.rippleosi.security.interceptor.authentication.RequiresAuthenticationInterceptor;
-import org.rippleosi.security.interceptor.csrf.StartCsrfInterceptor;
+import org.rippleosi.common.interceptor.authentication.RequiresAuthenticationInterceptor;
+import org.rippleosi.common.interceptor.csrf.StartCsrfInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;

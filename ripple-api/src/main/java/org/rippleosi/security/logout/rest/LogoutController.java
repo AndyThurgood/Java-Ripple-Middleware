@@ -10,7 +10,7 @@ import org.pac4j.core.context.J2EContext;
 import org.pac4j.core.context.WebContext;
 import org.pac4j.core.profile.ProfileManager;
 import org.pac4j.oidc.profile.OidcProfile;
-import org.rippleosi.security.service.SecurityService;
+import org.rippleosi.login.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -29,7 +29,7 @@ public class LogoutController {
     protected String logoutUrl;
 
     @Autowired
-    private SecurityService securityService;
+    private LoginService loginService;
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public ResponseEntity<String> logout(final HttpServletRequest request, final HttpServletResponse response) {
@@ -47,6 +47,6 @@ public class LogoutController {
 
         String fullLogoutUrl = authServerUrl + logoutUrl;
 
-        return securityService.generateRedirectResponseEntity(fullLogoutUrl, queryParams, HttpStatus.OK);
+        return loginService.generateRedirectResponseEntity(fullLogoutUrl, queryParams, HttpStatus.OK);
     }
 }

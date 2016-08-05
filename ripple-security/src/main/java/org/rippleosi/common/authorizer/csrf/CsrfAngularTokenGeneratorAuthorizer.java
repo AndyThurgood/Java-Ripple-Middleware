@@ -13,7 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.rippleosi.security.authorizer.csrf;
+package org.rippleosi.common.authorizer.csrf;
 
 import org.pac4j.core.authorization.Authorizer;
 import org.pac4j.core.authorization.authorizer.csrf.CsrfTokenGenerator;

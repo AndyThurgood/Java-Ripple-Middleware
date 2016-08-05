@@ -13,7 +13,7 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.rippleosi.security.token.rest;
+package org.rippleosi.security.login.rest;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +27,7 @@ import org.pac4j.core.context.J2EContext;
 import org.pac4j.core.context.Pac4jConstants;
 import org.pac4j.core.context.WebContext;
 import org.pac4j.core.util.CommonHelper;
-import org.rippleosi.security.service.SecurityService;
+import org.rippleosi.login.service.LoginService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,15 +38,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class TokenController {
+public class LoginController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TokenController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
 
     @Value("${pac4j.callback.defaultUrl}")
     protected String defaultUrl;
 
     @Autowired
-    private SecurityService securityService;
+    private LoginService loginService;
 
     @Autowired
     protected Config config;
@@ -72,8 +72,8 @@ public class TokenController {
         CommonHelper.assertNotNull("client", client);
         CommonHelper.assertTrue(client instanceof IndirectClient, "only indirect clients are allowed on the callback url");
 
-        securityService.setupSecurityContext(context);
+        loginService.saveUserProfile(context);
 
-        return securityService.generateRedirectResponseEntity(defaultUrl, null, HttpStatus.SEE_OTHER);
+        return loginService.generateRedirectResponseEntity(defaultUrl, null, HttpStatus.SEE_OTHER);
     }
 }

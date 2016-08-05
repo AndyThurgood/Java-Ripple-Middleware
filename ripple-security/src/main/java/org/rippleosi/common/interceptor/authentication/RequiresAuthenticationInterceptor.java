@@ -1,4 +1,4 @@
-package org.rippleosi.security.interceptor.authentication;
+package org.rippleosi.common.interceptor.authentication;
 
 import java.util.List;
 

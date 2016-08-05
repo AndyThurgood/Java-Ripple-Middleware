@@ -1,4 +1,4 @@
-package org.rippleosi.security.service;
+package org.rippleosi.login.service;
 
 import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.oauth2.sdk.Scope;
@@ -27,21 +27,18 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @Service
-public class SecurityService {
+public class LoginService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SecurityService.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(LoginService.class);
 
-    public void setupSecurityContext(final WebContext context) {
-
-        final String rawAccessToken = context.getRequestParameter("access_token");
+    public void saveUserProfile(final WebContext context) {
         final String rawIDToken = context.getRequestParameter("id_token");
-        final String tokenScope = context.getRequestParameter("scope");
-        final String tokenExpiry = context.getRequestParameter("expires_in");
+        final String rawAccessToken = context.getRequestParameter("access_token");
 
-        final Jwt accessToken = JwtHelper.decode(rawAccessToken);
         final Jwt idToken = JwtHelper.decode(rawIDToken);
+        final Jwt accessToken = JwtHelper.decode(rawAccessToken);
 
-        final BearerAccessToken bearerAccessToken = new BearerAccessToken(rawAccessToken, Long.parseLong(tokenExpiry), Scope.parse(tokenScope));
+        final BearerAccessToken bearerAccessToken = generateBearerToken(context, rawAccessToken);
 
         final OidcProfile profile = new OidcProfile(bearerAccessToken);
         profile.setIdTokenString(rawIDToken);
@@ -65,18 +62,27 @@ public class SecurityService {
             profile.addPermissions(userPermissions.loadUserPermissions());
 
             LOGGER.debug("profile: {}", profile);
-            saveUserProfile(context, profile);
-        } catch (ParseException pe) {
+            saveToProfileManager(context, profile);
+        }
+        catch (ParseException pe) {
             LOGGER.error("Could not parse id claims raw json", pe);
-        } catch (com.nimbusds.oauth2.sdk.ParseException pe) {
+        }
+        catch (com.nimbusds.oauth2.sdk.ParseException pe) {
             LOGGER.error("Could not parse id claims set into attribute map", pe);
         }
     }
 
-    protected void saveUserProfile(final WebContext context, final UserProfile profile) {
-        final ProfileManager manager = new ProfileManager(context);
+    private BearerAccessToken generateBearerToken(final WebContext context, final String rawAccessToken) {
+        final String tokenScope = context.getRequestParameter("scope");
+        final String tokenExpiry = context.getRequestParameter("expires_in");
 
+        return new BearerAccessToken(rawAccessToken, Long.parseLong(tokenExpiry), Scope.parse(tokenScope));
+    }
+
+    private void saveToProfileManager(final WebContext context, final UserProfile profile) {
         if (profile != null) {
+            final ProfileManager manager = new ProfileManager(context);
+
             manager.save(true, profile);
         }
     }
@@ -89,10 +95,8 @@ public class SecurityService {
         final String redirectUrl = getExpandedUrl(defaultUrl, params);
         final HttpHeaders httpHeaders = new HttpHeaders();
 
-        URI redirectPage;
-
         try {
-            redirectPage = new URI(redirectUrl);
+            final URI redirectPage = new URI(redirectUrl);
             httpHeaders.setLocation(redirectPage);
         }
         catch (final URISyntaxException e) {

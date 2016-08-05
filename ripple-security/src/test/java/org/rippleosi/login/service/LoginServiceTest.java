@@ -1,4 +1,4 @@
-package org.rippleosi.security.service;
+package org.rippleosi.login.service;
 
 import java.net.URI;
 import java.util.HashMap;
@@ -21,7 +21,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-public class SecurityServiceTest {
+public class LoginServiceTest {
 
     private static final String ID_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyOEFEODU3Ni0xOTQ4LTRDOD" +
         "QtOEI1RS01NUZCN0VFMDI3Q0UiLCJnaXZlbl9uYW1lIjoiSm9obiIsImZhbWlseV9uYW1lIjoiU21pdGgiLCJlbWFpbCI6ImpvaG4uc21" +
@@ -33,11 +33,11 @@ public class SecurityServiceTest {
         "QiOiJUZXN0LVRlbmFudCIsInJvbGUiOiJQSFIiLCJuaHNfbnVtYmVyIjoiOTk5OTk5OTAwMCIsImV4cCI6MTQ2MzY3NjUzM30.DyqEi4b" +
         "8fNLR-HouJvGA0YHn86FxNx4j6sfmH7_N2Ko";
 
-    private SecurityService securityService;
+    private LoginService loginService;
 
     @Before
     public void setUp() {
-        securityService = new SecurityService();
+        loginService = new LoginService();
     }
 
     private J2EContext setUpWebContext() {
@@ -56,7 +56,7 @@ public class SecurityServiceTest {
     public void userProfileMustBeSavedWithValidTokenInputs() {
         final WebContext context = setUpWebContext();
 
-        securityService.setupSecurityContext(context);
+        loginService.saveUserProfile(context);
 
         final ProfileManager manager = new ProfileManager(context);
         final UserProfile userProfile = manager.get(true);
@@ -68,7 +68,7 @@ public class SecurityServiceTest {
     public void userIdAttributesMustBeSavedWithValidTokenInputs() {
         final WebContext context = setUpWebContext();
 
-        securityService.setupSecurityContext(context);
+        loginService.saveUserProfile(context);
 
         final ProfileManager manager = new ProfileManager(context);
         final UserProfile userProfile = manager.get(true);
@@ -83,7 +83,7 @@ public class SecurityServiceTest {
     public void userRoleMustBeSavedWithValidTokenInputs() {
         final WebContext context = setUpWebContext();
 
-        securityService.setupSecurityContext(context);
+        loginService.saveUserProfile(context);
 
         final ProfileManager manager = new ProfileManager(context);
         final UserProfile userProfile = manager.get(true);
@@ -98,7 +98,7 @@ public class SecurityServiceTest {
     public void userProfileMustContainThePermissionsOfTheRole() {
         final WebContext context = setUpWebContext();
 
-        securityService.setupSecurityContext(context);
+        loginService.saveUserProfile(context);
 
         final ProfileManager manager = new ProfileManager(context);
         final UserProfile userProfile = manager.get(true);
@@ -113,7 +113,7 @@ public class SecurityServiceTest {
         final String invalidUrl = "Malformed" + "\n" + "URL";
 
         final ResponseEntity<String> responseEntity =
-            securityService.generateRedirectResponseEntity(invalidUrl, null, HttpStatus.I_AM_A_TEAPOT);
+            loginService.generateRedirectResponseEntity(invalidUrl, null, HttpStatus.I_AM_A_TEAPOT);
 
         assertNull("The redirect location header must not be set if invalid.", responseEntity.getHeaders().getLocation());
     }
@@ -129,7 +129,7 @@ public class SecurityServiceTest {
         params.put("param2", "test");
 
         final ResponseEntity<String> responseEntity =
-            securityService.generateRedirectResponseEntity(inputUrlBasePath, params, HttpStatus.I_AM_A_TEAPOT);
+            loginService.generateRedirectResponseEntity(inputUrlBasePath, params, HttpStatus.I_AM_A_TEAPOT);
 
         final URI outputUrl = responseEntity.getHeaders().getLocation();
 

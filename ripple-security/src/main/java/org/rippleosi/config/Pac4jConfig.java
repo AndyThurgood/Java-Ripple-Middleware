@@ -22,7 +22,7 @@ import org.pac4j.core.authorization.authorizer.csrf.DefaultCsrfTokenGenerator;
 import org.pac4j.core.client.Clients;
 import org.pac4j.core.config.Config;
 import org.pac4j.oidc.client.OidcClient;
-import org.rippleosi.security.authorizer.csrf.CsrfAngularTokenGeneratorAuthorizer;
+import org.rippleosi.common.authorizer.csrf.CsrfAngularTokenGeneratorAuthorizer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
