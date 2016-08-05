@@ -1,4 +1,4 @@
-package org.rippleosi.security.authorizer.csrf;
+package org.rippleosi.common.authorizer.csrf;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +11,6 @@ import org.pac4j.core.authorization.authorizer.csrf.DefaultCsrfTokenGenerator;
 import org.pac4j.core.context.J2EContext;
 import org.pac4j.core.context.WebContext;
 import org.pac4j.core.profile.UserProfile;
-import org.rippleosi.common.authorizer.csrf.CsrfAngularTokenGeneratorAuthorizer;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 

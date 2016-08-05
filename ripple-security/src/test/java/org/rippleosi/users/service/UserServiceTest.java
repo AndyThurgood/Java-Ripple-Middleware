@@ -23,8 +23,8 @@ public class UserServiceTest {
 
     private MockHttpServletRequest request;
     private MockHttpServletResponse response;
-    private UserProfile userProfile;
 
+    private UserProfile userProfile;
     private UserService userService;
 
     @Before
@@ -48,7 +48,6 @@ public class UserServiceTest {
         userProfile.addRole("TEST_ROLE");
 
         userService = new UserService();
-
     }
 
     @Test
