@@ -13,17 +13,17 @@
  *      See the License for the specific language governing permissions and
  *      limitations under the License.
  */
-package org.rippleosi.patient.vitals.model;
+package org.rippleosi.patient.heightandweight.model;
 
 import java.util.Date;
 
-public class VitalsDetails {
+public class HeightAndWeightDetails {
 
     private String sourceId;
     private String source;
-    private String height;
+    private Double height;
     private Date heightRecorded;
-    private String weight;
+    private Double weight;
     private Date weightRecorded;
 
     public String getSourceId() {
@@ -42,11 +42,11 @@ public class VitalsDetails {
         this.source = source;
     }
 
-    public String getHeight() {
+    public Double getHeight() {
         return height;
     }
 
-    public void setHeight(String height) {
+    public void setHeight(Double height) {
         this.height = height;
     }
 
@@ -58,11 +58,11 @@ public class VitalsDetails {
         this.heightRecorded = heightRecorded;
     }
 
-    public String getWeight() {
+    public Double getWeight() {
         return weight;
     }
 
-    public void setWeight(String weight) {
+    public void setWeight(Double weight) {
         this.weight = weight;
     }
 

@@ -13,11 +13,22 @@
  *      See the License for the specific language governing permissions and
  *      limitations under the License.
  */
-package org.rippleosi.patient.vitals.search;
+package org.rippleosi.patient.heightandweight.store;
 
-import org.rippleosi.common.repo.RepositoryFactory;
+import org.rippleosi.common.repo.AbstractRepositoryFactory;
+import org.springframework.stereotype.Service;
 
-@FunctionalInterface
-public interface VitalsSearchFactory extends RepositoryFactory<VitalsSearch> {
+@Service
+public class DefaultHeightAndWeightStoreFactory
+    extends AbstractRepositoryFactory<HeightAndWeightStore> implements HeightAndWeightStoreFactory {
 
+    @Override
+    protected HeightAndWeightStore defaultRepository() {
+        return new NotConfiguredHeightAndWeightStore();
+    }
+
+    @Override
+    protected Class<HeightAndWeightStore> repositoryClass() {
+        return HeightAndWeightStore.class;
+    }
 }

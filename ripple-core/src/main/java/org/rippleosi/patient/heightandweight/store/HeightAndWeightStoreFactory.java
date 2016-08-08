@@ -13,21 +13,11 @@
  *      See the License for the specific language governing permissions and
  *      limitations under the License.
  */
-package org.rippleosi.patient.vitals.store;
+package org.rippleosi.patient.heightandweight.store;
 
-import org.rippleosi.common.repo.AbstractRepositoryFactory;
-import org.springframework.stereotype.Service;
+import org.rippleosi.common.repo.RepositoryFactory;
 
-@Service
-public class DefaultVitalsStoreFactory extends AbstractRepositoryFactory<VitalsStore> implements VitalsStoreFactory {
+@FunctionalInterface
+public interface HeightAndWeightStoreFactory extends RepositoryFactory<HeightAndWeightStore> {
 
-    @Override
-    protected VitalsStore defaultRepository() {
-        return new NotConfiguredVitalsStore();
-    }
-
-    @Override
-    protected Class<VitalsStore> repositoryClass() {
-        return VitalsStore.class;
-    }
 }

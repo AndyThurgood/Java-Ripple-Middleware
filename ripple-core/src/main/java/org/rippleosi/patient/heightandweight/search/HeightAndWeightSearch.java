@@ -13,18 +13,16 @@
  *      See the License for the specific language governing permissions and
  *      limitations under the License.
  */
-package org.rippleosi.patient.vitals.store;
+package org.rippleosi.patient.heightandweight.search;
 
-import org.apache.camel.Body;
-import org.apache.camel.Header;
-import org.apache.camel.InOnly;
+import java.util.List;
+
 import org.rippleosi.common.repo.Repository;
-import org.rippleosi.patient.vitals.model.VitalsDetails;
+import org.rippleosi.patient.heightandweight.model.HeightAndWeightDetails;
 
-@InOnly
-public interface VitalsStore extends Repository {
+public interface HeightAndWeightSearch extends Repository {
 
-    void create(@Header("patientId") String patientId, @Body VitalsDetails vitals);
+    List<HeightAndWeightDetails> findAllHeightsAndWeights(String patientId);
 
-    void update(@Header("patientId") String patientId, @Body VitalsDetails vitals);
+    HeightAndWeightDetails findHeightAndWeight(String patientId, String heightAndWeightId);
 }

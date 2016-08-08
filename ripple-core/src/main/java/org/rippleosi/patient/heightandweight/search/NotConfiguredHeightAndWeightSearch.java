@@ -13,20 +13,20 @@
  *      See the License for the specific language governing permissions and
  *      limitations under the License.
  */
-package org.rippleosi.patient.vitals.store;
+package org.rippleosi.patient.heightandweight.search;
 
-import org.apache.camel.Body;
-import org.apache.camel.Header;
+import java.util.List;
+
 import org.rippleosi.common.exception.ConfigurationException;
 import org.rippleosi.common.types.RepoSourceType;
 import org.rippleosi.common.types.RepoSourceTypes;
-import org.rippleosi.patient.vitals.model.VitalsDetails;
+import org.rippleosi.patient.heightandweight.model.HeightAndWeightDetails;
 
-public class NotConfiguredVitalsStore implements VitalsStore {
+public class NotConfiguredHeightAndWeightSearch implements HeightAndWeightSearch {
 
     @Override
     public RepoSourceType getSource() {
-        return RepoSourceTypes.ACTIVEMQ;
+        return RepoSourceTypes.NONE;
     }
 
     @Override
@@ -35,12 +35,12 @@ public class NotConfiguredVitalsStore implements VitalsStore {
     }
 
     @Override
-    public void create(@Header("patientId") String patientId, @Body VitalsDetails vitals) {
-        throw ConfigurationException.unimplementedTransaction(VitalsStore.class);
+    public List<HeightAndWeightDetails> findAllHeightsAndWeights(String patientId) {
+        throw ConfigurationException.unimplementedTransaction(HeightAndWeightSearch.class);
     }
 
     @Override
-    public void update(@Header("patientId") String patientId, @Body VitalsDetails vitals) {
-        throw ConfigurationException.unimplementedTransaction(VitalsStore.class);
+    public HeightAndWeightDetails findHeightAndWeight(String patientId, String heightAndWeightId) {
+        throw ConfigurationException.unimplementedTransaction(HeightAndWeightSearch.class);
     }
 }

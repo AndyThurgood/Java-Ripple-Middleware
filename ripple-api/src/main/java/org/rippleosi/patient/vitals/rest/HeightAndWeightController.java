@@ -19,11 +19,11 @@ import java.util.List;
 
 import org.rippleosi.common.types.RepoSourceType;
 import org.rippleosi.common.types.lookup.RepoSourceLookupFactory;
-import org.rippleosi.patient.vitals.model.VitalsDetails;
-import org.rippleosi.patient.vitals.search.VitalsSearch;
-import org.rippleosi.patient.vitals.search.VitalsSearchFactory;
-import org.rippleosi.patient.vitals.store.VitalsStore;
-import org.rippleosi.patient.vitals.store.VitalsStoreFactory;
+import org.rippleosi.patient.heightandweight.model.HeightAndWeightDetails;
+import org.rippleosi.patient.heightandweight.search.HeightAndWeightSearch;
+import org.rippleosi.patient.heightandweight.search.HeightAndWeightSearchFactory;
+import org.rippleosi.patient.heightandweight.store.HeightAndWeightStore;
+import org.rippleosi.patient.heightandweight.store.HeightAndWeightStoreFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,54 +33,54 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("patients/{patientId}/vitals")
-public class VitalsController {
+@RequestMapping("patients/{patientId}/heightAndWeight")
+public class HeightAndWeightController {
 
     @Autowired
     private RepoSourceLookupFactory repoSourceLookup;
 
     @Autowired
-    private VitalsSearchFactory vitalsSearchFactory;
+    private HeightAndWeightSearchFactory heightAndWeightSearchFactory;
 
     @Autowired
-    private VitalsStoreFactory vitalsStoreFactory;
+    private HeightAndWeightStoreFactory heightAndWeightStoreFactory;
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<VitalsDetails> findAllVitals(@PathVariable("patientId") String patientId,
-                                             @RequestParam(required = false) String source) {
+    public List<HeightAndWeightDetails> findAllHeightsAndWeights(@PathVariable("patientId") String patientId,
+                                                                 @RequestParam(required = false) String source) {
         final RepoSourceType sourceType = repoSourceLookup.lookup(source);
-        VitalsSearch search = vitalsSearchFactory.select(sourceType);
+        HeightAndWeightSearch search = heightAndWeightSearchFactory.select(sourceType);
 
-        return search.findAllVitals(patientId);
+        return search.findAllHeightsAndWeights(patientId);
     }
 
-    @RequestMapping(value = "/{vitalsId}", method = RequestMethod.GET)
-    public VitalsDetails findVital(@PathVariable("patientId") String patientId,
-                                   @PathVariable("vitalsId") String vitalsId,
-                                   @RequestParam(required = false) String source) {
+    @RequestMapping(value = "/{heightAndWeightId}", method = RequestMethod.GET)
+    public HeightAndWeightDetails findHeightAndWeight(@PathVariable("patientId") String patientId,
+                                                      @PathVariable("heightAndWeightId") String vitalsId,
+                                                      @RequestParam(required = false) String source) {
         final RepoSourceType sourceType = repoSourceLookup.lookup(source);
-        VitalsSearch search = vitalsSearchFactory.select(sourceType);
+        HeightAndWeightSearch search = heightAndWeightSearchFactory.select(sourceType);
 
-        return search.findVital(patientId, vitalsId);
+        return search.findHeightAndWeight(patientId, vitalsId);
     }
 
     @RequestMapping(method = RequestMethod.POST)
     public void createVital(@PathVariable("patientId") String patientId,
                             @RequestParam(required = false) String source,
-                            @RequestBody VitalsDetails vitals) {
+                            @RequestBody HeightAndWeightDetails heightAndWeight) {
         final RepoSourceType sourceType = repoSourceLookup.lookup(source);
-        VitalsStore store = vitalsStoreFactory.select(sourceType);
+        HeightAndWeightStore store = heightAndWeightStoreFactory.select(sourceType);
 
-        store.create(patientId, vitals);
+        store.create(patientId, heightAndWeight);
     }
 
     @RequestMapping(method = RequestMethod.PUT)
     public void updateVital(@PathVariable("patientId") String patientId,
                             @RequestParam(required = false) String source,
-                            @RequestBody VitalsDetails vitals) {
+                            @RequestBody HeightAndWeightDetails heightAndWeight) {
         final RepoSourceType sourceType = repoSourceLookup.lookup(source);
-        VitalsStore store = vitalsStoreFactory.select(sourceType);
+        HeightAndWeightStore store = heightAndWeightStoreFactory.select(sourceType);
 
-        store.update(patientId, vitals);
+        store.update(patientId, heightAndWeight);
     }
 }
