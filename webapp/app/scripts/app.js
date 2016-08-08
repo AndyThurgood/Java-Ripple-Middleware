@@ -364,6 +364,25 @@ angular
           main: { templateUrl: 'views/heightAndWeights/heightAndWeight-list.html', controller: 'HeightAndWeightsListCtrl' },
           detail: { templateUrl: 'views/heightAndWeights/heightAndWeight-detail.html', controller: 'HeightAndWeightsDetailCtrl' }
         }
+      })
+
+      .state('documents', {
+        url: '/patients/{patientId:int}/documents?reportType&searchString&queryType',
+        views: {
+          'user-context': {templateUrl: 'views/patients/patients-context.html', controller: 'PatientsDetailCtrl'},
+          actions: {templateUrl: 'views/patients/patients-sidebar.html', controller: 'PatientsDetailCtrl'},
+          main: {templateUrl: 'views/documents/documents-list.html', controller: 'DocumentsListCtrl'}
+        }
+      })
+
+      .state('documents-detail', {
+        url: '/patients/{patientId:int}/documents/{documentIndex}?filter&page&reportType&searchString&queryType&documentType&source',
+        views: {
+          'user-context': {templateUrl: 'views/patients/patients-context.html', controller: 'PatientsDetailCtrl'},
+          actions: {templateUrl: 'views/patients/patients-sidebar.html', controller: 'PatientsDetailCtrl'},
+          main: {templateUrl: 'views/documents/documents-list.html', controller: 'DocumentsListCtrl'},
+          detail: {templateUrl: 'views/documents/documents-detail.html', controller: 'DocumentsDetailCtrl'}
+        }
       });
   })
 

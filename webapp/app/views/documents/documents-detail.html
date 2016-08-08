@@ -1,0 +1,138 @@
+<!--
+  ~   Copyright 2016 Ripple OSI
+  ~
+  ~      Licensed under the Apache License, Version 2.0 (the "License");
+  ~      you may not use this file except in compliance with the License.
+  ~      You may obtain a copy of the License at
+  ~
+  ~          http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~      Unless required by applicable law or agreed to in writing, software
+  ~      distributed under the License is distributed on an "AS IS" BASIS,
+  ~      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~      See the License for the specific language governing permissions and
+  ~      limitations under the License.
+  -->
+
+<div class="transbox">
+  <div class="innerTransbox">
+    <h3><strong>Document</strong></h3>
+
+    <div class="form-horizontal text-left">
+
+      <div ng-if="clinicalDocument.documentType == 'Discharge summary'">
+        <div class="form-group form-group-sm">
+          <label class="control-label col-md-3">Document Name:</label>
+          <div class="col-md-9">
+            <div class="form-control-static">{{ clinicalDocument.documentType }}</div>
+          </div>
+        </div>
+
+        <div class="form-group form-group-sm">
+          <label class="control-label col-md-3">Date/Time:</label>
+          <div class="col-md-9">
+            <div class="form-control-static">{{ clinicalDocument.date_time }}</div>
+          </div>
+        </div>
+
+        <br>
+
+        <div class="form-group form-group-sm">
+          <label class="control-label col-md-6">Author</label>
+          <div class="col-md-9">
+            <div class="form-control-static">
+              <label class="control-label col-lg-3">Name:</label><div class="form-control-static">{{ clinicalDocument.author_name }}</div>
+              <label class="control-label col-md-3">ID:</label><div class="form-control-static">{{ clinicalDocument.author_id }}</div>
+              <label class="control-label col-md-3">ID Scheme:</label><div class="form-control-static">{{ clinicalDocument.author_idScheme }}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group form-group-sm">
+          <label class="control-label col-md-3">Facility:</label>
+          <div class="col-md-9">
+            <div class="form-control-static">{{ clinicalDocument.facility }}</div>
+          </div>
+        </div>
+
+        <br>
+
+        <div class="form-group form-group-sm">
+          <label class="control-label col-md-6"><strong>Patient Identifiers</strong></label>
+          <div class="col-md-9">
+            <div class="form-control-static">
+              <label class="control-label col-md-3">MRN:</label><div class="form-control-static">{{ clinicalDocument.patientIdentifier_mrn }}</div>
+              <label class="control-label col-md-3">MRN Type:</label><div class="form-control-static">{{ clinicalDocument.patientIdentifier_mrnType }}</div>
+
+              <label class="control-label col-md-3">OTH:</label><div class="form-control-static">{{ clinicalDocument.patientIdentifier_oth }}</div>
+              <label class="control-label col-md-3">OTH Type:</label><div class="form-control-static">{{ clinicalDocument.patientIdentifier_othType }}</div>
+
+              <label class="control-label col-md-3">GMS:</label><div class="form-control-static">{{ clinicalDocument.patientIdentifier_gms }}</div>
+              <label class="control-label col-md-3">GMS Type:</label><div class="form-control-static">{{ clinicalDocument.patientIdentifier_gmsType }}</div>
+            </div>
+          </div>
+        </div>
+
+        <br>
+
+        <div class="form-group form-group-sm">
+          <label class="control-label col-md-6"><strong>Responsible Professional</strong></label>
+          <div class="col-md-9">
+            <div class="form-control-static">
+              <label class="control-label col-md-3">Name:</label><div class="form-control-static">{{ clinicalDocument.responsibleProfessional_name }}</div>
+              <label class="control-label col-md-3">ID:</label><div class="form-control-static">{{ clinicalDocument.responsibleProfessional_id }}</div>
+              <label class="control-label col-md-3">ID Type:</label><div class="form-control-static">{{ clinicalDocument.responsibleProfessional_idType }}</div>
+            </div>
+          </div>
+        </div>
+
+        <br>
+
+        <div class="form-group form-group-sm">
+          <label class="control-label col-md-3">Discharging Organisation:</label>
+          <div class="col-md-9">
+            <div class="form-control-static">{{ clinicalDocument.dischargingOrganisation }}</div>
+          </div>
+        </div>
+
+        <div class="form-group form-group-sm">
+          <label class="control-label col-md-3">Date/Time of Discharge:</label>
+          <div class="col-md-9">
+            <div class="form-control-static">{{ clinicalDocument.dateTimeOfDischarge }}</div>
+          </div>
+        </div>
+
+        <br>
+
+        <div class="form-group form-group-sm">
+          <label class="control-label col-md-6"><strong>Discharge Diagnoses</strong></label>
+          <div class="col-md-12">
+
+            <table class="table table-bordered table-striped table-hover">
+              <tbody>
+                <tr dir-paginate="diagnosis in clinicalDocument.diagnosisList | itemsPerPage: 3">
+                  <td>{{ diagnosis.problem }}</td>
+                  <td class="dateTime">{{ diagnosis.dateCreated }}</td>
+                  <td style="text-align: center;">
+                    <span class="glyphicon glyphicon-floppy-disk ui-state-hover import-record" ng-click="import('{{ diagnosis }}')"></span>
+                  </td>
+                </tr>
+
+                <tr ng-if="!clinicalDocument.diagnosisList || !clinicalDocument.diagnosisList.length">
+                  <td colspan="3"><span class="label label-default">No diagnoses</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="form-group form-group-sm">
+          <label class="control-label col-md-4">Clinical Synopsis:</label>
+          <div class="col-md-9">
+            <div class="form-control-static">{{ clinicalDocument.clinicalSynopsis }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

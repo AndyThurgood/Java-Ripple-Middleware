@@ -66,6 +66,10 @@ angular.module('rippleDemonstrator')
           break;
         case 'heightAndWeights':
           toState = 'heightAndWeights';
+          break;
+        case 'documents':
+          toState = 'documents';
+          break;
       }
 
       $state.go(toState, requestHeader);
