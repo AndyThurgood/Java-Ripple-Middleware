@@ -22,7 +22,7 @@ import org.rippleosi.patient.vitals.model.VitalsDetails;
 
 public interface VitalsSearch extends Repository {
 
-    List<VitalsDetails> findAllAllergies(String patientId);
+    List<VitalsDetails> findAllVitals(String patientId);
 
-    VitalsDetails findAllergy(String patientId, String vitalsId);
+    VitalsDetails findVital(String patientId, String vitalsId);
 }

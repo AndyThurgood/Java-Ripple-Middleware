@@ -35,12 +35,12 @@ public class NotConfiguredVitalsSearch implements VitalsSearch {
     }
 
     @Override
-    public List<VitalsDetails> findAllAllergies(String patientId) {
+    public List<VitalsDetails> findAllVitals(String patientId) {
         throw ConfigurationException.unimplementedTransaction(VitalsSearch.class);
     }
 
     @Override
-    public VitalsDetails findAllergy(String patientId, String vitalsId) {
+    public VitalsDetails findVital(String patientId, String vitalsId) {
         throw ConfigurationException.unimplementedTransaction(VitalsSearch.class);
     }
 }

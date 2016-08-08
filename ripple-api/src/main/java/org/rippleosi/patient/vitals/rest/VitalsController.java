@@ -46,28 +46,28 @@ public class VitalsController {
     private VitalsStoreFactory vitalsStoreFactory;
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<VitalsDetails> findAllAllergies(@PathVariable("patientId") String patientId,
-                                                @RequestParam(required = false) String source) {
+    public List<VitalsDetails> findAllVitals(@PathVariable("patientId") String patientId,
+                                             @RequestParam(required = false) String source) {
         final RepoSourceType sourceType = repoSourceLookup.lookup(source);
         VitalsSearch search = vitalsSearchFactory.select(sourceType);
 
-        return search.findAllAllergies(patientId);
+        return search.findAllVitals(patientId);
     }
 
     @RequestMapping(value = "/{vitalsId}", method = RequestMethod.GET)
-    public VitalsDetails findAllergy(@PathVariable("patientId") String patientId,
-                                     @PathVariable("vitalsId") String vitalsId,
-                                     @RequestParam(required = false) String source) {
+    public VitalsDetails findVital(@PathVariable("patientId") String patientId,
+                                   @PathVariable("vitalsId") String vitalsId,
+                                   @RequestParam(required = false) String source) {
         final RepoSourceType sourceType = repoSourceLookup.lookup(source);
         VitalsSearch search = vitalsSearchFactory.select(sourceType);
 
-        return search.findAllergy(patientId, vitalsId);
+        return search.findVital(patientId, vitalsId);
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public void createAllergy(@PathVariable("patientId") String patientId,
-                              @RequestParam(required = false) String source,
-                              @RequestBody VitalsDetails vitals) {
+    public void createVital(@PathVariable("patientId") String patientId,
+                            @RequestParam(required = false) String source,
+                            @RequestBody VitalsDetails vitals) {
         final RepoSourceType sourceType = repoSourceLookup.lookup(source);
         VitalsStore store = vitalsStoreFactory.select(sourceType);
 
@@ -75,9 +75,9 @@ public class VitalsController {
     }
 
     @RequestMapping(method = RequestMethod.PUT)
-    public void updateAllergy(@PathVariable("patientId") String patientId,
-                              @RequestParam(required = false) String source,
-                              @RequestBody VitalsDetails vitals) {
+    public void updateVital(@PathVariable("patientId") String patientId,
+                            @RequestParam(required = false) String source,
+                            @RequestBody VitalsDetails vitals) {
         final RepoSourceType sourceType = repoSourceLookup.lookup(source);
         VitalsStore store = vitalsStoreFactory.select(sourceType);
 
