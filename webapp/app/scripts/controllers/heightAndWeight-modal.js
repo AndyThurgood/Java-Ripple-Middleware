@@ -3,7 +3,6 @@
 angular.module('rippleDemonstrator')
   .controller('HeightAndWeightsModalCtrl', function ($scope, $modalInstance, PatientService, heightAndWeight, patient, modal) {
 
-    $scope.currentUser = PatientService.getCurrentUser();
     $scope.heightAndWeight = heightAndWeight;
     $scope.patient = patient;
     $scope.modal = modal;

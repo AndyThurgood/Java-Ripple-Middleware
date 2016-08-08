@@ -17,7 +17,7 @@ angular.module('rippleDemonstrator')
     $scope.edit = function () {
       var modalInstance = $modal.open({
         templateUrl: 'views/heightAndWeights/heightAndWeight-modal.html',
-        size: 'lg',
+        size: 'md',
         controller: 'HeightAndWeightsModalCtrl',
         resolve: {
           modal: function () {
