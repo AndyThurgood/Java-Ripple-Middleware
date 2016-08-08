@@ -28,7 +28,6 @@ angular.module('rippleDemonstrator')
     }
     else {
       $scope.clinicalNote.dateCreated = new Date().toISOString().slice(0, 10);
-      $scope.clinicalNote.author = 'Dr Tony Shannon';
     }
 
     $scope.ok = function (clinicalNoteForm, clinicalNote) {

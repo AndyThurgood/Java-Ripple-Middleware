@@ -57,7 +57,7 @@
             <label for="author" class="control-label col-md-12">Author</label>
             <div class="col-md-12">
               <div class="input-group">
-                <input type="text" class="form-control input-sm" id="author" name="author" ng-model="clinicalNote.author" disabled/>
+                <input type="text" class="form-control input-sm" id="author" name="author" ng-model="clinicalNote.author" required/>
               </div>
               <span class="help-block animate-fade" ng-show="formSubmitted && clinicalNoteForm.author.$error.required">You must enter a value.</span>
             </div>
