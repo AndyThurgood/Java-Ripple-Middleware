@@ -20,7 +20,6 @@ import java.util.List;
 import org.rippleosi.common.types.RepoSourceType;
 import org.rippleosi.common.types.lookup.RepoSourceLookupFactory;
 import org.rippleosi.patient.vitals.model.VitalsDetails;
-import org.rippleosi.patient.vitals.model.VitalsSummary;
 import org.rippleosi.patient.vitals.search.VitalsSearch;
 import org.rippleosi.patient.vitals.search.VitalsSearchFactory;
 import org.rippleosi.patient.vitals.store.VitalsStore;
@@ -47,7 +46,7 @@ public class VitalsController {
     private VitalsStoreFactory vitalsStoreFactory;
 
     @RequestMapping(method = RequestMethod.GET)
-    public List<VitalsSummary> findAllAllergies(@PathVariable("patientId") String patientId,
+    public List<VitalsDetails> findAllAllergies(@PathVariable("patientId") String patientId,
                                                 @RequestParam(required = false) String source) {
         final RepoSourceType sourceType = repoSourceLookup.lookup(source);
         VitalsSearch search = vitalsSearchFactory.select(sourceType);

@@ -19,11 +19,10 @@ import java.util.List;
 
 import org.rippleosi.common.repo.Repository;
 import org.rippleosi.patient.vitals.model.VitalsDetails;
-import org.rippleosi.patient.vitals.model.VitalsSummary;
 
 public interface VitalsSearch extends Repository {
 
-    List<VitalsSummary> findAllAllergies(String patientId);
+    List<VitalsDetails> findAllAllergies(String patientId);
 
     VitalsDetails findAllergy(String patientId, String vitalsId);
 }
