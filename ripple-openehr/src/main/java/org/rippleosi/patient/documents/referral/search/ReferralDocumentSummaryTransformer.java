@@ -28,7 +28,7 @@ public class ReferralDocumentSummaryTransformer implements Transformer<Map<Strin
     public ReferralDocumentSummary transform(Map<String, Object> input) {
 
         ReferralDocumentSummary referralDocument = new ReferralDocumentSummary();
-        referralDocument.setDocumentSource("openEHR");
+        referralDocument.setSource("openehr");
         referralDocument.setSourceId(MapUtils.getString(input, "uid"));
         referralDocument.setDocumentType(MapUtils.getString(input, "documentType"));
         referralDocument.setDocumentDate(MapUtils.getString(input, "referralDate"));

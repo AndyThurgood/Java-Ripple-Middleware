@@ -38,6 +38,7 @@ public class DischargeDocumentDetailsTransformer implements Transformer<Map<Stri
         Date dateCreated = DateFormatter.toDate(dateCreatedAsString);
 
         DischargeDocumentDetails dischargeDocument = new DischargeDocumentDetails();
+        dischargeDocument.setSource("openehr");
         //dischargeDocument.setAuthor(MapUtils.getString(input, "author"));
         //dischargeDocument.setDateCreated(dateCreated);
 

@@ -13,23 +13,18 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.rippleosi.patient.documents.store;
+package org.rippleosi.patient.documents.common.store;
 
-import org.rippleosi.common.repo.AbstractRepositoryFactory;
-import org.springframework.stereotype.Service;
+import org.apache.camel.Body;
+import org.apache.camel.Header;
+import org.apache.camel.InOnly;
+import org.rippleosi.common.repo.Repository;
+import org.rippleosi.patient.documents.common.model.GenericDocument;
 
 /**
  */
-@Service
-public class DefaultDocumentStoreFactory extends AbstractRepositoryFactory<DocumentStore> implements DocumentStoreFactory {
+@InOnly
+public interface DocumentStore extends Repository {
 
-    @Override
-    protected DocumentStore defaultRepository() {
-        return new NotConfiguredDocumentStore();
-    }
-
-    @Override
-    protected Class<DocumentStore> repositoryClass() {
-        return DocumentStore.class;
-    }
+    void create(@Header("patientId") String patientId, @Body GenericDocument document);
 }

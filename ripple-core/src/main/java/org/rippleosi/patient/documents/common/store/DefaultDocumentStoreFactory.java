@@ -13,25 +13,23 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.rippleosi.patient.documents.model;
+package org.rippleosi.patient.documents.common.store;
+
+import org.rippleosi.common.repo.AbstractRepositoryFactory;
+import org.springframework.stereotype.Service;
 
 /**
  */
-public interface GenericDocumentSummary {
+@Service
+public class DefaultDocumentStoreFactory extends AbstractRepositoryFactory<DocumentStore> implements DocumentStoreFactory {
 
-    String getSourceId();
+    @Override
+    protected DocumentStore defaultRepository() {
+        return new NotConfiguredDocumentStore();
+    }
 
-    void setSourceId(String sourceId);
-
-    String getDocumentType();
-
-    void setDocumentType(String documentType);
-
-    String getDocumentSource();
-
-    void setDocumentSource(String documentSource);
-
-    String getDocumentDate();
-
-    void setDocumentDate(String documentDate);
+    @Override
+    protected Class<DocumentStore> repositoryClass() {
+        return DocumentStore.class;
+    }
 }

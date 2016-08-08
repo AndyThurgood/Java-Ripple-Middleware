@@ -18,7 +18,7 @@ package org.rippleosi.patient.documents.referral.search;
 import java.util.List;
 
 import org.rippleosi.common.service.AbstractOpenEhrService;
-import org.rippleosi.patient.documents.model.GenericDocumentSummary;
+import org.rippleosi.patient.documents.common.model.AbstractDocumentSummary;
 import org.rippleosi.patient.documents.referral.model.ReferralDocumentDetails;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +28,7 @@ import org.springframework.stereotype.Service;
 public class OpenEHRReferralDocumentSearch extends AbstractOpenEhrService implements ReferralDocumentSearch {
 
     @Override
-    public List<GenericDocumentSummary> findAllReferralDocuments(String patientId) {
+    public List<AbstractDocumentSummary> findAllReferralDocuments(String patientId) {
         ReferralDocumentSummaryQueryStrategy query = new ReferralDocumentSummaryQueryStrategy(patientId);
 
         return findData(query);

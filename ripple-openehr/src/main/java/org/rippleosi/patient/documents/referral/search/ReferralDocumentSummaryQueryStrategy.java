@@ -21,11 +21,11 @@ import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.rippleosi.common.service.AbstractListQueryStrategy;
-import org.rippleosi.patient.documents.model.GenericDocumentSummary;
+import org.rippleosi.patient.documents.common.model.AbstractDocumentSummary;
 
 /**
  */
-public class ReferralDocumentSummaryQueryStrategy extends AbstractListQueryStrategy<GenericDocumentSummary> {
+public class ReferralDocumentSummaryQueryStrategy extends AbstractListQueryStrategy<AbstractDocumentSummary> {
 
     ReferralDocumentSummaryQueryStrategy(String patientId) {
         super(patientId);
@@ -44,7 +44,7 @@ public class ReferralDocumentSummaryQueryStrategy extends AbstractListQueryStrat
     }
 
     @Override
-    public List<GenericDocumentSummary> transform(List<Map<String, Object>> resultSet) {
+    public List<AbstractDocumentSummary> transform(List<Map<String, Object>> resultSet) {
         return CollectionUtils.collect(resultSet, new ReferralDocumentSummaryTransformer(), new ArrayList<>());
     }
 }

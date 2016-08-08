@@ -15,15 +15,12 @@
  */
 package org.rippleosi.patient.documents.referral.model;
 
+import org.rippleosi.patient.documents.common.model.AbstractDocumentSummary;
+
 /**
  */
-public class ReferralDocumentDetails {
+public class ReferralDocumentDetails extends AbstractDocumentSummary {
         
-    private String documentType;
-    private String documentSource;
     private String documentOrigionalSource;
-    
-    private String documentDate;
-
     private String dischargeDate;
 }

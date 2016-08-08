@@ -19,13 +19,13 @@ import java.util.List;
 
 import org.rippleosi.common.repo.Repository;
 import org.rippleosi.patient.documents.discharge.model.DischargeDocumentDetails;
-import org.rippleosi.patient.documents.model.GenericDocumentSummary;
+import org.rippleosi.patient.documents.common.model.AbstractDocumentSummary;
 
 /**
  */
 public interface DischargeDocumentSearch extends Repository {
 
-    List<GenericDocumentSummary> findAllDischargeDocuments(String patientId);
+    List<AbstractDocumentSummary> findAllDischargeDocuments(String patientId);
 
     DischargeDocumentDetails findDischargeDocument(String patientId, String documentId);
 }

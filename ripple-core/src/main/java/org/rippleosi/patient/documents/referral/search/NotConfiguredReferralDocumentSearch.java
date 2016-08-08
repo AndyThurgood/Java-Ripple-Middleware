@@ -18,7 +18,7 @@ package org.rippleosi.patient.documents.referral.search;
 import java.util.List;
 
 import org.rippleosi.common.exception.ConfigurationException;
-import org.rippleosi.patient.documents.model.GenericDocumentSummary;
+import org.rippleosi.patient.documents.common.model.AbstractDocumentSummary;
 import org.rippleosi.common.types.RepoSourceType;
 import org.rippleosi.common.types.RepoSourceTypes;
 import org.rippleosi.patient.documents.referral.model.ReferralDocumentDetails;
@@ -38,7 +38,7 @@ public class NotConfiguredReferralDocumentSearch implements ReferralDocumentSear
     }
 
     @Override
-    public List<GenericDocumentSummary> findAllReferralDocuments(String patientId) {
+    public List<AbstractDocumentSummary> findAllReferralDocuments(String patientId) {
         throw ConfigurationException.unimplementedTransaction(ReferralDocumentSearch.class);
     }
 

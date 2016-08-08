@@ -13,12 +13,12 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.rippleosi.patient.documents.store;
+package org.rippleosi.patient.documents.common.store;
 
 import org.apache.camel.Produce;
 import org.rippleosi.common.types.RepoSourceType;
 import org.rippleosi.common.types.RepoSourceTypes;
-import org.rippleosi.patient.documents.model.GenericDocument;
+import org.rippleosi.patient.documents.common.model.GenericDocument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
