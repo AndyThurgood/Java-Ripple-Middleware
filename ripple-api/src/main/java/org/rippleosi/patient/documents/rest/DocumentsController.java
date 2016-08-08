@@ -15,7 +15,10 @@
  */
 package org.rippleosi.patient.documents.rest;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import org.rippleosi.common.util.DateFormatter;
 
 import org.rippleosi.common.types.RepoSourceType;
 import org.rippleosi.common.types.lookup.RepoSourceLookupFactory;
@@ -100,7 +103,13 @@ public class DocumentsController {
         List<GenericDocumentSummary> returnList = dischargeDocuments;
         returnList.addAll(referralDocuments);
 
-        // Add a sort to arrange by date
+        // Sort by date
+        Collections.sort(returnList, new Comparator<GenericDocumentSummary>(){
+            @Override
+            public int compare(GenericDocumentSummary gds1, GenericDocumentSummary gds2){
+                return DateFormatter.toDate(gds2.getDocumentDate()).compareTo(DateFormatter.toDate(gds1.getDocumentDate()));
+            }
+         });
 
         return returnList;
     }
