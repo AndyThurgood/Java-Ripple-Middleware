@@ -15,9 +15,10 @@
  */
 package org.rippleosi.patient.heightandweight.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class HeightAndWeightDetails {
+public class HeightAndWeightDetails implements Serializable {
 
     private String sourceId;
     private String source;
