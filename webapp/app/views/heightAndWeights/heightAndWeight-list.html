@@ -1,5 +1,9 @@
 <h3><strong>Height And Weight</strong></h3>
 
+<div class="inner-addon left-addon filterInput">
+    <i class="fa fa-filter"></i>
+    <input type="text" class="form-control" placeholder="Filter..." ng-model="query" />
+</div>
 
 <table class="table table-bordered table-striped table-hover">
   <thead>
@@ -12,7 +16,7 @@
   </thead>
 
   <tbody>
-    <tr dir-paginate="heightAndWeight in heightAndWeights| filter:query | itemsPerPage: 9 " current-page="currentPage"  ng-click="go('{{heightAndWeight.sourceId}}')" ng-class="{info: selected(heightAndWeight.sourceId)}">
+    <tr dir-paginate="heightAndWeight in heightAndWeights| filter:search | itemsPerPage: 9 " current-page="currentPage"  ng-click="go('{{heightAndWeight.sourceId}}')" ng-class="{info: selected(heightAndWeight.sourceId)}">
         <td>Height<br>Weight</td>
         <td>{{ heightAndWeight.height }}m<br>{{ heightAndWeight.weight }}kg</td>
         <td>{{ heightAndWeight.heightRecorded | date:'dd-MMM-yyyy' }}<br>{{ heightAndWeight.weightRecorded | date:'dd-MMM-yyyy' }}</td>
