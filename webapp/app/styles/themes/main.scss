@@ -2485,7 +2485,8 @@ i.fa.cancel-reportType.fa-times {
 
 .allergyForm .row,
 .medicationForm .row,
-.diagnosisForm > .row {
+.diagnosisForm > .row,
+.heightAndWeightForm .row {
   margin-right: 0px;
   margin-left: 0px;
 }
@@ -2502,7 +2503,8 @@ i.fa.cancel-reportType.fa-times {
 
 
 .diagnosisForm .input-group,
-.medicationForm .input-group
+.medicationForm .input-group,
+.heightAndWeightForm .input-group
 {
   width: 100%;
   padding-top: 8px;
@@ -2656,3 +2658,4 @@ div#age-chart div.morris-hover.morris-default-style {
 .clinicalNoteForm textarea {
   height: 120px;
 }
+
