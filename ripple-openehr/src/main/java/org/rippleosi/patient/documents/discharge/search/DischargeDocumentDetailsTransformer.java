@@ -15,13 +15,16 @@
  */
 package org.rippleosi.patient.documents.discharge.search;
 
+import java.util.List;
 import java.util.Date;
 import java.util.Map;
+import java.util.ArrayList;
 
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.collections4.Transformer;
 import org.rippleosi.common.util.DateFormatter;
 import org.rippleosi.patient.documents.discharge.model.DischargeDocumentDetails;
+import org.rippleosi.patient.problems.model.ProblemDetails;
 
 /**
  */
@@ -39,9 +42,68 @@ public class DischargeDocumentDetailsTransformer implements Transformer<Map<Stri
 
         DischargeDocumentDetails dischargeDocument = new DischargeDocumentDetails();
         dischargeDocument.setSource("openehr");
+        dischargeDocument.setDocumentType(MapUtils.getString(input, "documentType"));
+        dischargeDocument.setDocumentDate(MapUtils.getString(input, "dischargeDate"));
+        dischargeDocument.setAuthor_name(MapUtils.getString(input, "authorName"));
+        dischargeDocument.setAuthor_id(MapUtils.getString(input, "authorId"));
+        dischargeDocument.setAuthor_idScheme(MapUtils.getString(input, "authorIdScheme"));
+        dischargeDocument.setFacility(MapUtils.getString(input, "facility"));
+        dischargeDocument.setDateOfAdmission(MapUtils.getString(input, "dateOfAdmission"));
+        dischargeDocument.setResponsibleProfessional_name(MapUtils.getString(input, "professionalName"));
+        dischargeDocument.setResponsibleProfessional_id(MapUtils.getString(input, "professionalId"));
+        dischargeDocument.setResponsibleProfessional_id(MapUtils.getString(input, "professionalId"));
+        dischargeDocument.setResponsibleProfessional_idType(MapUtils.getString(input, "professionalType"));
+        dischargeDocument.setDischargingOrganisation(MapUtils.getString(input, "dischargeOrganisation"));
+        dischargeDocument.setDateTimeOfDischarge(MapUtils.getString(input, "dischargeDateTime"));
+        dischargeDocument.setClinicalSynopsis(MapUtils.getString(input, "synopsis"));
         //dischargeDocument.setAuthor(MapUtils.getString(input, "author"));
         //dischargeDocument.setDateCreated(dateCreated);
 
         return dischargeDocument;
+    }
+    
+    public DischargeDocumentDetails transformIdentifiers(List<Map<String, Object>> resultSet, DischargeDocumentDetails currentDocumentDetails) {
+
+        boolean mrnSet = false;
+        boolean othSet = false;
+        boolean gmsSet = false;
+        
+        for(Map<String, Object> result : resultSet){
+            
+            String id = MapUtils.getString(result, "patientIdMrn");
+            String type = MapUtils.getString(result, "patientIdMrnType");
+            
+            if(mrnSet == false && "MRN".equalsIgnoreCase(type)){
+                currentDocumentDetails.setPatientIdentifier_mrn(id);
+                currentDocumentDetails.setPatientIdentifier_mrnType(type);
+            } else if(othSet == false && "OTH".equalsIgnoreCase(type)){
+                currentDocumentDetails.setPatientIdentifier_oth(id);
+                currentDocumentDetails.setPatientIdentifier_othType(type);
+            } else if(gmsSet == false && "GMS".equalsIgnoreCase(type)){
+                currentDocumentDetails.setPatientIdentifier_gms(id);
+                currentDocumentDetails.setPatientIdentifier_gmsType(type);
+            }
+        }
+        
+        return currentDocumentDetails;
+    }
+    
+    public DischargeDocumentDetails transformDiagnosis(List<Map<String, Object>> resultSet, DischargeDocumentDetails currentDocumentDetails) {
+
+        List<ProblemDetails> diagnosisList = new ArrayList<>();
+        
+        for(Map<String, Object> result : resultSet){
+            
+            String name = MapUtils.getString(result, "diagnosisName");
+            String time = MapUtils.getString(result, "diagnosisTime");
+            ProblemDetails problemDetails = new ProblemDetails();
+            problemDetails.setProblem(name);
+            problemDetails.setDateOfOnset(DateFormatter.toDate(time));
+            diagnosisList.add(problemDetails);
+            
+        }
+        
+        currentDocumentDetails.setDiagnosisList(diagnosisList);
+        return currentDocumentDetails;
     }
 }
