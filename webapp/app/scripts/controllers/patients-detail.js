@@ -64,6 +64,8 @@ angular.module('rippleDemonstrator')
         case 'clinicalNotes':
           toState = 'clinicalNotes';
           break;
+        case 'heightAndWeights':
+          toState = 'heightAndWeights';
       }
 
       $state.go(toState, requestHeader);
