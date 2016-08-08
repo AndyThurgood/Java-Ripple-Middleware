@@ -41,7 +41,7 @@ public class DocumentsController {
     @Autowired
     private DocumentStoreFactory documentStoreFactory;
 
-    @RequestMapping(value = "/referral", method = RequestMethod.POST)
+    @RequestMapping(value = "/referral", method = RequestMethod.POST, consumes = "application/xml")
     public void createContact(@PathVariable("patientId") String patientId,
                               @RequestParam(required = false) String source,
                               @RequestBody String body) {
