@@ -13,17 +13,25 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.rippleosi.patient.documents.referral.model;
+package org.rippleosi.patient.documents.model;
 
 /**
  */
-public class ReferralDocumentDetails {
-        
-    private String documentType;
-    private String documentSource;
-    private String documentOrigionalSource;
-    
-    private String documentDate;
+public interface GenericDocumentSummary {
 
-    private String dischargeDate;
+    String getSourceId();
+
+    void setSourceId(String sourceId);
+
+    String getDocumentType();
+
+    void setDocumentType(String documentType);
+
+    String getDocumentSource();
+
+    void setDocumentSource(String documentSource);
+
+    String getDocumentDate();
+
+    void setDocumentDate(String documentDate);
 }

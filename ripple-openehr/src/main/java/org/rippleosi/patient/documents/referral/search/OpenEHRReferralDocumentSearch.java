@@ -17,34 +17,27 @@ package org.rippleosi.patient.documents.referral.search;
 
 import java.util.List;
 
-import org.rippleosi.common.exception.ConfigurationException;
+import org.rippleosi.common.service.AbstractOpenEhrService;
 import org.rippleosi.patient.documents.model.GenericDocumentSummary;
-import org.rippleosi.common.types.RepoSourceType;
-import org.rippleosi.common.types.RepoSourceTypes;
 import org.rippleosi.patient.documents.referral.model.ReferralDocumentDetails;
+import org.springframework.stereotype.Service;
 
 /**
  */
-public class NotConfiguredReferralDocumentSearch implements ReferralDocumentSearch {
-
-    @Override
-    public RepoSourceType getSource() {
-        return RepoSourceTypes.NONE;
-    }
-
-    @Override
-    public int getPriority() {
-        return Integer.MAX_VALUE;
-    }
+@Service
+public class OpenEHRReferralDocumentSearch extends AbstractOpenEhrService implements ReferralDocumentSearch {
 
     @Override
     public List<GenericDocumentSummary> findAllReferralDocuments(String patientId) {
-        throw ConfigurationException.unimplementedTransaction(ReferralDocumentSearch.class);
+        ReferralDocumentSummaryQueryStrategy query = new ReferralDocumentSummaryQueryStrategy(patientId);
+
+        return findData(query);
     }
 
     @Override
     public ReferralDocumentDetails findReferralDocument(String patientId, String documentId) {
-        throw ConfigurationException.unimplementedTransaction(ReferralDocumentSearch.class);
-    }
+        ReferralDocumentDetailsQueryStrategy query = new ReferralDocumentDetailsQueryStrategy(patientId, documentId);
 
+        return findData(query);
+    }
 }

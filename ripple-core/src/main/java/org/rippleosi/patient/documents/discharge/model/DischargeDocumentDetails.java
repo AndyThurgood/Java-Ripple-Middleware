@@ -19,4 +19,12 @@ package org.rippleosi.patient.documents.discharge.model;
  */
 public class DischargeDocumentDetails {
     
+    private String documentType;
+    private String documentSource;
+    private String documentOrigionalSource;
+    
+    private String documentDate;
+
+    private String dischargeDate;
+    
 }

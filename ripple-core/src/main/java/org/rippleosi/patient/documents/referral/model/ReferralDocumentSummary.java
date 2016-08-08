@@ -15,8 +15,54 @@
  */
 package org.rippleosi.patient.documents.referral.model;
 
+import org.rippleosi.patient.documents.model.GenericDocumentSummary;
+
 /**
  */
-public class ReferralDocumentSummary {
+public class ReferralDocumentSummary implements GenericDocumentSummary {
     
+    private String sourceId;
+    private String documentType;
+    private String documentSource;
+    private String documentDate;
+
+    @Override
+    public String getSourceId() {
+        return sourceId;
+    }
+
+    @Override
+    public void setSourceId(String sourceId) {
+        this.sourceId = sourceId;
+    }
+
+    @Override
+    public String getDocumentType() {
+        return documentType;
+    }
+
+    @Override
+    public void setDocumentType(String documentType) {
+        this.documentType = documentType;
+    }
+
+    @Override
+    public String getDocumentSource() {
+        return documentSource;
+    }
+
+    @Override
+    public void setDocumentSource(String documentSource) {
+        this.documentSource = documentSource;
+    }
+
+    @Override
+    public String getDocumentDate() {
+        return documentDate;
+    }
+
+    @Override
+    public void setDocumentDate(String documentDate) {
+        this.documentDate = documentDate;
+    }
 }

@@ -18,14 +18,14 @@ package org.rippleosi.patient.documents.referral.search;
 import java.util.List;
 
 import org.rippleosi.common.repo.Repository;
+import org.rippleosi.patient.documents.model.GenericDocumentSummary;
 import org.rippleosi.patient.documents.referral.model.ReferralDocumentDetails;
-import org.rippleosi.patient.documents.referral.model.ReferralDocumentSummary;
 
 /**
  */
 public interface ReferralDocumentSearch extends Repository {
 
-    List<ReferralDocumentSummary> findAllReferralDocuments(String patientId);
+    List<GenericDocumentSummary> findAllReferralDocuments(String patientId);
 
     ReferralDocumentDetails findReferralDocument(String patientId, String documentId);
 }

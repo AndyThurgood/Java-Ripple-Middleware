@@ -15,12 +15,18 @@
  */
 package org.rippleosi.patient.documents.rest;
 
+import java.util.List;
+
 import org.rippleosi.common.types.RepoSourceType;
 import org.rippleosi.common.types.lookup.RepoSourceLookupFactory;
+import org.rippleosi.patient.documents.discharge.search.DischargeDocumentSearch;
+import org.rippleosi.patient.documents.discharge.search.DischargeDocumentSearchFactory;
 import org.rippleosi.patient.documents.model.GenericDocument;
+import org.rippleosi.patient.documents.model.GenericDocumentSummary;
+import org.rippleosi.patient.documents.referral.search.ReferralDocumentSearch;
+import org.rippleosi.patient.documents.referral.search.ReferralDocumentSearchFactory;
 import org.rippleosi.patient.documents.store.DocumentStore;
 import org.rippleosi.patient.documents.store.DocumentStoreFactory;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,10 +47,16 @@ public class DocumentsController {
     @Autowired
     private DocumentStoreFactory documentStoreFactory;
 
+    @Autowired
+    private DischargeDocumentSearchFactory dischargeDocumentSearchFactory;
+
+    @Autowired
+    private ReferralDocumentSearchFactory referralDocumentSearchFactory;
+
     @RequestMapping(value = "/referral", method = RequestMethod.POST, consumes = "application/xml")
     public void createReferral(@PathVariable("patientId") String patientId,
-                              @RequestParam(required = false) String source,
-                              @RequestBody String body) {
+                               @RequestParam(required = false) String source,
+                               @RequestBody String body) {
 
         final GenericDocument document = new GenericDocument();
         document.setDocumentType("hl7Referral");
@@ -56,12 +68,12 @@ public class DocumentsController {
         final DocumentStore contactStore = documentStoreFactory.select(sourceType);
         contactStore.create(patientId, document);
     }
-    
+
     @RequestMapping(value = "/discharge", method = RequestMethod.POST, consumes = "application/xml")
     public void createDischarge(@PathVariable("patientId") String patientId,
-                              @RequestParam(required = false) String source,
-                              @RequestBody String body) {
-        
+                                @RequestParam(required = false) String source,
+                                @RequestBody String body) {
+
         GenericDocument document = new GenericDocument();
         document.setDocumentType("hl7Discharge");
         document.setOriginalSource(source);
@@ -71,5 +83,25 @@ public class DocumentsController {
 
         final DocumentStore contactStore = documentStoreFactory.select(sourceType);
         contactStore.create(patientId, document);
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public List<GenericDocumentSummary> findAllDocuments(@PathVariable("patientId") String patientId,
+                                                         @RequestParam(required = false) String source) {
+
+        final RepoSourceType sourceType = repoSourceLookup.lookup(source);
+
+        DischargeDocumentSearch dischargeDocumentSearch = dischargeDocumentSearchFactory.select(sourceType);
+        List<GenericDocumentSummary> dischargeDocuments = dischargeDocumentSearch.findAllDischargeDocuments(patientId);
+
+        ReferralDocumentSearch referralDocumentSearch = referralDocumentSearchFactory.select(sourceType);
+        List<GenericDocumentSummary> referralDocuments = referralDocumentSearch.findAllReferralDocuments(patientId);
+
+        List<GenericDocumentSummary> returnList = dischargeDocuments;
+        returnList.addAll(referralDocuments);
+
+        // Add a sort to arrange by date
+
+        return returnList;
     }
 }

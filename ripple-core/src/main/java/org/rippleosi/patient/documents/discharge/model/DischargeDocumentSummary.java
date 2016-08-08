@@ -15,8 +15,53 @@
  */
 package org.rippleosi.patient.documents.discharge.model;
 
+import org.rippleosi.patient.documents.model.GenericDocumentSummary;
+
 /**
  */
-public class DischargeDocumentSummary {
+public class DischargeDocumentSummary implements GenericDocumentSummary {
     
+    private String sourceId;
+    private String documentType;
+    private String documentSource;
+    private String documentDate;
+
+    @Override
+    public String getSourceId() {
+        return sourceId;
+    }
+
+    @Override
+    public void setSourceId(String sourceId) {
+        this.sourceId = sourceId;
+    }
+
+    @Override
+    public String getDocumentType() {
+        return documentType;
+    }
+
+    @Override
+    public void setDocumentType(String documentType) {
+        this.documentType = documentType;
+    }
+
+    @Override
+    public String getDocumentSource() {
+        return documentSource;
+    }
+
+    @Override
+    public void setDocumentSource(String documentSource) {
+        this.documentSource = documentSource;
+    }
+
+    @Override
+    public String getDocumentDate() {
+        return documentDate;
+    }
+
+    public void setDocumentDate(String documentDate) {
+        this.documentDate = documentDate;
+    }
 }
