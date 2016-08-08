@@ -253,10 +253,10 @@ public class OpenEHRDocumentStore extends AbstractOpenEhrService implements Docu
                         case "history of allergies" :
                             if("NIL".equalsIgnoreCase(value)){
                                 content.put("referral/history_of_allergies/exclusion_of_an_adverse_reaction/exclusion_statement", "No known allergies or adverse reactions");
-                                content.put("referral/history_of_allergies/adverse_reaction_risk:0/last_updated", timeValue);
+                                content.put("referral/history_of_allergies/exclusion_of_an_adverse_reaction/date_last_updated", timeValue);
                             } else {
                                 content.put("referral/history_of_allergies/adverse_reaction_risk:0/history_of_allergy", value);
-                                content.put("referral/history_of_allergies/exclusion_of_an_adverse_reaction/date_last_updated", timeValue);
+                                content.put("referral/history_of_allergies/adverse_reaction_risk:0/last_updated", timeValue);
                             }
                             break;
 
