@@ -326,6 +326,25 @@ angular
           main: { templateUrl: 'views/dicom/image-list.html', controller: 'ImageListCtrl' },
           detail: { templateUrl: 'views/dicom/image-detail.html', controller: 'ImageDetailCtrl' }
         }
+      })
+
+      .state('clinicalNotes', {
+        url: '/patients/{patientId:int}/clinicalNotes?reportType&searchString&queryType',
+        views: {
+          'user-context': {templateUrl: 'views/patients/patients-context.html', controller: 'PatientsDetailCtrl'},
+          actions: {templateUrl: 'views/patients/patients-sidebar.html', controller: 'PatientsDetailCtrl'},
+          main: {templateUrl: 'views/clinical-notes/clinicalnotes-list.html', controller: 'ClinicalNotesListCtrl'}
+        }
+      })
+
+      .state('clinicalNotes-detail', {
+        url: '/patients/{patientId:int}/clinicalNotes/{clinicalNoteIndex}?filter&page&reportType&searchString&queryType&source',
+        views: {
+          'user-context': {templateUrl: 'views/patients/patients-context.html', controller: 'PatientsDetailCtrl'},
+          actions: {templateUrl: 'views/patients/patients-sidebar.html', controller: 'PatientsDetailCtrl'},
+          main: {templateUrl: 'views/clinical-notes/clinicalnotes-list.html', controller: 'ClinicalNotesListCtrl'},
+          detail: {templateUrl: 'views/clinical-notes/clinicalnotes-detail.html', controller: 'ClinicalNotesDetailCtrl'}
+        }
       });
   })
 

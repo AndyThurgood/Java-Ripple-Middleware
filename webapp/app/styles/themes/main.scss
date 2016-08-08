@@ -219,7 +219,7 @@ a[ui-sref] {
   border-color: $button-info-background;
   color: #fff;
 }
-  
+
   .btn-info:hover,
   .open > .dropdown-toggle.btn-info {
     background-color: $button-info-background-hover;
@@ -380,13 +380,13 @@ legend {
     margin-bottom: 0;
     margin-top: 2px;
   }
-  
+
     @media (min-width: 992px){
       .panel-patient .list-inline {
         text-align: right;
       }
     }
-    
+
   .panel-patient .panel-body label {
     margin-bottom: 0;
   }
@@ -396,9 +396,9 @@ legend {
 }
 
 .panel-patient .panel-body {
-  
+
 }
-  
+
   @media (min-width: 768px){
     .panel-patient .panel-body {
       padding: 0;
@@ -632,31 +632,31 @@ legend {
       height: 60px;
     }
   }
-  
+
   /* Mobile Nav */
-  
+
   .header-nav .navbar-header .navbar-brand {
     padding: 6px 8px 8px 5px;
   }
-  
+
   .header-nav.navbar-default {
     background-color: #fff;
     margin-bottom: 0;
     border-bottom: none;
   }
-  
+
   .header-nav.navbar {
     min-height: 55px;
   }
-  
+
   .header-nav .nav-tabs {
     margin-top: 3px;
   }
-  
+
     .header-nav .nav-tabs i {
       position: relative;
     }
-    
+
       .header-nav .nav-tabs .count {
         position: absolute;
         top: -5px;
@@ -672,41 +672,41 @@ legend {
         border-radius: 50%;
         font-weight: 600;
       }
-  
+
   .header-nav .nav-tabs > li > a,
-  .header-nav .nav-tabs > li.active > a, 
-  .header-nav .nav-tabs > li.active > a:hover, 
+  .header-nav .nav-tabs > li.active > a,
+  .header-nav .nav-tabs > li.active > a:hover,
   .header-nav .nav-tabs > li.active > a:focus,
   .header-nav .nav-tabs {
     border: none;
   }
-  
+
     .header-nav .nav-tabs > li > a {
       font-size: 18px;
       color: $icon-chevron-color;
       background: inherit;
     }
-    
+
       .header-nav .nav-tabs > li > a:hover,
       .header-nav .nav-tabs > li.active > a {
         color: $icon-user-color;
         background: inherit;
       }
-      
+
       .header-nav .nav-tabs > li > a:hover .count,
       .header-nav .nav-tabs > li.active > a .count {
         background-color: $icon-user-color;
       }
-      
+
   .header-nav .pane {
     background-color: #f7f7f7;
     border-top: 1px solid #e7e7e7;
     padding-top: 10px;
     padding-bottom: 10px;
   }
-  
+
   /* User Profile (Mobile) */
-  
+
   #tab-user .user-type {
     text-transform: uppercase;
     display: block;
@@ -714,27 +714,27 @@ legend {
     float: right;
     font-size: 12px;
   }
-  
+
     #tab-user .user-type.superuser {
       background-color: orange;
       color: #fff;
     }
-    
+
     #tab-user .user-type.clinician {
       background-color: blue;
       color: #fff;
     }
-    
+
     #tab-user .user-type.patient {
       background-color: green;
       color: #fff;
     }
-    
+
     #tab-user .options ul {
       margin-top: 10px;
       margin-bottom: 5px;
     }
-    
+
     #tab-user .options a.btn {
       background-color: #fff;
       width: 100%;
@@ -747,75 +747,75 @@ legend {
       border-top-width: 0;
       font-weight: 400;
     }
-    
+
       #tab-user .options a.btn:hover {
         background-color: #f7f7f7;
       }
-    
+
       #tab-user .options li:first-child a.btn {
         border-top-width: 1px;
       }
-      
+
     #tab-user .options a.btn.signout {
       border-color: #057BC0;
       background-color: #057BC0;
       color: #fff;
     }
-    
+
       #tab-user .options a.btn.signout:hover {
         background-color: #096498;
       }
-      
+
   /* Notifications */
-  
+
   #tab-notifications {
     padding-top: 5px;
     padding-bottom: 0;
   }
-  
+
     #tab-notifications .notifications-header {
       border-bottom: 1px solid #e7e7e7;
       padding: 0 15px 5px 15px;
       font-size: 14px;
       font-weight: 600;
     }
-  
+
     #tab-notifications .notifications-body {
       font-size: 12px;
       background-color: #fff;
     }
-      
+
       #tab-notifications .notifications-body li {
         padding: 10px 15px 10px 15px;
         border-bottom: 1px solid #e7e7e7;
         cursor: pointer;
       }
-      
+
         #tab-notifications .notifications-body li:hover {
           background-color: #f7f7f7;
         }
-      
+
       #tab-notifications .notifications-body .notification-info {
         margin-bottom: 5px;
       }
-      
+
       #tab-notifications .notifications-body .notification-time {
         font-size: 11px;
         color: #999;
       }
-      
+
   /* Search */
-  
+
   #tab-search {
     position: relative;
   }
-  
+
     #tab-search button.btn-info {
       position: absolute;
       right: 15px;
       top: 0;
     }
-  
+
     #tab-search .header-search-mobile {
       padding-right: 65px;
     }
@@ -841,26 +841,26 @@ legend {
     padding-right: 110px;
     position: relative;
   }
-  
+
     .main-search-inner .btn {
       position: absolute;
       right: 0;
       top: 0;
       width: 100px;
     }
-  
+
   /* Search button in mobile view*/
   @media (max-width: 768px) {
-    
+
     .main-search-inner {
       padding-right: 60px;
     }
-    
+
     .main-search-inner .btn {
       width: 50px;
     }
   }
-  
+
 
 /* Header - Search Bar */
 .searchBarHidden {
@@ -916,7 +916,7 @@ legend {
 
 i.clearAll {
   position: absolute;
-  color: red; 
+  color: red;
   right: 117px;
   top: 7px;
 }
@@ -973,11 +973,11 @@ i.clearAll {
   .header-search-inner {
     position: relative;
   }
-  
+
   .header-search-inner .search-left-inner-addon {
     margin-right: 110px;
   }
-  
+
   .header-search .searchButton {
     position: absolute;
     right: 0;
@@ -1015,15 +1015,15 @@ i.clearAll {
 
 /* Search button in tablet and small desktop view*/
 @media (min-width: 768px) and (max-width: 1199px) {
-  
+
   .header-search-inner .search-left-inner-addon {
     margin-right: 60px;
   }
-  
+
   .header-search .searchButton {
     width: 50px;
   }
-  
+
   i.clearAll {
     right: 67px;
   }
@@ -1076,7 +1076,7 @@ i.clearAll {
     position: relative;
     padding: 11px 10px;
   }
-  
+
      .header-toolbar .navbar-toggle .icon-bar {
        color: #fff;
        border: 1px solid #fff;
@@ -2584,21 +2584,21 @@ div#age-chart div.morris-hover.morris-default-style {
 
 // Responsive Tables - http://codepen.io/geoffyuen/pen/FCBEg
 
-.rwd-table {  
+.rwd-table {
   min-width: 300px; // adjust to your needs
-  
+
   tr {
     border-top: 1px solid #ddd;
     border-bottom: 1px solid #ddd;
   }
-  
+
   th {
-    display: none; // for accessibility, use a visually hidden method here instead! Thanks, reddit!   
+    display: none; // for accessibility, use a visually hidden method here instead! Thanks, reddit!
   }
-  
+
   td {
-    display: block; 
-    
+    display: block;
+
     &:first-child {
       padding-top: .5em;
       padding-left: .5em;
@@ -2616,33 +2616,43 @@ div#age-chart div.morris-hover.morris-default-style {
       display: inline-block;
       padding-right: 10px;
       // end options
-      
+
       @media (min-width: $breakpoint-alpha) {
         display: none;
       }
     }
   }
-  
+
   td.dateTime {
     width: auto;
   }
-  
+
   th, td {
     text-align: left;
-    
+
     @media (min-width: $breakpoint-alpha) {
       display: table-cell;
       padding: .25em .5em;
-      
+
       &:first-child {
       }
-      
+
       &:last-child {
         border-bottom: 1px solid #ddd;
       }
     }
-
   }
-  
-  
+}
+
+.clinicalNoteForm .col-md-12 div.input-group {
+  width: 100%;
+  padding-top: 8px;
+}
+
+.clinicalNoteForm .col-md-6 {
+  padding-top: 8px;
+}
+
+.clinicalNoteForm textarea {
+  height: 120px;
 }
