@@ -204,6 +204,11 @@ public class OpenEHRDocumentStore extends AbstractOpenEhrService implements Docu
                 int numberOfResultNotes = ((Double)xPath.compile("count(//*:REF_I12.OBSERVATION["+obsSect+"]/*:REF_I12.RESULTS_NOTES)").evaluate(hl7Document, XPathConstants.NUMBER)).intValue();
 
                 int medicationIndex = 0;
+                int allergiessIndex = 0;
+                int referralReasonIndex = 0;
+                int sergicalProcIndex = 0;
+                int familyHistoryIndex = 0;
+                int pastIllnessIndex = 0;
 
                 for(int resNoteIndex = 1; resNoteIndex <= numberOfResultNotes; resNoteIndex++){
 
@@ -223,7 +228,8 @@ public class OpenEHRDocumentStore extends AbstractOpenEhrService implements Docu
                     switch(type){
 
                         case "reason for referral" :
-                            content.put(REFERRAL_REQUEST_PREFIX + "request:0/reason_for_referral", value);
+                            content.put(REFERRAL_REQUEST_PREFIX + "request:"+referralReasonIndex+"/reason_for_referral", value);
+                            referralReasonIndex++;
                             break;
 
                         case "previous hospital attendance" :
@@ -243,10 +249,11 @@ public class OpenEHRDocumentStore extends AbstractOpenEhrService implements Docu
                                 content.put("referral/history_of_surgical_procedures/exclusion_of_a_procedure/exclusion_statement", "No significant procedures");
                                 content.put("referral/history_of_surgical_procedures/exclusion_of_a_procedure/date_last_updated", timeValue);
                             } else {
-                                content.put("referral/history_of_surgical_procedures/procedure:0/ism_transition/current_state|code", "532");
-                                content.put("referral/history_of_surgical_procedures/procedure:0/ism_transition/current_state|value", "completed");
-                                content.put("referral/history_of_surgical_procedures/procedure:0/history_of_surgical_procedure", value);
-                                content.put("referral/history_of_surgical_procedures/procedure:0/time", timeValue);
+                                content.put("referral/history_of_surgical_procedures/procedure:"+sergicalProcIndex+"/ism_transition/current_state|code", "532");
+                                content.put("referral/history_of_surgical_procedures/procedure:"+sergicalProcIndex+"/ism_transition/current_state|value", "completed");
+                                content.put("referral/history_of_surgical_procedures/procedure:"+sergicalProcIndex+"/history_of_surgical_procedure", value);
+                                content.put("referral/history_of_surgical_procedures/procedure:"+sergicalProcIndex+"/time", timeValue);
+                                sergicalProcIndex++;
                             }
                             break;
 
@@ -255,8 +262,9 @@ public class OpenEHRDocumentStore extends AbstractOpenEhrService implements Docu
                                 content.put("referral/history_of_allergies/exclusion_of_an_adverse_reaction/exclusion_statement", "No known allergies or adverse reactions");
                                 content.put("referral/history_of_allergies/exclusion_of_an_adverse_reaction/date_last_updated", timeValue);
                             } else {
-                                content.put("referral/history_of_allergies/adverse_reaction_risk:0/history_of_allergy", value);
-                                content.put("referral/history_of_allergies/adverse_reaction_risk:0/last_updated", timeValue);
+                                content.put("referral/history_of_allergies/adverse_reaction_risk:"+allergiessIndex+"/history_of_allergy", value);
+                                content.put("referral/history_of_allergies/adverse_reaction_risk:"+allergiessIndex+"/last_updated", timeValue);
+                                allergiessIndex++;
                             }
                             break;
 
@@ -265,8 +273,9 @@ public class OpenEHRDocumentStore extends AbstractOpenEhrService implements Docu
                                 content.put("referral/history_of_family_member_diseases/exclusion_of_family_history/exclusion_statement", "No significant family history");
                                 content.put("referral/history_of_family_member_diseases/exclusion_of_family_history/date_last_updated", timeValue);
                             } else {
-                                content.put("referral/history_of_family_member_diseases/family_history:0/history_of_family_member_diseases", value);
-                                content.put("referral/history_of_family_member_diseases/family_history:0/last_updated", timeValue);
+                                content.put("referral/history_of_family_member_diseases/family_history:"+familyHistoryIndex+"/history_of_family_member_diseases", value);
+                                content.put("referral/history_of_family_member_diseases/family_history:"+familyHistoryIndex+"/last_updated", timeValue);
+                                familyHistoryIndex++;
                             }
                             break;
 
@@ -275,8 +284,9 @@ public class OpenEHRDocumentStore extends AbstractOpenEhrService implements Docu
                                 content.put("referral/history_of_past_illness/exclusion_of_a_problem_diagnosis/exclusion_statement", "No significant past history");
                                 content.put("referral/history_of_past_illness/exclusion_of_a_problem_diagnosis/last_updated", timeValue);
                             } else {
-                                content.put("referral/history_of_past_illness/problem_diagnosis:0/history_of_past_illness", value);
-                                content.put("referral/history_of_past_illness/problem_diagnosis:0/date_time_clinically_recognised", timeValue);
+                                content.put("referral/history_of_past_illness/problem_diagnosis:"+pastIllnessIndex+"/history_of_past_illness", value);
+                                content.put("referral/history_of_past_illness/problem_diagnosis:"+pastIllnessIndex+"/date_time_clinically_recognised", timeValue);
+                                pastIllnessIndex++;
                             }
                             break;
 
@@ -441,19 +451,36 @@ public class OpenEHRDocumentStore extends AbstractOpenEhrService implements Docu
                 }
             }
 
-            content.put("discharge_summary/diagnoses/problem_diagnosis:0/problem_diagnosis_name", (String)xPath.compile("//*:DG1/*:DG1.3/*:CE.1").evaluate(hl7Document));
+            // Count DG1
+            int diagnosisIndex = 0;
+            int numberOfDG1Segments = ((Double)xPath.compile("count(//*:DG1)").evaluate(hl7Document, XPathConstants.NUMBER)).intValue();
+            for(int dg1Index = 1; dg1Index <= numberOfDG1Segments; dg1Index++){
 
-            String status = (String)xPath.compile("//*:DG1/*:DG1.6").evaluate(hl7Document).toLowerCase();
-            switch(status){
-                case "admitting":
-                    content.put("discharge_summary/diagnoses/problem_diagnosis:0/problem_diagnosis_status/diagnostic_status|code", "at0016");
-                    break;
-                case "working":
-                    content.put("discharge_summary/diagnoses/problem_diagnosis:0/problem_diagnosis_status/diagnostic_status|code", "at0017");
-                    break;
-                case "final":
-                    content.put("discharge_summary/diagnoses/problem_diagnosis:0/problem_diagnosis_status/diagnostic_status|code", "at0018");
-                    break;
+                content.put("discharge_summary/diagnoses/problem_diagnosis:"+diagnosisIndex+"/problem_diagnosis_name", (String)xPath.compile("//*:DG1["+dg1Index+"]/*:DG1.3/*:CE.1").evaluate(hl7Document));
+
+                String status = (String)xPath.compile("//*:DG1["+dg1Index+"]/*:DG1.6").evaluate(hl7Document).toLowerCase();
+                switch(status){
+                    case "admitting":
+                        content.put("discharge_summary/diagnoses/problem_diagnosis:"+diagnosisIndex+"/problem_diagnosis_status/diagnostic_status|code", "at0016");
+                        break;
+                    case "working":
+                        content.put("discharge_summary/diagnoses/problem_diagnosis:"+diagnosisIndex+"/problem_diagnosis_status/diagnostic_status|code", "at0017");
+                        break;
+                    case "final":
+                        content.put("discharge_summary/diagnoses/problem_diagnosis:"+diagnosisIndex+"/problem_diagnosis_status/diagnostic_status|code", "at0018");
+                        break;
+                }
+                
+                diagnosisIndex++;
+            }
+            
+            String professionalID = (String)xPath.compile("//*:REF_I12.PATIENT_VISIT/*:PV1/*:PV1.7/*:XCN.1").evaluate(hl7Document);
+            if(!professionalID.isEmpty()){
+                content.put(DISCHARGE_DETAILS_UK_PREFIX + "responsible_professional/professional_identifier", (String)xPath.compile("//*:REF_I12.PATIENT_VISIT/*:PV1/*:PV1.7/*:XCN.1").evaluate(hl7Document));
+                content.put(DISCHARGE_DETAILS_UK_PREFIX + "responsible_professional/professional_identifier|issuer", "iEHR");
+                content.put(DISCHARGE_DETAILS_UK_PREFIX + "responsible_professional/professional_identifier|assigner", "iEHR");
+                content.put(DISCHARGE_DETAILS_UK_PREFIX + "responsible_professional/professional_identifier|type", "MCN");
+                content.put(DISCHARGE_DETAILS_UK_PREFIX + "responsible_professional/professional_name/name", (String)xPath.compile("//*:REF_I12.PATIENT_VISIT/*:PV1/*:PV1.7/*:XCN.2/*:FN.1").evaluate(hl7Document));
             }
 
             content.put(DISCHARGE_DETAILS_UK_PREFIX + "responsible_professional/professional_identifier", (String)xPath.compile("//*:REF_I12.PATIENT_VISIT/*:PV1/*:PV1.7/*:XCN.1").evaluate(hl7Document));
