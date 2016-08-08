@@ -19,12 +19,12 @@ import org.apache.camel.Body;
 import org.apache.camel.Header;
 import org.apache.camel.InOnly;
 import org.rippleosi.common.repo.Repository;
-import org.rippleosi.patient.documents.model.DocumentDetails;
+import org.rippleosi.patient.documents.model.GenericDocument;
 
 /**
  */
 @InOnly
 public interface DocumentStore extends Repository {
 
-    void create(@Header("patientId") String patientId, @Body DocumentDetails document);
+    void create(@Header("patientId") String patientId, @Body GenericDocument document);
 }

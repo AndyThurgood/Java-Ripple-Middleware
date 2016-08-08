@@ -17,7 +17,7 @@ package org.rippleosi.patient.documents.rest;
 
 import org.rippleosi.common.types.RepoSourceType;
 import org.rippleosi.common.types.lookup.RepoSourceLookupFactory;
-import org.rippleosi.patient.documents.model.DocumentDetails;
+import org.rippleosi.patient.documents.model.GenericDocument;
 import org.rippleosi.patient.documents.store.DocumentStore;
 import org.rippleosi.patient.documents.store.DocumentStoreFactory;
 
@@ -42,10 +42,11 @@ public class DocumentsController {
     private DocumentStoreFactory documentStoreFactory;
 
     @RequestMapping(value = "/referral", method = RequestMethod.POST, consumes = "application/xml")
-    public void createContact(@PathVariable("patientId") String patientId,
+    public void createReferral(@PathVariable("patientId") String patientId,
                               @RequestParam(required = false) String source,
                               @RequestBody String body) {
-        final DocumentDetails document = new DocumentDetails();
+
+        final GenericDocument document = new GenericDocument();
         document.setDocumentType("hl7Referral");
         document.setOriginalSource(source);
         document.setDocumentContent(body);
@@ -55,5 +56,20 @@ public class DocumentsController {
         final DocumentStore contactStore = documentStoreFactory.select(sourceType);
         contactStore.create(patientId, document);
     }
+    
+    @RequestMapping(value = "/discharge", method = RequestMethod.POST, consumes = "application/xml")
+    public void createDischarge(@PathVariable("patientId") String patientId,
+                              @RequestParam(required = false) String source,
+                              @RequestBody String body) {
+        
+        GenericDocument document = new GenericDocument();
+        document.setDocumentType("hl7Discharge");
+        document.setOriginalSource(source);
+        document.setDocumentContent(body);
 
+        final RepoSourceType sourceType = repoSourceLookup.lookup(source);
+
+        final DocumentStore contactStore = documentStoreFactory.select(sourceType);
+        contactStore.create(patientId, document);
+    }
 }

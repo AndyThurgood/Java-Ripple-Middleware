@@ -18,7 +18,7 @@ package org.rippleosi.patient.documents.store;
 import org.apache.camel.Produce;
 import org.rippleosi.common.types.RepoSourceType;
 import org.rippleosi.common.types.RepoSourceTypes;
-import org.rippleosi.patient.documents.model.DocumentDetails;
+import org.rippleosi.patient.documents.model.GenericDocument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -48,12 +48,11 @@ public class ActiveMQProxyDocumentStore implements DocumentStore {
     }
 
     @Override
-    public void create(String patientId, DocumentDetails document) {
+    public void create(String patientId, GenericDocument document) {
         try {
             createTopic.create(patientId, document);
         } catch (Exception ex) {
             logger.error(ex.getMessage(), ex);
         }
     }
-
 }

@@ -20,7 +20,7 @@ import org.apache.camel.Header;
 import org.rippleosi.common.exception.ConfigurationException;
 import org.rippleosi.common.types.RepoSourceType;
 import org.rippleosi.common.types.RepoSourceTypes;
-import org.rippleosi.patient.documents.model.DocumentDetails;
+import org.rippleosi.patient.documents.model.GenericDocument;
 
 /**
  */
@@ -37,7 +37,7 @@ public class NotConfiguredDocumentStore implements DocumentStore {
     }
 
     @Override
-    public void create(@Header("patientId") String patientId, @Body DocumentDetails document) {
+    public void create(@Header("patientId") String patientId, @Body GenericDocument document) {
         throw ConfigurationException.unimplementedTransaction(DocumentStore.class);
     }
 }

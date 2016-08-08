@@ -19,7 +19,7 @@ import java.io.Serializable;
 
 /**
  */
-public class DocumentDetails implements Serializable {
+public class GenericDocument implements Serializable {
 
     private String documentType;        // Possibly be an enum for supported document types
     private Object documentContent;     // Payload of document, XML, binary etc.
