@@ -20,25 +20,18 @@
 
     <div class="form-horizontal text-left">
 
-      <div ng-if="clinicalDocument.documentType == 'Discharge summary'">
+      <div ng-if="clinicalDocument.documentType == 'Healthlink Discharge summary'">
         <div class="form-group form-group-sm">
           <label class="control-label col-md-3">Document Name:</label>
-          <div class="col-md-9">
+          <div class="col-lg-4">
             <div class="form-control-static">{{ clinicalDocument.documentType }}</div>
           </div>
         </div>
 
         <div class="form-group form-group-sm">
           <label class="control-label col-md-3">Document Date:</label>
-          <div class="col-md-9">
-            <div class="form-control-static">{{ clinicalDocument.documentDate }}</div>
-          </div>
-        </div>
-
-        <div class="form-group form-group-sm">
-          <label class="control-label col-md-3">Date of Discharge:</label>
-          <div class="col-md-9">
-            <div class="form-control-static">{{ clinicalDocument.date_time }}</div>
+          <div class="col-lg-4">
+            <div class="form-control-static">{{ clinicalDocument.documentDate | date:'dd-MMM-yyyy' }}</div>
           </div>
         </div>
 
@@ -48,9 +41,9 @@
           <label class="control-label col-md-6">Author</label>
           <div class="col-md-9">
             <div class="form-control-static">
-              <label class="control-label col-lg-3">Name:</label><div class="form-control-static">{{ clinicalDocument.author_name }}</div>
-              <label class="control-label col-md-3">ID:</label><div class="form-control-static">{{ clinicalDocument.author_id }}</div>
-              <label class="control-label col-md-3">ID Scheme:</label><div class="form-control-static">{{ clinicalDocument.author_idScheme }}</div>
+              <label class="control-label col-lg-4">Name:</label><div class="form-control-static">{{ clinicalDocument.author_name }}</div>
+              <label class="control-label col-lg-4">ID:</label><div class="form-control-static">{{ clinicalDocument.author_id }}</div>
+              <label class="control-label col-lg-4">ID Scheme:</label><div class="form-control-static">{{ clinicalDocument.author_idScheme }}</div>
             </div>
           </div>
         </div>
@@ -59,7 +52,7 @@
 
         <div class="form-group form-group-sm">
           <label class="control-label col-md-3">Facility:</label>
-          <div class="col-md-9">
+          <div class="col-lg-4">
             <div class="form-control-static">{{ clinicalDocument.facility }}</div>
           </div>
         </div>
@@ -70,14 +63,12 @@
           <label class="control-label col-md-6"><strong>Patient Identifiers</strong></label>
           <div class="col-md-9">
             <div class="form-control-static">
-              <label class="control-label col-md-3">MRN:</label><div class="form-control-static">{{ clinicalDocument.patientIdentifier_mrn }}</div>
-              <label class="control-label col-md-3">MRN Type:</label><div class="form-control-static">{{ clinicalDocument.patientIdentifier_mrnType }}</div>
-
-              <label class="control-label col-md-3">OTH:</label><div class="form-control-static">{{ clinicalDocument.patientIdentifier_oth }}</div>
-              <label class="control-label col-md-3">OTH Type:</label><div class="form-control-static">{{ clinicalDocument.patientIdentifier_othType }}</div>
-
-              <label class="control-label col-md-3">GMS:</label><div class="form-control-static">{{ clinicalDocument.patientIdentifier_gms }}</div>
-              <label class="control-label col-md-3">GMS Type:</label><div class="form-control-static">{{ clinicalDocument.patientIdentifier_gmsType }}</div>
+              <label class="control-label col-lg-4">MRN:</label><div class="form-control-static">{{ clinicalDocument.patientIdentifier_mrn }}</div>
+              <label class="control-label col-lg-4">MRN Type:</label><div class="form-control-static">{{ clinicalDocument.patientIdentifier_mrnType }}</div>
+              <label class="control-label col-lg-4">OTH:</label><div class="form-control-static">{{ clinicalDocument.patientIdentifier_oth }}</div>
+              <label class="control-label col-lg-4">OTH Type:</label><div class="form-control-static">{{ clinicalDocument.patientIdentifier_othType }}</div>
+              <label class="control-label col-lg-4">GMS:</label><div class="form-control-static">{{ clinicalDocument.patientIdentifier_gms }}</div>
+              <label class="control-label col-lg-4">GMS Type:</label><div class="form-control-static">{{ clinicalDocument.patientIdentifier_gmsType }}</div>
             </div>
           </div>
         </div>
@@ -88,9 +79,9 @@
           <label class="control-label col-md-6"><strong>Responsible Professional</strong></label>
           <div class="col-md-9">
             <div class="form-control-static">
-              <label class="control-label col-md-3">Name:</label><div class="form-control-static">{{ clinicalDocument.responsibleProfessional_name }}</div>
-              <label class="control-label col-md-3">ID:</label><div class="form-control-static">{{ clinicalDocument.responsibleProfessional_id }}</div>
-              <label class="control-label col-md-3">ID Type:</label><div class="form-control-static">{{ clinicalDocument.responsibleProfessional_idType }}</div>
+              <label class="control-label col-lg-4">Name:</label><div class="form-control-static">{{ clinicalDocument.responsibleProfessional_name }}</div>
+              <label class="control-label col-lg-4">ID:</label><div class="form-control-static">{{ clinicalDocument.responsibleProfessional_id }}</div>
+              <label class="control-label col-lg-4">ID Type:</label><div class="form-control-static">{{ clinicalDocument.responsibleProfessional_idType }}</div>
             </div>
           </div>
         </div>
@@ -99,15 +90,15 @@
 
         <div class="form-group form-group-sm">
           <label class="control-label col-md-3">Discharging Organisation:</label>
-          <div class="col-md-9">
+          <div class="col-lg-4">
             <div class="form-control-static">{{ clinicalDocument.dischargingOrganisation }}</div>
           </div>
         </div>
 
         <div class="form-group form-group-sm">
           <label class="control-label col-md-3">Date/Time of Discharge:</label>
-          <div class="col-md-9">
-            <div class="form-control-static">{{ clinicalDocument.dateTimeOfDischarge }}</div>
+          <div class="col-lg-4">
+            <div class="form-control-static">{{ clinicalDocument.dateTimeOfDischarge | date:'dd-MMM-yyyy' }}</div>
           </div>
         </div>
 
@@ -121,7 +112,7 @@
               <tbody>
                 <tr dir-paginate="diagnosis in clinicalDocument.diagnosisList | itemsPerPage: 3">
                   <td>{{ diagnosis.problem }}</td>
-                  <td class="dateTime">{{ diagnosis.dateCreated }}</td>
+                  <td class="dateTime">{{ diagnosis.dateCreated | date:'dd-MMM-yyyy' }}</td>
                   <td style="text-align: center;">
                     <span title="Import to core record" class="glyphicon glyphicon-floppy-disk ui-state-hover import-record" ng-click="import('{{ diagnosis }}')"></span>
                   </td>
@@ -146,30 +137,30 @@
 
         <div class="form-group form-group-sm">
           <label class="control-label col-md-3">Source:</label>
-          <div class="col-md-9">
+          <div class="col-lg-4">
             <div class="form-control-static">{{ clinicalDocument.source }}</div>
           </div>
         </div>
       </div>
 
-      <div ng-if="clinicalDocument.documentType == 'Referral'">
+      <div ng-if="clinicalDocument.documentType == 'Healthlink Referral'">
         <div class="form-group form-group-sm">
           <label class="control-label col-md-3">Document Name:</label>
-          <div class="col-md-9">
+          <div class="col-lg-4">
             <div class="form-control-static">{{ clinicalDocument.documentType }}</div>
           </div>
         </div>
 
         <div class="form-group form-group-sm">
           <label class="control-label col-md-3">Document Date:</label>
-          <div class="col-md-9">
-            <div class="form-control-static">{{ clinicalDocument.documentDate }}</div>
+          <div class="col-lg-4">
+            <div class="form-control-static">{{ clinicalDocument.documentDate | date:'dd-MMM-yyyy' }}</div>
           </div>
         </div>
 
         <div class="form-group form-group-sm">
           <label class="control-label col-md-3">Author:</label>
-          <div class="col-md-9">
+          <div class="col-lg-4">
             <div class="form-control-static">{{ clinicalDocument.composerName }}</div>
           </div>
         </div>
@@ -180,8 +171,8 @@
           <label class="control-label col-md-6">Facility:</label>
           <div class="col-md-9">
             <div class="form-control-static">
-              <label class="control-label col-lg-3">Name:</label><div class="form-control-static">{{ clinicalDocument.facility }}</div>
-              <label class="control-label col-md-3">Provider ID:</label><div class="form-control-static">{{ clinicalDocument.providerId }}</div>
+              <label class="control-label col-lg-4">Name:</label><div class="form-control-static">{{ clinicalDocument.facility }}</div>
+              <label class="control-label col-lg-4">Provider ID:</label><div class="form-control-static">{{ clinicalDocument.providerId }}</div>
             </div>
           </div>
         </div>
@@ -192,16 +183,16 @@
           <label class="control-label col-md-6">Referral:</label>
           <div class="col-md-9">
             <div class="form-control-static">
-              <label class="control-label col-lg-3">Date:</label><div class="form-control-static">{{ clinicalDocument.referralDateTime }}</div>
-              <label class="control-label col-lg-3">Type:</label><div class="form-control-static">{{ clinicalDocument.referralType }}</div>
-              <label class="control-label col-lg-3">Priority:</label><div class="form-control-static">{{ clinicalDocument.priorityOfReferral }}</div>
-              <label class="control-label col-lg-3">Ref:</label><div class="form-control-static">{{ clinicalDocument.referralReferenceNumber }}</div>
-              <label class="control-label col-lg-3">From:</label><div class="form-control-static">{{ clinicalDocument.referredFrom }}</div>
-              <label class="control-label col-lg-3">To:</label><div class="form-control-static">{{ clinicalDocument.referredTo }}</div>
-              <label class="control-label col-lg-3">Comments:</label><div class="form-control-static">{{ clinicalDocument.referralComments }}</div>
+              <label class="control-label col-lg-4">Date:</label><div class="form-control-static">{{ clinicalDocument.referralDateTime | date:'dd-MMM-yyyy' }}</div>
+              <label class="control-label col-lg-4">Type:</label><div class="form-control-static">{{ clinicalDocument.referralType }}</div>
+              <label class="control-label col-lg-4">Priority:</label><div class="form-control-static">{{ clinicalDocument.priorityOfReferral }}</div>
+              <label class="control-label col-lg-4">Ref:</label><div class="form-control-static">{{ clinicalDocument.referralReferenceNumber }}</div>
+              <label class="control-label col-lg-4">From:</label><div class="form-control-static">{{ clinicalDocument.referredFrom }}</div>
+              <label class="control-label col-lg-4">To:</label><div class="form-control-static">{{ clinicalDocument.referredTo }}</div>
+              <label class="control-label col-lg-4">Comments:</label><div class="form-control-static">{{ clinicalDocument.referralComments }}</div>
 
               <div ng-repeat="referralReason in clinicalDocument.reasonForReferral">
-                <label class="control-label col-lg-3">Comments:</label><div class="form-control-static">{{ referralReason }}</div>
+                <label class="control-label col-lg-4">Comments:</label><div class="form-control-static">{{ referralReason }}</div>
               </div>
             </div>
           </div>
@@ -213,11 +204,11 @@
           <label class="control-label col-md-6">Organisation/Provider:</label>
           <div class="col-md-9">
             <div class="form-control-static">
-              <label class="control-label col-lg-3">Name:</label><div class="form-control-static">{{ clinicalDocument.providerContact_organisationName }}</div>
-              <label class="control-label col-lg-3">ID:</label><div class="form-control-static">{{ clinicalDocument.providerContact_id }}</div>
-              <label class="control-label col-lg-3">Work Phone:</label><div class="form-control-static">{{ clinicalDocument.providerContact_workNumber }}</div>
-              <label class="control-label col-lg-3">Emergency Phone:</label><div class="form-control-static">{{ clinicalDocument.providerContact_emergencyNumber }}</div>
-              <label class="control-label col-lg-3">Email:</label><div class="form-control-static">{{ clinicalDocument.providerContact_email }}</div>
+              <label class="control-label col-lg-4">Name:</label><div class="form-control-static">{{ clinicalDocument.providerContact_organisationName }}</div>
+              <label class="control-label col-lg-4">ID:</label><div class="form-control-static">{{ clinicalDocument.providerContact_id }}</div>
+              <label class="control-label col-lg-4">Work Phone:</label><div class="form-control-static">{{ clinicalDocument.providerContact_workNumber }}</div>
+              <label class="control-label col-lg-4">Emergency Phone:</label><div class="form-control-static">{{ clinicalDocument.providerContact_emergencyNumber }}</div>
+              <label class="control-label col-lg-4">Email:</label><div class="form-control-static">{{ clinicalDocument.providerContact_email }}</div>
             </div>
           </div>
         </div>
@@ -228,9 +219,9 @@
           <label class="control-label col-md-6">Referral Status:</label>
           <div class="col-md-9">
             <div class="form-control-static">
-              <label class="control-label col-lg-3">Terminology:</label><div class="form-control-static">{{ clinicalDocument.referralStatus_value }}</div>
-              <label class="control-label col-lg-3">Original Code:</label><div class="form-control-static">{{ clinicalDocument.referralStatus_mapped }}</div>
-              <label class="control-label col-lg-3">Code:</label><div class="form-control-static">{{ clinicalDocument.referralStatus_code }}</div>
+              <label class="control-label col-lg-4">Status:</label><div class="form-control-static">{{ clinicalDocument.referralStatus_value }}</div>
+              <label class="control-label col-lg-4">Original Code:</label><div class="form-control-static">{{ clinicalDocument.referralStatus_mapped }}</div>
+              <label class="control-label col-lg-4">Code:</label><div class="form-control-static">{{ clinicalDocument.referralStatus_code }}</div>
             </div>
           </div>
         </div>
@@ -241,10 +232,10 @@
           <label class="control-label col-md-6">Clinical Synopsis:</label>
           <div class="col-md-9">
             <div class="form-control-static">
-              <label class="control-label col-lg-3">Narrative:</label><div class="form-control-static">{{ clinicalDocument.clinicalNarrative }}</div>
-              <label class="control-label col-lg-3">Present Illness:</label><div class="form-control-static">{{ clinicalDocument.presentIllness }}</div>
-              <label class="control-label col-lg-3">Comments:</label><div class="form-control-static">{{ clinicalDocument.clinicalSynopsisComments }}</div>
-              <label class="control-label col-lg-3">Previous Hospital:</label><div class="form-control-static">{{ clinicalDocument.previousHospitalAttendance }}</div>
+              <label class="control-label col-lg-4">Narrative:</label><div class="form-control-static">{{ clinicalDocument.clinicalNarrative }}</div>
+              <label class="control-label col-lg-4">Present Illness:</label><div class="form-control-static col-lg-8">{{ clinicalDocument.presentIllness }}</div>
+              <label class="control-label col-lg-4">Comments:</label><div class="form-control-static col-lg-8">{{ clinicalDocument.clinicalSynopsisComments }}</div>
+              <label class="control-label col-lg-4">Previous Hospital:</label><div class="form-control-static">{{ clinicalDocument.previousHospitalAttendance }}</div>
             </div>
           </div>
         </div>
@@ -252,10 +243,10 @@
         <br>
 
         <div class="form-group form-group-sm">
-          <label class="control-label col-md-6">Past Illnesses:</label>
+          <label class="control-label col-md-6">Past Illnesses</label>
           <div class="col-md-9">
             <div class="form-control-static" ng-repeat="pastIllness in clinicalDocument.pastIllensses">
-              <label class="control-label col-lg-3">{{ pastIllness.name }}:</label><div class="form-control-static">{{ pastIllness.value }}</div>
+              <label class="control-label col-lg-4">{{ pastIllness.value }}:</label><div class="form-control-static">{{ pastIllness.date | date:'dd-MMM-yyyy' }}</div>
             </div>
           </div>
         </div>
@@ -263,10 +254,10 @@
         <br>
 
         <div class="form-group form-group-sm">
-          <label class="control-label col-md-6">Surgical Procedures:</label>
+          <label class="control-label col-md-6">Surgical Procedures</label>
           <div class="col-md-9">
             <div class="form-control-static" ng-repeat="procedure in clinicalDocument.surgicalProcedures">
-              <label class="control-label col-lg-3">{{ procedure.name }}:</label><div class="form-control-static">{{ procedure.value }}</div>
+              <label class="control-label col-lg-4">{{ procedure.value }}:</label><div class="form-control-static">{{ procedure.date | date:'dd-MMM-yyyy' }}</div>
             </div>
           </div>
         </div>
@@ -281,14 +272,14 @@
               <tbody>
                 <tr dir-paginate="medication in clinicalDocument.medications | itemsPerPage: 3">
                   <td>{{ medication.name }}</td>
-                  <td class="dateTime">{{ medication.startDate }}</td>
+                  <td class="dateTime">{{ medication.startDate | date:'dd-MMM-yyyy' }}</td>
                   <td style="text-align: center;">
                     <span title="Import to core record" class="glyphicon glyphicon-floppy-disk ui-state-hover import-record" ng-click="importMedication('{{ medication }}')"></span>
                   </td>
                 </tr>
 
                 <tr ng-if="!clinicalDocument.medications || !clinicalDocument.medications.length">
-                  <td colspan="3"><span class="label label-default">No diagnoses</span></td>
+                  <td colspan="3"><span class="label label-default">No medications</span></td>
                 </tr>
               </tbody>
             </table>
@@ -297,7 +288,7 @@
 
         <div class="form-group form-group-sm">
           <label class="control-label col-md-3">Medication Anticoagulation Use:</label>
-          <div class="col-md-9">
+          <div class="col-md-6">
             <div class="form-control-static">{{ clinicalDocument.medication_anticoagulation_use }}</div>
           </div>
         </div>
@@ -319,7 +310,7 @@
                 </tr>
 
                 <tr ng-if="!clinicalDocument.allergies || !clinicalDocument.allergies.length">
-                  <td colspan="3"><span class="label label-default">No diagnoses</span></td>
+                  <td colspan="3"><span class="label label-default">No allergies</span></td>
                 </tr>
               </tbody>
             </table>
@@ -330,21 +321,21 @@
 
         <div class="form-group form-group-sm">
           <label class="control-label col-md-3">Tobacco Use:</label>
-          <div class="col-md-9">
+          <div class="col-lg-4">
             <div class="form-control-static">{{ clinicalDocument.tobaccoUse }}</div>
           </div>
         </div>
 
         <div class="form-group form-group-sm">
           <label class="control-label col-md-3">Alcohol Use:</label>
-          <div class="col-md-9">
+          <div class="col-lg-4">
             <div class="form-control-static">{{ clinicalDocument.alcholUse }}</div>
           </div>
         </div>
 
         <div class="form-group form-group-sm">
           <label class="control-label col-md-3">Physical Impairment:</label>
-          <div class="col-md-9">
+          <div class="col-lg-4">
             <div class="form-control-static">{{ clinicalDocument.physicalImparement }}</div>
           </div>
         </div>
@@ -355,18 +346,18 @@
           <label class="control-label col-md-6">Measurements:</label>
           <div class="col-md-9">
             <div class="form-control-static">
-              <label class="control-label col-lg-3">:</label><div class="form-control-static">{{ clinicalDocument.systolicBP }}</div>
-              <label class="control-label col-lg-3">:</label><div class="form-control-static">{{ clinicalDocument.systolicBP_units }}</div>
-              <label class="control-label col-lg-3">:</label><div class="form-control-static">{{ clinicalDocument.diastolicBP }}</div>
-              <label class="control-label col-lg-3">:</label><div class="form-control-static">{{ clinicalDocument.diastolicBP_units }}</div>
-              <label class="control-label col-lg-3">:</label><div class="form-control-static">{{ clinicalDocument.pulse }}</div>
-              <label class="control-label col-lg-3">:</label><div class="form-control-static">{{ clinicalDocument.pulse_units }}</div>
-              <label class="control-label col-lg-3">:</label><div class="form-control-static">{{ clinicalDocument.height }}</div>
-              <label class="control-label col-lg-3">:</label><div class="form-control-static">{{ clinicalDocument.height_units }}</div>
-              <label class="control-label col-lg-3">:</label><div class="form-control-static">{{ clinicalDocument.weight }}</div>
-              <label class="control-label col-lg-3">:</label><div class="form-control-static">{{ clinicalDocument.weight_units }}</div>
-              <label class="control-label col-lg-3">:</label><div class="form-control-static">{{ clinicalDocument.bodyMass }}</div>
-              <label class="control-label col-lg-3">:</label><div class="form-control-static">{{ clinicalDocument.bodyMass_units }}</div>
+              <label class="control-label col-lg-4">Systolic BP:</label><div class="form-control-static">{{ clinicalDocument.systolicBP }}</div>
+              <label class="control-label col-lg-4">Systolic BP Units:</label><div class="form-control-static">{{ clinicalDocument.systolicBP_units }}</div>
+              <label class="control-label col-lg-4">Diastolic BP:</label><div class="form-control-static">{{ clinicalDocument.diastolicBP }}</div>
+              <label class="control-label col-lg-4">Diastolic BP Units:</label><div class="form-control-static">{{ clinicalDocument.diastolicBP_units }}</div>
+              <label class="control-label col-lg-4">Pulse:</label><div class="form-control-static">{{ clinicalDocument.pulse }}</div>
+              <label class="control-label col-lg-4">Pulse Units:</label><div class="form-control-static">{{ clinicalDocument.pulse_units }}</div>
+              <label class="control-label col-lg-4">Height:</label><div class="form-control-static">{{ clinicalDocument.height }}</div>
+              <label class="control-label col-lg-4">Height Units:</label><div class="form-control-static">{{ clinicalDocument.height_units }}</div>
+              <label class="control-label col-lg-4">Weight:</label><div class="form-control-static">{{ clinicalDocument.weight }}</div>
+              <label class="control-label col-lg-4">Weight Units:</label><div class="form-control-static">{{ clinicalDocument.weight_units }}</div>
+              <label class="control-label col-lg-4">Body Mass:</label><div class="form-control-static">{{ clinicalDocument.bodyMass }}</div>
+              <label class="control-label col-lg-4">Body Mass Units:</label><div class="form-control-static">{{ clinicalDocument.bodyMass_units }}</div>
             </div>
           </div>
         </div>
@@ -375,7 +366,7 @@
 
         <div class="form-group form-group-sm">
           <label class="control-label col-md-3">Other Examination Findings:</label>
-          <div class="col-md-9">
+          <div class="col-lg-4">
             <div class="form-control-static">{{ clinicalDocument.otherExaminationFindings }}</div>
           </div>
         </div>
@@ -384,14 +375,14 @@
 
         <div class="form-group form-group-sm">
           <label class="control-label col-md-3">Original Source:</label>
-          <div class="col-md-9">
+          <div class="col-lg-4">
             <div class="form-control-static">{{ clinicalDocument.documentOriginalSource }}</div>
           </div>
         </div>
 
         <div class="form-group form-group-sm">
           <label class="control-label col-md-3">Source:</label>
-          <div class="col-md-9">
+          <div class="col-lg-4">
             <div class="form-control-static">{{ clinicalDocument.source }}</div>
           </div>
         </div>

@@ -27,12 +27,12 @@ angular.module('rippleDemonstrator')
       $scope.patient = patient;
     });
 
-    if ($scope.documentType == 'Discharge summary') {
+    if ($scope.documentType == 'Healthlink Discharge summary') {
       DocumentService.findDischarge($stateParams.patientId, $stateParams.documentIndex, $stateParams.source).then(function (result) {
         $scope.clinicalDocument = result.data;
       });
     }
-    else if ($scope.documentType == 'Referral') {
+    else if ($scope.documentType == 'Healthlink Referral') {
       DocumentService.findReferral($stateParams.patientId, $stateParams.documentIndex, $stateParams.source).then(function (result) {
         $scope.clinicalDocument = result.data;
       });
