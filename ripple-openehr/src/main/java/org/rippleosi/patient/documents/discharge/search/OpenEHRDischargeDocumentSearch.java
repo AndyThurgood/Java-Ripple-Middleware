@@ -18,7 +18,6 @@ package org.rippleosi.patient.documents.discharge.search;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
 import org.rippleosi.common.model.QueryResponse;
 import org.rippleosi.common.service.AbstractOpenEhrService;
 import org.rippleosi.common.service.RequestProxy;
@@ -48,14 +47,15 @@ public class OpenEHRDischargeDocumentSearch extends AbstractOpenEhrService imple
 
     @Override
     public List<AbstractDocumentSummary> findAllDischargeDocuments(String patientId) {
-        final DischargeDocumentSummaryQueryStrategy query = new DischargeDocumentSummaryQueryStrategy(patientId);
+        DischargeDocumentSummaryQueryStrategy query = new DischargeDocumentSummaryQueryStrategy(patientId);
 
         return findData(query);
     }
 
     @Override
     public DischargeDocumentDetails findDischargeDocument(String patientId, String documentId) {
-        final DischargeDocumentDetailsQueryStrategy queryStrategy = new DischargeDocumentDetailsQueryStrategy(patientId, documentId);
+
+        DischargeDocumentDetailsQueryStrategy queryStrategy = new DischargeDocumentDetailsQueryStrategy(patientId, documentId);
 
         // Query openEHR for individual (Non repeating fields)
         String query = queryStrategy.getQuery(openEhrSubjectNamespace, queryStrategy.getPatientId());

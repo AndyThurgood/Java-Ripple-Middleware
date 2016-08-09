@@ -30,7 +30,6 @@ import org.rippleosi.common.service.AbstractOpenEhrService;
 import org.rippleosi.common.service.CreateStrategy;
 import org.rippleosi.common.service.DefaultStoreStrategy;
 import org.rippleosi.common.util.DateFormatter;
-import static org.rippleosi.common.util.DateFormatter.*;
 import org.rippleosi.patient.documents.common.model.GenericDocument;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -96,107 +95,127 @@ public class OpenEHRDocumentStore extends AbstractOpenEhrService implements Docu
             content.put("ctx/territory", "GB");
             content.put("ctx/id_namespace", "iEHR");
             content.put("ctx/id_scheme", "iEHR");
-            content.put("ctx/composer_name", (String)xPath.compile("//*:MSH/*:MSH.4/*:HD.1").evaluate(hl7Document));
-            content.put("ctx/health_care_facility|id", (String)xPath.compile("//*:MSH.4/*:HD.2").evaluate(hl7Document));
 
-            content.put(REFERRAL_REQUEST_PREFIX + "referred_to_provider/identifier", (String)xPath.compile("//*:MSH.6/*:HD.1").evaluate(hl7Document));
+            if(!((String)xPath.compile("//*:MSH/*:MSH.4").evaluate(hl7Document)).isEmpty()){
+                content.put("ctx/composer_name", (String)xPath.compile("//*:MSH/*:MSH.4/*:HD.1").evaluate(hl7Document));
+                content.put("ctx/health_care_facility|id", (String)xPath.compile("//*:MSH.4/*:HD.2").evaluate(hl7Document));
+            }
 
-            String time = (String)xPath.compile("//*:MSH.7/*:TS.1").evaluate(hl7Document);
-            if(time != null && !time.isEmpty()){
-                if(time.length() == 8){
-                    time = toSimpleDateString(DATE_FORMAT.parse(time));
-                } else if (time.length() == 12){
-                    time = toSimpleDateString(DATE_TIME_FORMAT_SHORT.parse(time));
-                } else if (time.length() == 14){
-                    time = toSimpleDateString(DATE_TIME_FORMAT.parse(time));
+            if(!((String)xPath.compile("//*:MSH/*:MSH.6").evaluate(hl7Document)).isEmpty()){
+                content.put(REFERRAL_REQUEST_PREFIX + "referred_to_provider/identifier", (String)xPath.compile("//*:MSH.6/*:HD.1").evaluate(hl7Document));
+            }
+
+            if(!((String)xPath.compile("//*:MSH/*:MSH.7").evaluate(hl7Document)).isEmpty()){
+                String time = (String)xPath.compile("//*:MSH.7/*:TS.1").evaluate(hl7Document);
+                if(time != null && !time.isEmpty()){
+                    if(time.length() == 8){
+                        time = DateFormatter.toSimpleDateString(DATE_FORMAT.parse(time));
+                    } else if (time.length() == 12){
+                        time = DateFormatter.toSimpleDateString(DATE_TIME_FORMAT_SHORT.parse(time));
+                    } else if (time.length() == 14){
+                        time = DateFormatter.toSimpleDateString(DATE_TIME_FORMAT.parse(time));
+                    }
+                    content.put("ctx/time", time);
                 }
-                content.put("ctx/time", time);
             }
 
             content.put(REFERRAL_REQUEST_PREFIX + "referral_control_number", (String)xPath.compile("//*:MSH.10").evaluate(hl7Document));
             content.put(REFERRAL_REQUEST_PREFIX + "request:0/timing", "Boilerplate timing string");
 
-            String referalStatus = (String)xPath.compile("//*:RF1.1/*:CE.1").evaluate(hl7Document);
-            if ("P".equalsIgnoreCase(referalStatus)){
-                content.put(REFERRAL_STATUS_PREFIX + "ism_transition/current_state|code", "526");
-                content.put(REFERRAL_STATUS_PREFIX + "ism_transition/current_state|value", "planned");
-                content.put(REFERRAL_STATUS_PREFIX + "ism_transition/careflow_step|code", "at0002");
-                content.put(REFERRAL_STATUS_PREFIX + "ism_transition/careflow_step|value", "Referral planned");
-            } else if ("A".equalsIgnoreCase(referalStatus)){
-                content.put(REFERRAL_STATUS_PREFIX + "ism_transition/current_state|code", "529");
-                content.put(REFERRAL_STATUS_PREFIX + "ism_transition/current_state|value", "scheduled");
-                content.put(REFERRAL_STATUS_PREFIX + "ism_transition/careflow_step|code", "at0003");
-                content.put(REFERRAL_STATUS_PREFIX + "ism_transition/careflow_step|value", "Appointment scheduled");
-            } else if ("R".equalsIgnoreCase(referalStatus)){
-                content.put(REFERRAL_STATUS_PREFIX + "ism_transition/current_state|code", "528");
-                content.put(REFERRAL_STATUS_PREFIX + "ism_transition/current_state|value", "cancelled");
-                content.put(REFERRAL_STATUS_PREFIX + "ism_transition/careflow_step|code", "at009");
-                content.put(REFERRAL_STATUS_PREFIX + "ism_transition/careflow_step|value", "Referral cancelled");
-            } else if ("E".equalsIgnoreCase(referalStatus)){
-                content.put(REFERRAL_STATUS_PREFIX + "ism_transition/current_state|code", "531");
-                content.put(REFERRAL_STATUS_PREFIX + "ism_transition/current_state|value", "aborted");
-                content.put(REFERRAL_STATUS_PREFIX + "ism_transition/careflow_step|code", "at023");
-                content.put(REFERRAL_STATUS_PREFIX + "ism_transition/careflow_step|value", "Referral expired");
+            if(!((String)xPath.compile("//*:RF1.1/*:CE.1").evaluate(hl7Document)).isEmpty()){
+                String referalStatus = (String)xPath.compile("//*:RF1.1/*:CE.1").evaluate(hl7Document);
+                if ("P".equalsIgnoreCase(referalStatus)){
+                    content.put(REFERRAL_STATUS_PREFIX + "ism_transition/current_state|code", "526");
+                    content.put(REFERRAL_STATUS_PREFIX + "ism_transition/current_state|value", "planned");
+                    content.put(REFERRAL_STATUS_PREFIX + "ism_transition/careflow_step|code", "at0002");
+                    content.put(REFERRAL_STATUS_PREFIX + "ism_transition/careflow_step|value", "Referral planned");
+                } else if ("A".equalsIgnoreCase(referalStatus)){
+                    content.put(REFERRAL_STATUS_PREFIX + "ism_transition/current_state|code", "529");
+                    content.put(REFERRAL_STATUS_PREFIX + "ism_transition/current_state|value", "scheduled");
+                    content.put(REFERRAL_STATUS_PREFIX + "ism_transition/careflow_step|code", "at0003");
+                    content.put(REFERRAL_STATUS_PREFIX + "ism_transition/careflow_step|value", "Appoinment scheduled");
+                } else if ("R".equalsIgnoreCase(referalStatus)){
+                    content.put(REFERRAL_STATUS_PREFIX + "ism_transition/current_state|code", "528");
+                    content.put(REFERRAL_STATUS_PREFIX + "ism_transition/current_state|value", "cancelled");
+                    content.put(REFERRAL_STATUS_PREFIX + "ism_transition/careflow_step|code", "at009");
+                    content.put(REFERRAL_STATUS_PREFIX + "ism_transition/careflow_step|value", "Referral cancelled");
+                } else if ("E".equalsIgnoreCase(referalStatus)){
+                    content.put(REFERRAL_STATUS_PREFIX + "ism_transition/current_state|code", "531");
+                    content.put(REFERRAL_STATUS_PREFIX + "ism_transition/current_state|value", "aborted");
+                    content.put(REFERRAL_STATUS_PREFIX + "ism_transition/careflow_step|code", "at023");
+                    content.put(REFERRAL_STATUS_PREFIX + "ism_transition/careflow_step|value", "Referral expired");
+                }
             }
 
-            String referralType = (String)xPath.compile("//*:RF1.3/*:CE.1").evaluate(hl7Document);
-            content.put(REFERRAL_STATUS_PREFIX + "referral_type", referralType);
-            content.put(REFERRAL_REQUEST_PREFIX + "request:0/referral_type", referralType);
-            content.put("referral/referral_details/service_request/narrative", referralType);
-
-            String priority = (String)xPath.compile("//*:RF1.3/*:CE.2").evaluate(hl7Document).toLowerCase();
-            switch(priority){
-                case "u":
-                    content.put(REFERRAL_REQUEST_PREFIX + "request:0/priority|code", "at0136");
-                    break;
-                case "e":
-                    content.put(REFERRAL_REQUEST_PREFIX + "request:0/priority|code", "at0137");
-                    break;
-                case "r":
-                    content.put(REFERRAL_REQUEST_PREFIX + "request:0/priority|code", "at0138");
-                    break;
+            if(!((String)xPath.compile("//*:RF1.3").evaluate(hl7Document)).isEmpty()){
+                String referralType = (String)xPath.compile("//*:RF1.3/*:CE.1").evaluate(hl7Document);
+                content.put(REFERRAL_STATUS_PREFIX + "referral_type", referralType);
+                content.put(REFERRAL_REQUEST_PREFIX + "request:0/referral_type", referralType);
+                content.put("referral/referral_details/service_request/narrative", referralType);
+                String priority = (String)xPath.compile("//*:RF1.3/*:CE.2").evaluate(hl7Document).toLowerCase();
+                switch(priority){
+                    case "u":
+                        content.put(REFERRAL_REQUEST_PREFIX + "request:0/priority|code", "at0136");
+                        break;
+                    case "e":
+                        content.put(REFERRAL_REQUEST_PREFIX + "request:0/priority|code", "at0137");
+                        break;
+                    case "r":
+                        content.put(REFERRAL_REQUEST_PREFIX + "request:0/priority|code", "at0138");
+                        break;
+                }
+                content.put(REFERRAL_REQUEST_PREFIX + "request:0/comments", (String)xPath.compile("//*:RF1.3/*:CE.2").evaluate(hl7Document));
             }
-
-            content.put(REFERRAL_REQUEST_PREFIX + "request:0/comments", (String)xPath.compile("//*:RF1.3/*:CE.2").evaluate(hl7Document));
 
             content.put(REFERRAL_REQUEST_PREFIX + "referring_provider/identifier", (String)xPath.compile("//*:RF1.6/*:EI.1").evaluate(hl7Document));
 
-            time = (String)xPath.compile("//*:RF1.7/*:TS.1").evaluate(hl7Document);
-            if(time != null && !time.isEmpty()){
-                if(time.length() == 8){
-                    time = toSimpleDateString(DATE_FORMAT.parse(time));
-                } else if (time.length() == 12){
-                    time = toSimpleDateString(DATE_TIME_FORMAT_SHORT.parse(time));
-                } else if (time.length() == 14){
-                    time = toSimpleDateString(DATE_TIME_FORMAT.parse(time));
-                }
-                content.put(REFERRAL_STATUS_PREFIX + "time", time);
-            }
-
-            String organisationName = (String)xPath.compile("//*:REF_I12.PROVIDER_CONTACT[1]/*:PRD/*:PRD.4/*:PL.1").evaluate(hl7Document);
-            content.put(REFERRAL_REQUEST_PREFIX + "distribution:0/individual_recipient:0/gp/name_of_organisation", organisationName);
-            content.put("ctx/health_care_facility|name", organisationName);
-            content.put(REFERRAL_REQUEST_PREFIX + "referring_provider/name_of_organisation", organisationName);
-
-            int prd5Count = ((Double)xPath.compile("count(//*:REF_I12.PROVIDER_CONTACT[1]/*:PRD/*:PRD.5)").evaluate(hl7Document, XPathConstants.NUMBER)).intValue();
-            for(int prd5index = 1; prd5index <= prd5Count; prd5index++){
-                String contactValue = (String)xPath.compile("//*:REF_I12.PROVIDER_CONTACT[1]/*:PRD/*:PRD.5["+prd5index+"]/*:XTN.1").evaluate(hl7Document);
-                String contactType = (String)xPath.compile("//*:REF_I12.PROVIDER_CONTACT[1]/*:PRD/*:PRD.5["+prd5index+"]/*:XTN.2").evaluate(hl7Document).toLowerCase();
-                switch(contactType){
-                    case "wpn":
-                        content.put(REFERRAL_REQUEST_PREFIX + "distribution/individual_recipient/gp/wpn/work_number", contactValue);
-                        break;
-                    case "emr":
-                        content.put(REFERRAL_REQUEST_PREFIX + "distribution/individual_recipient/gp/emr/emergency_number", contactValue);
-                        break;
-                    case "net":
-                        content.put(REFERRAL_REQUEST_PREFIX + "distribution/individual_recipient/gp/net/internet", contactValue);
-                        break;
+            if(!((String)xPath.compile("//*:RF1.7").evaluate(hl7Document)).isEmpty()){
+                String time = (String)xPath.compile("//*:RF1.7/*:TS.1").evaluate(hl7Document);
+                if(time != null && !time.isEmpty()){
+                    if(time.length() == 8){
+                        time = DateFormatter.toSimpleDateString(DATE_FORMAT.parse(time));
+                    } else if (time.length() == 12){
+                        time = DateFormatter.toSimpleDateString(DATE_TIME_FORMAT_SHORT.parse(time));
+                    } else if (time.length() == 14){
+                        time = DateFormatter.toSimpleDateString(DATE_TIME_FORMAT.parse(time));
+                    }
+                    content.put(REFERRAL_STATUS_PREFIX + "time", time);
                 }
             }
 
-            content.put(REFERRAL_REQUEST_PREFIX + "referring_provider/identifier", (String)xPath.compile("//*:REF_I12.PROVIDER_CONTACT[1]/*:PRD/*:PRD.7/*:PI.1").evaluate(hl7Document));
-            content.put(REFERRAL_REQUEST_PREFIX + "referred_to_provider/name_of_organisation", (String)xPath.compile("//*:REF_I12.PROVIDER_CONTACT[2]/*:PRD/*:PRD.3/*:XAD.2").evaluate(hl7Document));
+            if(!((String)xPath.compile("//*:REF_I12.PROVIDER_CONTACT[1]/*:PRD/*:PRD.4/*:PL.1").evaluate(hl7Document)).isEmpty()){
+                String organisationName = (String)xPath.compile("//*:REF_I12.PROVIDER_CONTACT[1]/*:PRD/*:PRD.4/*:PL.1").evaluate(hl7Document);
+                content.put(REFERRAL_REQUEST_PREFIX + "distribution:0/individual_recipient:0/gp/name_of_organisation", organisationName);
+                content.put("ctx/health_care_facility|name", organisationName);
+                content.put(REFERRAL_REQUEST_PREFIX + "referring_provider/name_of_organisation", organisationName);
+            }
+
+            if(!((String)xPath.compile("//*:REF_I12.PROVIDER_CONTACT[1]/*:PRD/*:PRD.5").evaluate(hl7Document)).isEmpty()){
+                int prd5Count = ((Double)xPath.compile("count(//*:REF_I12.PROVIDER_CONTACT[1]/*:PRD/*:PRD.5)").evaluate(hl7Document, XPathConstants.NUMBER)).intValue();
+                for(int prd5index = 1; prd5index <= prd5Count; prd5index++){
+                    String contactValue = (String)xPath.compile("//*:REF_I12.PROVIDER_CONTACT[1]/*:PRD/*:PRD.5["+prd5index+"]/*:XTN.1").evaluate(hl7Document);
+                    String contactType = (String)xPath.compile("//*:REF_I12.PROVIDER_CONTACT[1]/*:PRD/*:PRD.5["+prd5index+"]/*:XTN.2").evaluate(hl7Document).toLowerCase();
+                    switch(contactType){
+                        case "wpn":
+                            content.put(REFERRAL_REQUEST_PREFIX + "distribution/individual_recipient/gp/wpn/work_number", contactValue);
+                            break;
+                        case "emr":
+                            content.put(REFERRAL_REQUEST_PREFIX + "distribution/individual_recipient/gp/emr/emergency_number", contactValue);
+                            break;
+                        case "net":
+                            content.put(REFERRAL_REQUEST_PREFIX + "distribution/individual_recipient/gp/net/internet", contactValue);
+                            break;
+                    }
+                }
+            }
+
+            if(!((String)xPath.compile("//*:REF_I12.PROVIDER_CONTACT[1]/*:PRD/*:PRD.7/*:PI.1").evaluate(hl7Document)).isEmpty()){
+                content.put(REFERRAL_REQUEST_PREFIX + "referring_provider/identifier", (String)xPath.compile("//*:REF_I12.PROVIDER_CONTACT[1]/*:PRD/*:PRD.7/*:PI.1").evaluate(hl7Document));
+            }
+
+            if(!((String)xPath.compile("//*:REF_I12.PROVIDER_CONTACT[2]/*:PRD/*:PRD.3/*:XAD.2").evaluate(hl7Document)).isEmpty()){
+                content.put(REFERRAL_REQUEST_PREFIX + "referred_to_provider/name_of_organisation", (String)xPath.compile("//*:REF_I12.PROVIDER_CONTACT[2]/*:PRD/*:PRD.3/*:XAD.2").evaluate(hl7Document));
+            }
 
             int numberOfObservationSections = ((Double)xPath.compile("count(//*:REF_I12.OBSERVATION)").evaluate(hl7Document, XPathConstants.NUMBER)).intValue();
             for(int obsSect = 1; obsSect <= numberOfObservationSections; obsSect++){
@@ -372,14 +391,17 @@ public class OpenEHRDocumentStore extends AbstractOpenEhrService implements Docu
                             }
                             break;
                     }
+
                 }
             }
+
         } catch (Exception e){
             content = null;
             logger.error(e.getMessage());
         }
         return content;
     }
+
 
     private Map<String,Object> createDischargeFlatJsonContent(GenericDocument document) {
 
@@ -401,23 +423,31 @@ public class OpenEHRDocumentStore extends AbstractOpenEhrService implements Docu
             content.put("ctx/territory", "GB");
             content.put("ctx/id_namespace", "iEHR");
             content.put("ctx/id_scheme", "iEHR");
-            content.put("ctx/health_care_facility|name", (String)xPath.compile("//*:MSH/*:MSH.4/*:HD.1").evaluate(hl7Document));
-            content.put("ctx/health_care_facility|id", (String)xPath.compile("//*:MSH/*:MSH.4/*:HD.2").evaluate(hl7Document));
 
-            content.put("ctx/composer_name", (String)xPath.compile("//*:MSH/*:MSH.6/*:HD.1").evaluate(hl7Document));
-            content.put("ctx/composer_id", (String)xPath.compile("//*:MSH/*:MSH.6/*:HD.2").evaluate(hl7Document));
-            content.put("discharge_summary/composer|id_scheme", (String)xPath.compile("//*:MSH/*:MSH.6/*:HD.3").evaluate(hl7Document));
+            if(!((String)xPath.compile("//*:MSH/*:MSH.4").evaluate(hl7Document)).isEmpty()){
+                content.put("ctx/health_care_facility|name", (String)xPath.compile("//*:MSH/*:MSH.4/*:HD.1").evaluate(hl7Document));
+                content.put("ctx/health_care_facility|id", (String)xPath.compile("//*:MSH/*:MSH.4/*:HD.2").evaluate(hl7Document));
+            }
 
-            String time = (String)xPath.compile("//*:MSH.7/*:TS.1").evaluate(hl7Document);
-            if(time != null && !time.isEmpty()){
-                if(time.length() == 8){
-                    time = toSimpleDateString(DATE_FORMAT.parse(time));
-                } else if (time.length() == 12){
-                    time = toSimpleDateString(DATE_TIME_FORMAT_SHORT.parse(time));
-                } else if (time.length() == 14){
-                    time = toSimpleDateString(DATE_TIME_FORMAT.parse(time));
+            if(!((String)xPath.compile("//*:MSH/*:MSH.6").evaluate(hl7Document)).isEmpty()){
+                content.put("ctx/composer_name", (String)xPath.compile("//*:MSH/*:MSH.6/*:HD.1").evaluate(hl7Document));
+                content.put("ctx/composer_id", (String)xPath.compile("//*:MSH/*:MSH.6/*:HD.2").evaluate(hl7Document));
+                content.put("discharge_summary/composer|id_scheme", (String)xPath.compile("//*:MSH/*:MSH.6/*:HD.3").evaluate(hl7Document));
+            }
+
+
+            if(!((String)xPath.compile("//*:MSH.7/*:TS.1").evaluate(hl7Document)).isEmpty()){
+                String time = (String)xPath.compile("//*:MSH.7/*:TS.1").evaluate(hl7Document);
+                if(time != null && !time.isEmpty()){
+                    if(time.length() == 8){
+                        time = DateFormatter.toSimpleDateString(DATE_FORMAT.parse(time));
+                    } else if (time.length() == 12){
+                        time = DateFormatter.toSimpleDateString(DATE_TIME_FORMAT_SHORT.parse(time));
+                    } else if (time.length() == 14){
+                        time = DateFormatter.toSimpleDateString(DATE_TIME_FORMAT.parse(time));
+                    }
+                    content.put("ctx/time", time);
                 }
-                content.put("ctx/time", time);
             }
 
             int numberOfPID3 = ((Double)xPath.compile("count(//*:PID/*:PID.3)").evaluate(hl7Document, XPathConstants.NUMBER)).intValue();
@@ -449,9 +479,9 @@ public class OpenEHRDocumentStore extends AbstractOpenEhrService implements Docu
                         content.put(DISCHARGE_IDENTIFIER_PREFIX + "oth|type", "OTH");
                         break;
                 }
+
             }
 
-            // Count DG1
             int diagnosisIndex = 0;
             int numberOfDG1Segments = ((Double)xPath.compile("count(//*:DG1)").evaluate(hl7Document, XPathConstants.NUMBER)).intValue();
             for(int dg1Index = 1; dg1Index <= numberOfDG1Segments; dg1Index++){
@@ -470,10 +500,10 @@ public class OpenEHRDocumentStore extends AbstractOpenEhrService implements Docu
                         content.put("discharge_summary/diagnoses/problem_diagnosis:"+diagnosisIndex+"/problem_diagnosis_status/diagnostic_status|code", "at0018");
                         break;
                 }
-                
+
                 diagnosisIndex++;
             }
-            
+
             String professionalID = (String)xPath.compile("//*:REF_I12.PATIENT_VISIT/*:PV1/*:PV1.7/*:XCN.1").evaluate(hl7Document);
             if(!professionalID.isEmpty()){
                 content.put(DISCHARGE_DETAILS_UK_PREFIX + "responsible_professional/professional_identifier", (String)xPath.compile("//*:REF_I12.PATIENT_VISIT/*:PV1/*:PV1.7/*:XCN.1").evaluate(hl7Document));
@@ -483,14 +513,9 @@ public class OpenEHRDocumentStore extends AbstractOpenEhrService implements Docu
                 content.put(DISCHARGE_DETAILS_UK_PREFIX + "responsible_professional/professional_name/name", (String)xPath.compile("//*:REF_I12.PATIENT_VISIT/*:PV1/*:PV1.7/*:XCN.2/*:FN.1").evaluate(hl7Document));
             }
 
-            content.put(DISCHARGE_DETAILS_UK_PREFIX + "responsible_professional/professional_identifier", (String)xPath.compile("//*:REF_I12.PATIENT_VISIT/*:PV1/*:PV1.7/*:XCN.1").evaluate(hl7Document));
-            content.put(DISCHARGE_DETAILS_UK_PREFIX + "responsible_professional/professional_identifier|issuer", "iEHR");
-            content.put(DISCHARGE_DETAILS_UK_PREFIX + "responsible_professional/professional_identifier|assigner", "iEHR");
-            content.put(DISCHARGE_DETAILS_UK_PREFIX + "responsible_professional/professional_identifier|type", "MCN");
-
-            content.put(DISCHARGE_DETAILS_UK_PREFIX + "responsible_professional/professional_name/name", (String)xPath.compile("//*:REF_I12.PATIENT_VISIT/*:PV1/*:PV1.7/*:XCN.2/*:FN.1").evaluate(hl7Document));
-
-            content.put("discharge_summary/clinical_summary/clinical_synopsis/synopsis", (String)xPath.compile("//*:NTE/*:NTE.3").evaluate(hl7Document));
+            if(!((String)xPath.compile("//*:NTE/*:NTE.3").evaluate(hl7Document)).isEmpty()){
+                content.put("discharge_summary/clinical_summary/clinical_synopsis/synopsis", (String)xPath.compile("//*:NTE/*:NTE.3").evaluate(hl7Document));
+            }
 
         } catch (Exception e){
             content = null;

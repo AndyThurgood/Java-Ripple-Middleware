@@ -16,20 +16,21 @@
 package org.rippleosi.patient.documents.referral.model;
 
 import java.util.List;
+import java.util.Date;
+
 import org.rippleosi.patient.documents.common.model.AbstractDocumentSummary;
 
 /**
  */
 public class ReferralDocumentDetails extends AbstractDocumentSummary {
-        
-    private String documentOrigionalSource;
-    private String dischargeDate;
-    
+
+    private String documentOriginalSource;
+
     private String composerName;
     private String facility;
     private String providerId;
-    
-    private String referralDateTime;
+
+    private Date referralDateTime;
     private String referralType;
     private List<String> reasonForReferral;         // Repeating element
     private String referralComments;
@@ -37,32 +38,32 @@ public class ReferralDocumentDetails extends AbstractDocumentSummary {
     private String referralReferenceNumber;
     private String referredFrom;
     private String referredTo;
-    
+
     private String providerContact_organisationName;
     private String providerContact_id;
     private String providerContact_workNumber;
     private String providerContact_emergencyNumber;
     private String providerContact_email;
-    
+
     private String referralStatus_code;
     private String referralStatus_value;
     private String referralStatus_mapped; // Mapped from code to origional message value
-    
+
     private String clinicalNarrative;
     private String presentIllness;
     private String clinicalSynopsisComments;
     private String previousHospitalAttendance;
-    
+
     List<NameDateElement> pastIllensses;            // Repeating element
-    
+
     List<NameDateElement> surgicalProcedures;       // Repeating element
-    
+
     List<MedicationDetails> medications;              // Repeating element
-    
+
     private String medication_anticoagulation_use;
 
     List<AllergyDetails> allergies;                // Repeating element
-    
+
     private String tobaccoUse;
     private String alcholUse;
     private String physicalImparement;
@@ -79,23 +80,15 @@ public class ReferralDocumentDetails extends AbstractDocumentSummary {
     private String weight_units;
     private String bodyMass;
     private String bodyMass_units;
-    
+
     private String otherExaminationFindings;
 
-    public String getDocumentOrigionalSource() {
-        return documentOrigionalSource;
+    public String getDocumentOriginalSource() {
+        return documentOriginalSource;
     }
 
-    public void setDocumentOrigionalSource(String documentOrigionalSource) {
-        this.documentOrigionalSource = documentOrigionalSource;
-    }
-
-    public String getDischargeDate() {
-        return dischargeDate;
-    }
-
-    public void setDischargeDate(String dischargeDate) {
-        this.dischargeDate = dischargeDate;
+    public void setDocumentOriginalSource(String documentOriginalSource) {
+        this.documentOriginalSource = documentOriginalSource;
     }
 
     public String getComposerName() {
@@ -122,11 +115,11 @@ public class ReferralDocumentDetails extends AbstractDocumentSummary {
         this.providerId = providerId;
     }
 
-    public String getReferralDateTime() {
+    public Date getReferralDateTime() {
         return referralDateTime;
     }
 
-    public void setReferralDateTime(String referralDateTime) {
+    public void setReferralDateTime(Date referralDateTime) {
         this.referralDateTime = referralDateTime;
     }
 

@@ -18,7 +18,6 @@ package org.rippleosi.patient.documents.discharge.model;
 import java.util.List;
 
 import org.rippleosi.patient.documents.common.model.AbstractDocumentSummary;
-import org.rippleosi.patient.problems.model.ProblemDetails;
 
 /**
  */

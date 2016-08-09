@@ -17,15 +17,16 @@ package org.rippleosi.patient.documents.referral.search;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.collections4.Transformer;
 import org.rippleosi.common.util.DateFormatter;
+import org.rippleosi.patient.allergies.model.AllergyDetails;
 import org.rippleosi.patient.documents.referral.model.NameDateElement;
 import org.rippleosi.patient.documents.referral.model.ReferralDocumentDetails;
+import org.rippleosi.patient.medication.model.MedicationDetails;
 
 /**
  */
@@ -48,7 +49,8 @@ public class ReferralDocumentDetailsTransformer implements Transformer<Map<Strin
         referralDocument.setSourceId(MapUtils.getString(input, "uid"));
         referralDocument.setDocumentType("Healthlink " + MapUtils.getString(input, "documentType"));
 
-        referralDocument.setReferralDateTime(MapUtils.getString(input, "referralDateTime"));
+        referralDocument.setDocumentDate(MapUtils.getString(input, "referralDateTime"));
+        referralDocument.setReferralDateTime(DateFormatter.toDate(MapUtils.getString(input, "referralDateTime")));
         referralDocument.setComposerName(MapUtils.getString(input, "authorName"));
         referralDocument.setFacility(MapUtils.getString(input, "facility"));
         referralDocument.setReferralType(MapUtils.getString(input, "referralType"));
@@ -98,32 +100,40 @@ public class ReferralDocumentDetailsTransformer implements Transformer<Map<Strin
         HashSet referralReasons = new HashSet();
         HashSet pastIllnesses = new HashSet();
         HashSet surgicalProcedures = new HashSet();
+        HashSet medications = new HashSet();
+        HashSet allergies = new HashSet();
 
         for(Map<String, Object> row : resultSet){
-            
+
             referralReasons.add(MapUtils.getString(input, "reasonForReferral"));
-            
-            NameDateElement pastIllness = new NameDateElement();
-            pastIllness.setDate(MapUtils.getString(input, "pastIllnessDateTime"));
-            pastIllness.setValue(MapUtils.getString(input, "pastIllness"));
-            pastIllnesses.add(pastIllness);
-            
+
+            NameDateElement pastIllnesse = new NameDateElement();
+            pastIllnesse.setDate(MapUtils.getString(input, "pastIllnessDateTime"));
+            pastIllnesse.setValue(MapUtils.getString(input, "pastIllness"));
+            pastIllnesses.add(pastIllnesse);
+
             NameDateElement surgicalProcedure = new NameDateElement();
             surgicalProcedure.setDate(MapUtils.getString(input, "pastIllnessDateTime"));
             surgicalProcedure.setValue(MapUtils.getString(input, "pastIllness"));
             surgicalProcedures.add(surgicalProcedure);
-        /*
-                medication, " +
-                medicationDateTime, " +
-            
-                allergy, " +
-                allergyDateTime, " +
-        */
+
+            MedicationDetails medication = new MedicationDetails();
+            medication.setName(MapUtils.getString(input, "medication"));
+            medication.setStartDate(DateFormatter.toDate(MapUtils.getString(input, "medicationDateTime")));
+            medication.setStartTime(DateFormatter.toDate(MapUtils.getString(input, "medicationDateTime")));
+            medications.add(medication);
+
+            AllergyDetails allergy = new AllergyDetails();
+            allergy.setCause(MapUtils.getString(input, "allergy"));
+            allergy.setDateCreated(DateFormatter.toDate(MapUtils.getString(input, "allergyDateTime")));
+            allergies.add(allergy);
         }
-        
+
         referralDocument.setReasonForReferral(new ArrayList(referralReasons));
         referralDocument.setPastIllensses(new ArrayList(pastIllnesses));
         referralDocument.setSurgicalProcedures(new ArrayList(surgicalProcedures));
+        referralDocument.setMedications(new ArrayList(medications));
+        referralDocument.setAllergies(new ArrayList(allergies));
 
         return referralDocument;
     }

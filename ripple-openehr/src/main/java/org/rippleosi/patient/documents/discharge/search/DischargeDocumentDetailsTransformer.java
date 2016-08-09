@@ -16,7 +16,6 @@
 package org.rippleosi.patient.documents.discharge.search;
 
 import java.util.List;
-import java.util.Date;
 import java.util.Map;
 import java.util.ArrayList;
 
@@ -24,7 +23,7 @@ import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.collections4.Transformer;
 import org.rippleosi.common.util.DateFormatter;
 import org.rippleosi.patient.documents.discharge.model.DischargeDocumentDetails;
-import org.rippleosi.patient.problems.model.ProblemDetails;
+import org.rippleosi.patient.documents.discharge.model.ProblemDetails;
 
 /**
  */
@@ -33,15 +32,10 @@ public class DischargeDocumentDetailsTransformer implements Transformer<Map<Stri
     @Override
     public DischargeDocumentDetails transform(Map<String, Object> input) {
 
-        String startDateTimeAsString = MapUtils.getString(input, "start_date");
-        String dateCreatedAsString = MapUtils.getString(input, "date_created");
-
-        Date startDate = DateFormatter.toDateOnly(startDateTimeAsString);
-        Date startTime = DateFormatter.toTimeOnly(startDateTimeAsString);
-        Date dateCreated = DateFormatter.toDate(dateCreatedAsString);
-
         DischargeDocumentDetails dischargeDocument = new DischargeDocumentDetails();
         dischargeDocument.setSource("openehr");
+        dischargeDocument.setDateTimeOfDischarge(MapUtils.getString(input, "dischargeDate"));
+        dischargeDocument.setSourceId(MapUtils.getString(input, "uid"));
         dischargeDocument.setDocumentType("Healthlink " + MapUtils.getString(input, "documentType"));
         dischargeDocument.setDocumentDate(MapUtils.getString(input, "dischargeDate"));
         dischargeDocument.setAuthor_name(MapUtils.getString(input, "authorName"));
@@ -56,32 +50,33 @@ public class DischargeDocumentDetailsTransformer implements Transformer<Map<Stri
         dischargeDocument.setDischargingOrganisation(MapUtils.getString(input, "dischargeOrganisation"));
         dischargeDocument.setDateTimeOfDischarge(MapUtils.getString(input, "dischargeDateTime"));
         dischargeDocument.setClinicalSynopsis(MapUtils.getString(input, "synopsis"));
-        //dischargeDocument.setAuthor(MapUtils.getString(input, "author"));
-        //dischargeDocument.setDateCreated(dateCreated);
 
         return dischargeDocument;
     }
-    
+
     public DischargeDocumentDetails transformIdentifiers(List<Map<String, Object>> resultSet, DischargeDocumentDetails currentDocumentDetails) {
 
         boolean mrnSet = false;
         boolean othSet = false;
         boolean gmsSet = false;
-        
+
         for(Map<String, Object> result : resultSet){
-            
+
             String id = MapUtils.getString(result, "patientIdMrn");
             String type = MapUtils.getString(result, "patientIdMrnType");
-            
+
             if(mrnSet == false && "MRN".equalsIgnoreCase(type)){
                 currentDocumentDetails.setPatientIdentifier_mrn(id);
                 currentDocumentDetails.setPatientIdentifier_mrnType(type);
+                mrnSet=true;
             } else if(othSet == false && "OTH".equalsIgnoreCase(type)){
                 currentDocumentDetails.setPatientIdentifier_oth(id);
                 currentDocumentDetails.setPatientIdentifier_othType(type);
+                othSet=true;
             } else if(gmsSet == false && "GMS".equalsIgnoreCase(type)){
                 currentDocumentDetails.setPatientIdentifier_gms(id);
                 currentDocumentDetails.setPatientIdentifier_gmsType(type);
+                gmsSet=true;
             }
         }
         

@@ -47,8 +47,8 @@ public class DischargeDocumentDetailsQueryStrategy extends AbstractQueryStrategy
             "from EHR e contains COMPOSITION a[openEHR-EHR-COMPOSITION.transfer_summary.v1] " +
             "where a/name/value='Discharge summary' " +
             "and a/uid/value='" + documentId + "' " +
-            "and e/ehr_status/subject/external_ref/namespace = '" + namespace + "' " +
-            "and e/ehr_status/subject/external_ref/id/value = '" + patientId + "'";
+            "and e/ehr_status/subject/external_ref/namespace='" + namespace + "' " +
+            "and e/ehr_status/subject/external_ref/id/value='" + patientId + "'";
     }
 
     public String getIdentifierQuery(String namespace, String patientId) {
@@ -56,41 +56,30 @@ public class DischargeDocumentDetailsQueryStrategy extends AbstractQueryStrategy
             "from EHR e contains COMPOSITION a[openEHR-EHR-COMPOSITION.transfer_summary.v1] contains CLUSTER b_a[openEHR-EHR-CLUSTER.individual_personal_uk.v1] " +
             "where a/name/value='Discharge summary'" +
             "and a/uid/value='" + documentId + "' " +
-            "and e/ehr_status/subject/external_ref/namespace = '" + namespace + "' " +
-            "and e/ehr_status/subject/external_ref/id/value = '" + patientId + "'";
+            "and e/ehr_status/subject/external_ref/namespace='" + namespace + "' " +
+            "and e/ehr_status/subject/external_ref/id/value='" + patientId + "'";
     }
 
     public String getDiagnosisQuery(String namespace, String patientId) {
         return "select a/uid/value as uid, " +
             "a/content[openEHR-EHR-SECTION.diagnoses_rcp.v1]/items[openEHR-EHR-EVALUATION.problem_diagnosis.v1]/data[at0001]/items[at0002]/value/value as diagnosisName, " +
             "a/content[openEHR-EHR-SECTION.diagnoses_rcp.v1]/items[openEHR-EHR-EVALUATION.problem_diagnosis.v1]/data[at0001]/items[at0003, 'Diagnosis Date/time']/value/value as diagnosisTime " +
-            "a/composer/name as author, " +
-            "a/context/start_time/value as date_created, " +
-            "a_a/items/items/data[at0001]/items/items[at0001]/value/value as name, " +
-            "a_a/items/items/data[at0001]/items/items[at0001]/value/defining_code/code_string as medication_code, " +
-            "a_a/items/items/data[at0001]/items/items[at0001]/value/defining_code/terminology_id/value as medication_terminology, " +
-            "a_a/items/items/data[at0001]/items/items[at0002]/value/defining_code/code_string as route, " +
-            "a_a/items/items/data[at0001]/items/items[at0003]/value/value as dose_directions, " +
-            "a_a/items/items/data[at0001]/items/items[at0020]/value/value as dose_amount, " +
-            "a_a/items/items/data[at0001]/items/items[at0021]/value/value as dose_timing, " +
-            "a_a/items/items/data[at0001]/items/items[at0046]/items/value/value as start_date " +
             "from EHR e " +
-            "contains COMPOSITION a[openEHR-EHR-COMPOSITION.care_summary.v0] " +
-            "contains SECTION a_a[openEHR-EHR-SECTION.medication_medical_devices_rcp.v1] " +
-            "where a/name/value='Current medication list' " +
+            "contains COMPOSITION a[openEHR-EHR-COMPOSITION.transfer_summary.v1] " +
+            "where a/name/value='Discharge summary' " +
             "and a/uid/value='" + documentId + "' " +
-            "and e/ehr_status/subject/external_ref/namespace = '" + namespace + "' " +
-            "and e/ehr_status/subject/external_ref/id/value = '" + patientId + "'";
+            "and e/ehr_status/subject/external_ref/namespace='" + namespace + "' " +
+            "and e/ehr_status/subject/external_ref/id/value='" + patientId + "'";
     }
 
     @Override
     public DischargeDocumentDetails transform(List<Map<String, Object>> resultSet) {
+
         if (resultSet.isEmpty()) {
             throw new DataNotFoundException("No results found");
         }
 
         Map<String, Object> data = resultSet.get(0);
-
         return new DischargeDocumentDetailsTransformer().transform(data);
     }
 
