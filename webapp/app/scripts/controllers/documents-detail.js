@@ -46,7 +46,7 @@ angular.module('rippleDemonstrator')
         size: 'md',
         controller: function ($scope) {
 
-          $scope.recordType = 'diagnosis';
+          $scope.recordType = 'Diagnosis';
           $scope.documentType = document.documentType;
 
           $scope.cancel = function () {
@@ -105,7 +105,7 @@ angular.module('rippleDemonstrator')
         size: 'md',
         controller: function ($scope) {
 
-          $scope.recordType = 'medication';
+          $scope.recordType = 'Medication';
           $scope.documentType = document.documentType;
 
           $scope.cancel = function () {
@@ -170,7 +170,7 @@ angular.module('rippleDemonstrator')
         size: 'md',
         controller: function ($scope) {
 
-          $scope.recordType = 'allergy';
+          $scope.recordType = 'Allergy';
           $scope.documentType = document.documentType;
 
           $scope.cancel = function () {
