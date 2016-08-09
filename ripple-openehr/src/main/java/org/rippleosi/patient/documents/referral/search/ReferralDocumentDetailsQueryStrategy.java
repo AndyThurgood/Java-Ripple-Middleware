@@ -35,7 +35,7 @@ public class ReferralDocumentDetailsQueryStrategy extends AbstractQueryStrategy<
 
     @Override
     public String getQuery(String namespace, String patientId) {
-        return "select a/uid/value as uid, " +
+        return "select a/uid/value as uid, a/name/value as documentType, a/context/start_time/value as referralDateTime, a/composer/name as authorName, a/context/health_care_facility/name as facility, " +
                 "a/composer/name as author, " +
                 "a/context/start_time/value as date_created, " +
                 "a_a/items/items/data[at0001]/items/items[at0001]/value/value as name, " +

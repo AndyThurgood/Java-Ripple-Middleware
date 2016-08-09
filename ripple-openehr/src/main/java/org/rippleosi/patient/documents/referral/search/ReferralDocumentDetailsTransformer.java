@@ -15,6 +15,8 @@
  */
 package org.rippleosi.patient.documents.referral.search;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +24,7 @@ import java.util.Map;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.collections4.Transformer;
 import org.rippleosi.common.util.DateFormatter;
+import org.rippleosi.patient.documents.referral.model.NameDateElement;
 import org.rippleosi.patient.documents.referral.model.ReferralDocumentDetails;
 
 /**
@@ -92,18 +95,35 @@ public class ReferralDocumentDetailsTransformer implements Transformer<Map<Strin
         referralDocument.setBodyMass_units(MapUtils.getString(input, "bodyMassIndexUnits"));
         referralDocument.setOtherExaminationFindings(MapUtils.getString(input, "OtherFindings"));
 
-        /*
-                referralDocument.setReasonForReferral(MapUtils.getString(input, "reasonForReferral"));   //Repeating element
+        HashSet referralReasons = new HashSet();
+        HashSet pastIllnesses = new HashSet();
+        HashSet surgicalProcedures = new HashSet();
 
-                pastIllness, " +
-                pastIllnessDateTime, " +
-                surgicalProcedure, " +
-                surgicalProcedureTime,	" +
+        for(Map<String, Object> row : resultSet){
+            
+            referralReasons.add(MapUtils.getString(input, "reasonForReferral"));
+            
+            NameDateElement pastIllness = new NameDateElement();
+            pastIllness.setDate(MapUtils.getString(input, "pastIllnessDateTime"));
+            pastIllness.setValue(MapUtils.getString(input, "pastIllness"));
+            pastIllnesses.add(pastIllness);
+            
+            NameDateElement surgicalProcedure = new NameDateElement();
+            surgicalProcedure.setDate(MapUtils.getString(input, "pastIllnessDateTime"));
+            surgicalProcedure.setValue(MapUtils.getString(input, "pastIllness"));
+            surgicalProcedures.add(surgicalProcedure);
+        /*
                 medication, " +
                 medicationDateTime, " +
+            
                 allergy, " +
                 allergyDateTime, " +
         */
+        }
+        
+        referralDocument.setReasonForReferral(new ArrayList(referralReasons));
+        referralDocument.setPastIllensses(new ArrayList(pastIllnesses));
+        referralDocument.setSurgicalProcedures(new ArrayList(surgicalProcedures));
 
         return referralDocument;
     }
