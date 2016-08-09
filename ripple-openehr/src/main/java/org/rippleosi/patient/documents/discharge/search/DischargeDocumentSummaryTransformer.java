@@ -30,7 +30,7 @@ public class DischargeDocumentSummaryTransformer implements Transformer<Map<Stri
         DischargeDocumentSummary dischargeDocument = new DischargeDocumentSummary();
         dischargeDocument.setSource("openehr");
         dischargeDocument.setSourceId(MapUtils.getString(input, "uid"));
-        dischargeDocument.setDocumentType(MapUtils.getString(input, "documentType"));
+        dischargeDocument.setDocumentType("Healthlink " + MapUtils.getString(input, "documentType"));
         dischargeDocument.setDocumentDate(MapUtils.getString(input, "dischargeDate"));
         
         return dischargeDocument;
