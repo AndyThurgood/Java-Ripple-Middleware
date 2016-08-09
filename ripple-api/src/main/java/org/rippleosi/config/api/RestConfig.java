@@ -15,9 +15,6 @@
  */
 package org.rippleosi.config.api;
 
-import org.pac4j.core.config.Config;
-import org.pac4j.springframework.web.RequiresAuthenticationInterceptor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -35,17 +32,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 @ComponentScan("org.rippleosi")
 public class RestConfig extends WebMvcConfigurerAdapter {
 
-    @Autowired
-    private Config config;
-
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
-    }
-
-    @Bean
-    public RequiresAuthenticationInterceptor getAuthenticationHandler() {
-        return new RequiresAuthenticationInterceptor(config, "OidcClient");
     }
 
     @Override
