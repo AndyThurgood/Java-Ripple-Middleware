@@ -17,7 +17,7 @@
 'use strict';
 
 angular.module('rippleDemonstrator')
-  .controller('DocumentsDetailCtrl', function ($scope, $stateParams, SearchInput, $state, $modal, usSpinnerService, PatientService, DocumentService) {
+  .controller('DocumentsDetailCtrl', function ($scope, $stateParams, SearchInput, $state, $modal, usSpinnerService, PatientService, DocumentService, Diagnosis) {
 
     $scope.documentType = $stateParams.documentType;
 
@@ -38,53 +38,77 @@ angular.module('rippleDemonstrator')
       });
     }
 
-    $scope.import = function (diagnosis) {
-      //var modalInstance = $modal.open({
-      //  templateUrl: 'views/diagnoses/diagnoses-modal.html',
-      //  size: 'lg',
-      //  controller: 'DiagnosesModalCtrl',
-      //  resolve: {
-      //    modal: function () {
-      //      return {
-      //        title: 'Import Problem / Diagnosis'
-      //      };
-      //    },
-      //    diagnosis: function () {
-      //      return diagnosis;
-      //    },
-      //    patient: function () {
-      //      return $scope.patient;
-      //    }
-      //  }
-      //});
-      //
-      //modalInstance.result.then(function (diagnosis) {
-      //  diagnosis.dateOfOnset = new Date(diagnosis.dateOfOnset);
-      //
-      //  var toAdd = {
-      //    code: diagnosis.code,
-      //    dateOfOnset: diagnosis.dateOfOnset,
-      //    description: diagnosis.description,
-      //    problem: diagnosis.problem,
-      //    terminology: diagnosis.terminology
-      //  };
-      //
-      //  Diagnosis.create($scope.patient.id, toAdd).then(function () {
-      //    setTimeout(function () {
-      //      $state.go('documents-details', {
-      //        patientId: $scope.patient.id,
-      //        filter: $scope.query,
-      //        page: $scope.currentPage,
-      //        reportType: $stateParams.reportType,
-      //        searchString: $stateParams.searchString,
-      //        queryType: $stateParams.queryType,
-      //        documentIndex: $scope.clinicalDocument.sourceId
-      //      }, {
-      //        reload: true
-      //      });
-      //    }, 2000);
-      //  });
-      //});
+    $scope.importDiagnosis = function (diagnosis) {
+      var document = $scope.clinicalDocument;
+
+      $modal.open({
+        templateUrl: 'views/documents/import-diagnosis-confirmation.html',
+        size: 'md',
+        controller: function ($scope) {
+
+          $scope.recordType = 'diagnosis';
+          $scope.documentType = document.documentType;
+
+          $scope.cancel = function () {
+            $scope.$close(true);
+          };
+
+          $scope.ok = function () {
+            $scope.$close(true);
+
+            PatientService.get($stateParams.patientId).then(function (patient) {
+              $scope.patient = patient;
+
+              var modalInstance = $modal.open({
+                templateUrl: 'views/diagnoses/diagnoses-modal.html',
+                size: 'lg',
+                controller: 'DiagnosesModalCtrl',
+                resolve: {
+                  modal: function () {
+                    return {
+                      title: 'Import Problem / Diagnosis'
+                    };
+                  },
+                  diagnosis: function () {
+                    return angular.fromJson(diagnosis);
+                  },
+                  patient: function () {
+                    return $scope.patient;
+                  }
+                }
+              });
+
+              modalInstance.result.then(function (diagnosis) {
+                diagnosis.dateOfOnset = new Date(diagnosis.dateOfOnset);
+
+                var toAdd = {
+                  code: diagnosis.code,
+                  dateOfOnset: diagnosis.dateOfOnset,
+                  description: diagnosis.description,
+                  problem: diagnosis.problem,
+                  terminology: diagnosis.terminology
+                };
+
+                Diagnosis.create($scope.patient.id, toAdd).then(function () {
+                  setTimeout(function () {
+                    $state.go('documents-detail', {
+                      patientId: $scope.patient.id,
+                      filter: $scope.query,
+                      page: $scope.currentPage,
+                      reportType: $stateParams.reportType,
+                      searchString: $stateParams.searchString,
+                      queryType: $stateParams.queryType,
+                      documentIndex: document.sourceId
+                    }, {
+                      reload: true
+                    });
+                  }, 2000);
+                });
+              });
+            });
+          };
+        }
+      });
     };
 
   });
