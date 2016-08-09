@@ -17,29 +17,6 @@ Create the database locally by running the scripts found in ripple-database/src/
 These are to be run in the order specified in the following file:  
 sql_script_run_order.info
 
-Install the JavaScript package manager NodeJS:  
-https://nodejs.org/download/
-
-Install Grunt, the JavaScript task runner. You may need to be root user:  
-```sh
-npm install -g grunt-cli bower
-```
-
-Install all packages used in the Ripple project. If you are prompted to select a version of AngularJS, select v1.3.12:  
-```sh
-cd webapp && bower install
-```
-
-Update Bower:  
-```sh
-cd webapp && bower update
-```
-
-Update NodeJS:  
-```sh
-cd webapp && npm update
-```
-
 Install Java Development Kit 8:  
 http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
 
@@ -87,10 +64,6 @@ mvn -version
 If they do not return a suitable response, ensure that your JAVA_HOME and M2_HOME system environment variables are pointing
 to the correct install directory, and that the \bin directories within them are on your PATH system environment variable.
 
-Now that the server is running, open up a second shell and serve the web assets. This will also watch for changes:  
-```sh
-cd webapp && grunt serve
-```
 
 ### Deployment and Server Configuration 
 
