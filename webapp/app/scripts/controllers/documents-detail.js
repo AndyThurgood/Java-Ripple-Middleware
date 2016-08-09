@@ -17,7 +17,7 @@
 'use strict';
 
 angular.module('rippleDemonstrator')
-  .controller('DocumentsDetailCtrl', function ($scope, $stateParams, SearchInput, $state, $modal, usSpinnerService, PatientService, DocumentService, Diagnosis) {
+  .controller('DocumentsDetailCtrl', function ($scope, $stateParams, SearchInput, $state, $modal, usSpinnerService, PatientService, DocumentService, Diagnosis, Medication) {
 
     $scope.documentType = $stateParams.documentType;
 
@@ -42,7 +42,7 @@ angular.module('rippleDemonstrator')
       var document = $scope.clinicalDocument;
 
       $modal.open({
-        templateUrl: 'views/documents/import-diagnosis-confirmation.html',
+        templateUrl: 'views/documents/import-record-confirmation.html',
         size: 'md',
         controller: function ($scope) {
 
@@ -90,19 +90,7 @@ angular.module('rippleDemonstrator')
                 };
 
                 Diagnosis.create($scope.patient.id, toAdd).then(function () {
-                  setTimeout(function () {
-                    $state.go('documents-detail', {
-                      patientId: $scope.patient.id,
-                      filter: $scope.query,
-                      page: $scope.currentPage,
-                      reportType: $stateParams.reportType,
-                      searchString: $stateParams.searchString,
-                      queryType: $stateParams.queryType,
-                      documentIndex: document.sourceId
-                    }, {
-                      reload: true
-                    });
-                  }, 2000);
+                  stateStateBackToDocumentsDetail(document);
                 });
               });
             });
@@ -111,4 +99,87 @@ angular.module('rippleDemonstrator')
       });
     };
 
+    $scope.importMedication = function (medication) {
+      var document = $scope.clinicalDocument;
+
+      $modal.open({
+        templateUrl: 'views/documents/import-record-confirmation.html',
+        size: 'md',
+        controller: function ($scope) {
+
+          $scope.recordType = 'medication';
+          $scope.documentType = document.documentType;
+
+          $scope.cancel = function () {
+            $scope.$close(true);
+          };
+
+          $scope.ok = function () {
+            $scope.$close(true);
+
+            PatientService.get($stateParams.patientId).then(function (patient) {
+              $scope.patient = patient;
+
+              var modalInstance = $modal.open({
+                templateUrl: 'views/medications/medications-modal.html',
+                size: 'lg',
+                controller: 'MedicationsModalCtrl',
+                resolve: {
+                  modal: function () {
+                    return {
+                      title: 'Import Medication'
+                    };
+                  },
+                  medication: function () {
+                    return angular.fromJson(medication);
+                  },
+                  patient: function () {
+                    return $scope.patient;
+                  }
+                }
+              });
+
+              modalInstance.result.then(function (medication) {
+                medication.startDate = new Date(medication.startDate);
+                medication.startTime = new Date(medication.startTime.valueOf() - medication.startTime.getTimezoneOffset() * 60000);
+
+                var toAdd = {
+                  doseAmount: medication.doseAmount,
+                  doseDirections: medication.doseDirections,
+                  doseTiming: medication.doseTiming,
+                  medicationCode: medication.medicationCode,
+                  medicationTerminology: medication.medicationTerminology,
+                  name: medication.name,
+                  route: medication.route,
+                  startDate: medication.startDate,
+                  startTime: medication.startTime,
+                  author: medication.author,
+                  dateCreated: medication.dateCreated
+                };
+
+                Medication.create($scope.patient.id, toAdd).then(function () {
+                  stateStateBackToDocumentsDetail(document);
+                });
+              });
+            });
+          };
+        }
+      });
+    };
+
+    var stateStateBackToDocumentsDetail = function (document) {
+      setTimeout(function () {
+        $state.go('documents-detail', {
+          patientId: $scope.patient.id,
+          filter: $scope.query,
+          page: $scope.currentPage,
+          reportType: $stateParams.reportType,
+          searchString: $stateParams.searchString,
+          queryType: $stateParams.queryType,
+          documentIndex: document.sourceId
+        }, {
+          reload: true
+        });
+      }, 2000);
+    };
   });
