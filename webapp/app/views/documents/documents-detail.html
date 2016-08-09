@@ -274,7 +274,9 @@
                   <td>{{ medication.name }}</td>
                   <td class="dateTime">{{ medication.startDate | date:'dd-MMM-yyyy' }}</td>
                   <td style="text-align: center;">
-                    <span title="Import to core record" class="glyphicon glyphicon-floppy-disk ui-state-hover import-record" ng-click="importMedication('{{ medication }}')"></span>
+                    <span title="Import to core record"
+                          class="glyphicon glyphicon-floppy-disk ui-state-hover import-record"
+                          ng-click="importMedication('{{ medication }}')"></span>
                   </td>
                 </tr>
 
@@ -305,7 +307,9 @@
                   <td>{{ allergy.cause }}</td>
                   <td>{{ allergy.reaction }}</td>
                   <td style="text-align: center;">
-                    <span title="Import to core record" class="glyphicon glyphicon-floppy-disk ui-state-hover import-record" ng-click="importAllergy('{{ allergy }}')"></span>
+                    <span title="Import to core record"
+                          class="glyphicon glyphicon-floppy-disk ui-state-hover import-record"
+                          ng-click="importAllergy('{{ allergy }}')"></span>
                   </td>
                 </tr>
 

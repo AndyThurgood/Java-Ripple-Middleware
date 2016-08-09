@@ -17,7 +17,7 @@
 'use strict';
 
 angular.module('rippleDemonstrator')
-  .controller('DocumentsDetailCtrl', function ($scope, $stateParams, SearchInput, $state, $modal, usSpinnerService, PatientService, DocumentService, Diagnosis, Medication) {
+  .controller('DocumentsDetailCtrl', function ($scope, $stateParams, SearchInput, $state, $modal, usSpinnerService, PatientService, DocumentService, Diagnosis, Medication, Allergy) {
 
     $scope.documentType = $stateParams.documentType;
 
@@ -79,18 +79,16 @@ angular.module('rippleDemonstrator')
               });
 
               modalInstance.result.then(function (diagnosis) {
-                diagnosis.dateOfOnset = new Date(diagnosis.dateOfOnset);
-
                 var toAdd = {
                   code: diagnosis.code,
-                  dateOfOnset: diagnosis.dateOfOnset,
+                  dateOfOnset: new Date(diagnosis.dateOfOnset),
                   description: diagnosis.description,
                   problem: diagnosis.problem,
                   terminology: diagnosis.terminology
                 };
 
                 Diagnosis.create($scope.patient.id, toAdd).then(function () {
-                  stateStateBackToDocumentsDetail(document);
+                  setStateBackToDocumentsDetail(document);
                 });
               });
             });
@@ -140,9 +138,6 @@ angular.module('rippleDemonstrator')
               });
 
               modalInstance.result.then(function (medication) {
-                medication.startDate = new Date(medication.startDate);
-                medication.startTime = new Date(medication.startTime.valueOf() - medication.startTime.getTimezoneOffset() * 60000);
-
                 var toAdd = {
                   doseAmount: medication.doseAmount,
                   doseDirections: medication.doseDirections,
@@ -151,14 +146,14 @@ angular.module('rippleDemonstrator')
                   medicationTerminology: medication.medicationTerminology,
                   name: medication.name,
                   route: medication.route,
-                  startDate: medication.startDate,
-                  startTime: medication.startTime,
+                  startDate: new Date(medication.startDate),
+                  startTime: new Date(medication.startTime.valueOf() - medication.startTime.getTimezoneOffset() * 60000),
                   author: medication.author,
                   dateCreated: medication.dateCreated
                 };
 
                 Medication.create($scope.patient.id, toAdd).then(function () {
-                  stateStateBackToDocumentsDetail(document);
+                  setStateBackToDocumentsDetail(document);
                 });
               });
             });
@@ -167,7 +162,70 @@ angular.module('rippleDemonstrator')
       });
     };
 
-    var stateStateBackToDocumentsDetail = function (document) {
+    $scope.importAllergy = function (allergy) {
+      var document = $scope.clinicalDocument;
+
+      $modal.open({
+        templateUrl: 'views/documents/import-record-confirmation.html',
+        size: 'md',
+        controller: function ($scope) {
+
+          $scope.recordType = 'allergy';
+          $scope.documentType = document.documentType;
+
+          $scope.cancel = function () {
+            $scope.$close(true);
+          };
+
+          $scope.ok = function () {
+            $scope.$close(true);
+
+            PatientService.get($stateParams.patientId).then(function (patient) {
+              $scope.patient = patient;
+
+              var modalInstance = $modal.open({
+                templateUrl: 'views/allergies/allergies-modal.html',
+                size: 'lg',
+                controller: 'AllergiesModalCtrl',
+                resolve: {
+                  modal: function () {
+                    return {
+                      title: 'Import Allergy'
+                    };
+                  },
+                  allergy: function () {
+                    var copy = angular.fromJson(allergy);
+                    copy.causeCode = '1239085';
+                    copy.terminologyCode = '12393890';
+
+                    return copy;
+                  },
+                  patient: function () {
+                    return $scope.patient;
+                  }
+                }
+              });
+
+              modalInstance.result.then(function (allergy) {
+                var toAdd = {
+                  cause: allergy.cause,
+                  causeCode: allergy.causeCode,
+                  causeTerminology: allergy.causeTerminology,
+                  terminologyCode: allergy.terminologyCode,
+                  reaction: allergy.reaction
+                };
+
+                Allergy.create($scope.patient.id, toAdd).then(function () {
+                  setStateBackToDocumentsDetail(document);
+                });
+              });
+            });
+          };
+        }
+      });
+    };
+
+    var setStateBackToDocumentsDetail = function (document) {
       setTimeout(function () {
         $state.go('documents-detail', {
           patientId: $scope.patient.id,
