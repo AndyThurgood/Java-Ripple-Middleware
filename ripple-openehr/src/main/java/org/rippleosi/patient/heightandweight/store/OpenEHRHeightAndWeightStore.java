@@ -65,8 +65,8 @@ public class OpenEHRHeightAndWeightStore extends AbstractOpenEhrService implemen
         content.put("ctx/territory", "GB");
         content.put("ctx/composer_name", "Dr Tony Shannon");
 
-        final String heightRecorded = DateFormatter.toString(heightAndWeight.getHeightRecorded());
-        final String weightRecorded = DateFormatter.toString(heightAndWeight.getWeightRecorded());
+        final String heightRecorded = DateFormatter.toJSONDateString(heightAndWeight.getHeightRecorded());
+        final String weightRecorded = DateFormatter.toJSONDateString(heightAndWeight.getWeightRecorded());
 
         content.put(HEIGHT_AND_WEIGHT_PREFIX + "height_length:0/height|magnitude", heightAndWeight.getHeight());
         content.put(HEIGHT_AND_WEIGHT_PREFIX + "height_length:0/height|unit", "cm");
