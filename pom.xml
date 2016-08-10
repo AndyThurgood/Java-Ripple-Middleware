@@ -25,10 +25,10 @@
     <packaging>pom</packaging>
 
     <name>Ripple OSI</name>
-    <description>Provides the core functional libraries to build Ripple based health systems</description>
+    <description>Provides the core functional middleware libraries to build Ripple based health systems</description>
 
     <scm>
-        <connection>scm:git:https://github.com/RippleOSI/Org-Ripple-core.git</connection>
+        <connection>scm:git:https://github.com/RippleOSI/Org-Ripple-Middleware.git</connection>
         <tag>HEAD</tag>
     </scm>
 
