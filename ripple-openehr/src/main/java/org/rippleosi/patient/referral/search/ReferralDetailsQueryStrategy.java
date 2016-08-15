@@ -15,17 +15,19 @@
  */
 package org.rippleosi.patient.referral.search;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.rippleosi.common.exception.DataNotFoundException;
 import org.rippleosi.common.exception.InvalidDataException;
-import org.rippleosi.common.service.AbstractQueryStrategy;
+import org.rippleosi.common.service.AbstractDetailsGetQueryStrategy;
 import org.rippleosi.patient.referral.model.ReferralDetails;
 
 /**
  */
-public class ReferralDetailsQueryStrategy extends AbstractQueryStrategy<ReferralDetails> {
+public class ReferralDetailsQueryStrategy extends AbstractDetailsGetQueryStrategy<ReferralDetails> {
 
     private final String referralId;
 
@@ -60,7 +62,9 @@ public class ReferralDetailsQueryStrategy extends AbstractQueryStrategy<Referral
             throw new DataNotFoundException("No results found");
         }
 
-        if (resultSet.size() > 1) {
+        Collection<Map<String, Object>> filtered = CollectionUtils.select(resultSet, new ReferralOnlyPredicate());
+
+        if (filtered.size() > 1) {
             throw new InvalidDataException("Too many results found");
         }
 

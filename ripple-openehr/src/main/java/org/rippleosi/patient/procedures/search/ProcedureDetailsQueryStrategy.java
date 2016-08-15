@@ -20,12 +20,12 @@ import java.util.Map;
 
 import org.rippleosi.common.exception.DataNotFoundException;
 import org.rippleosi.common.exception.InvalidDataException;
-import org.rippleosi.common.service.AbstractQueryStrategy;
+import org.rippleosi.common.service.AbstractDetailsGetQueryStrategy;
 import org.rippleosi.patient.procedures.model.ProcedureDetails;
 
 /**
  */
-public class ProcedureDetailsQueryStrategy extends AbstractQueryStrategy<ProcedureDetails> {
+public class ProcedureDetailsQueryStrategy extends AbstractDetailsGetQueryStrategy<ProcedureDetails> {
 
     private final String procedureId;
 

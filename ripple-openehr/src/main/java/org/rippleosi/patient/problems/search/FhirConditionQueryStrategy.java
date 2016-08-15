@@ -20,11 +20,9 @@ import java.util.Map;
 
 import org.hl7.fhir.instance.model.Condition;
 import org.rippleosi.common.exception.DataNotFoundException;
-import org.rippleosi.common.service.AbstractQueryStrategy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.rippleosi.common.service.AbstractDetailsGetQueryStrategy;
 
-public class FhirConditionQueryStrategy extends AbstractQueryStrategy<Condition> {
+public class FhirConditionQueryStrategy extends AbstractDetailsGetQueryStrategy<Condition> {
 
     private final String ehrId;
     private final String openEhrAddress;

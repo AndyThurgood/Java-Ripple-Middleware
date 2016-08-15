@@ -86,7 +86,7 @@ public abstract class AbstractC4HReportingService implements Repository {
         return queryStrategy.transform((I) response.getBody());
     }
 
-    protected <T> T findTableData(QueryStrategy<T> queryStrategy, Map<String, String> uriVars) {
+    protected <T> T findTableData(AbstractGetQueryStrategy<T> queryStrategy, Map<String, String> uriVars) {
 
         String query = queryStrategy.getQuery(externalNamespace, queryStrategy.getPatientId());
 

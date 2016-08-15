@@ -19,7 +19,7 @@ import java.util.List;
 
 /**
  */
-public abstract class AbstractListGetQueryStrategy<T> extends AbstractQueryStrategy<List<T>> {
+public abstract class AbstractListGetQueryStrategy<T> extends AbstractGetQueryStrategy<List<T>> {
 
     protected AbstractListGetQueryStrategy(String patientId) {
         super(patientId);

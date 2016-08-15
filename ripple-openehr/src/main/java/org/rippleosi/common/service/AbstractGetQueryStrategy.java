@@ -15,14 +15,20 @@
  */
 package org.rippleosi.common.service;
 
-import java.util.List;
-import java.util.Map;
-
 /**
  */
-public interface QueryStrategy<T> {
+public abstract class AbstractGetQueryStrategy<T> implements QueryStrategy<T> {
 
-    String getPatientId();
+    private final String patientId;
 
-    T transform(List<Map<String, Object>> resultSet);
+    protected AbstractGetQueryStrategy(String patientId) {
+        this.patientId = patientId;
+    }
+
+    @Override
+    public String getPatientId() {
+        return patientId;
+    }
+
+    public abstract String getQuery(String namespace, String patientId);
 }

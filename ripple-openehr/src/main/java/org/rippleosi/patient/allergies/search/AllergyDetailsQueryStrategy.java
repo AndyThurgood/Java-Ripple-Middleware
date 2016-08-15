@@ -19,12 +19,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.rippleosi.common.exception.DataNotFoundException;
-import org.rippleosi.common.service.AbstractQueryStrategy;
+import org.rippleosi.common.service.AbstractDetailsGetQueryStrategy;
 import org.rippleosi.patient.allergies.model.AllergyDetails;
 
 /**
  */
-public class AllergyDetailsQueryStrategy extends AbstractQueryStrategy<AllergyDetails> {
+public class AllergyDetailsQueryStrategy extends AbstractDetailsGetQueryStrategy<AllergyDetails> {
 
     private final String allergyId;
 

@@ -15,18 +15,13 @@
  */
 package org.rippleosi.common.service;
 
+import java.util.List;
+
 /**
  */
-public abstract class AbstractQueryStrategy<T> implements QueryStrategy<T> {
+public abstract class AbstractDetailsPostQueryStrategy<T> extends AbstractPostQueryStrategy<List<T>> {
 
-    private final String patientId;
-
-    protected AbstractQueryStrategy(String patientId) {
-        this.patientId = patientId;
-    }
-
-    @Override
-    public String getPatientId() {
-        return patientId;
+    protected AbstractDetailsPostQueryStrategy(String patientId) {
+        super(patientId);
     }
 }
