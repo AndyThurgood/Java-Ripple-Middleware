@@ -18,6 +18,20 @@ package org.rippleosi.common.service;
 import java.util.List;
 
 /**
+ *  AbstractListGetQueryStrategy can be directly subclassed in order to retrieve a list of OpenEHR objects
+ *  relating to a particular data type.
+ *  <p>
+ *
+ *  The query strategy is facilitated by an HTTP GET, which means that the query being used is a String and is
+ *  appended to the request URI as a query parameter.
+ *  <p>
+ *
+ *  If you are wanting to post the query in the body of the HTTP request then instead subclass
+ *  AbstractListPostQueryStrategy
+ *
+ *  @see AbstractListPostQueryStrategy
+ *  @see AbstractDetailsGetQueryStrategy
+ *  @see AbstractDetailsPostQueryStrategy
  */
 public abstract class AbstractListGetQueryStrategy<T> extends AbstractGetQueryStrategy<List<T>> {
 

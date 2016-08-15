@@ -16,6 +16,19 @@
 package org.rippleosi.common.service;
 
 /**
+ *  AbstractDetailsGetQueryStrategy can be directly subclassed in order to find the details of a single OpenEHR object.
+ *  <p>
+ *
+ *  The query strategy is facilitated by an HTTP GET, which means that the query being used is a String and is
+ *  appended to the request URI as a query parameter.
+ *  <p>
+ *
+ *  If you are wanting to post the query in the body of the HTTP request then instead subclass
+ *  AbstractDetailsPostQueryStrategy
+ *
+ *  @see AbstractDetailsPostQueryStrategy
+ *  @see AbstractListGetQueryStrategy
+ *  @see AbstractListPostQueryStrategy
  */
 public abstract class AbstractDetailsGetQueryStrategy<T> extends AbstractGetQueryStrategy<T> {
 

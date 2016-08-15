@@ -18,6 +18,19 @@ package org.rippleosi.common.service;
 import java.util.List;
 
 /**
+ *  AbstractDetailsPostQueryStrategy can be directly subclassed in order to find the details of a single OpenEHR object.
+ *  <p>
+ *
+ *  The query strategy is facilitated by an HTTP POST, and is used when your OpenEHR query is very large. By using a
+ *  POST, the query takes the form of a Map and is sent in the body of the request, rather than as a String that is
+ *  appended to the request URI.
+ *  <p>
+ *
+ *  If you are wanting to use an HTTP GET then instead subclass AbstractDetailsGetQueryStrategy
+ *
+ *  @see AbstractDetailsGetQueryStrategy
+ *  @see AbstractListGetQueryStrategy
+ *  @see AbstractListPostQueryStrategy
  */
 public abstract class AbstractDetailsPostQueryStrategy<T> extends AbstractPostQueryStrategy<List<T>> {
 
