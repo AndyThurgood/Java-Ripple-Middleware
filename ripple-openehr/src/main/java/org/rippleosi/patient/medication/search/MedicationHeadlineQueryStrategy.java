@@ -20,12 +20,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.rippleosi.common.service.AbstractListQueryStrategy;
+import org.rippleosi.common.service.AbstractListGetQueryStrategy;
 import org.rippleosi.patient.medication.model.MedicationHeadline;
 
 /**
  */
-public class MedicationHeadlineQueryStrategy extends AbstractListQueryStrategy<MedicationHeadline> {
+public class MedicationHeadlineQueryStrategy extends AbstractListGetQueryStrategy<MedicationHeadline> {
 
     MedicationHeadlineQueryStrategy(String patientId) {
         super(patientId);

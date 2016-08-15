@@ -19,9 +19,9 @@ import java.util.List;
 
 /**
  */
-public abstract class AbstractListQueryStrategy<T> extends AbstractQueryStrategy<List<T>> {
+public abstract class AbstractListGetQueryStrategy<T> extends AbstractQueryStrategy<List<T>> {
 
-    protected AbstractListQueryStrategy(String patientId) {
+    protected AbstractListGetQueryStrategy(String patientId) {
         super(patientId);
     }
 }

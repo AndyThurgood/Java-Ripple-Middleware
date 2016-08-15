@@ -20,10 +20,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.rippleosi.common.service.AbstractListQueryStrategy;
+import org.rippleosi.common.service.AbstractListGetQueryStrategy;
 import org.rippleosi.patient.heightandweight.model.HeightAndWeightDetails;
 
-public class HeightAndWeightSummaryQueryStrategy extends AbstractListQueryStrategy<HeightAndWeightDetails> {
+public class HeightAndWeightSummaryQueryStrategy extends AbstractListGetQueryStrategy<HeightAndWeightDetails> {
 
     HeightAndWeightSummaryQueryStrategy(String patientId) {
         super(patientId);
