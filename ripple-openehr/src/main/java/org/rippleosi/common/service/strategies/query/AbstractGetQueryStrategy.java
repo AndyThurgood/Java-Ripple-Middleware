@@ -13,17 +13,22 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.rippleosi.common.service;
-
-import org.springframework.http.ResponseEntity;
+package org.rippleosi.common.service.strategies.query;
 
 /**
  */
-public interface RequestProxy {
+public abstract class AbstractGetQueryStrategy<T> implements QueryStrategy<T> {
 
-    <T> ResponseEntity<T> getWithoutSession(String uri, Class<T> cls);
+    private final String patientId;
 
-    <T> ResponseEntity<T> postWithoutSession(String uri, Class<T> cls, Object body);
+    protected AbstractGetQueryStrategy(String patientId) {
+        this.patientId = patientId;
+    }
 
-    <T> ResponseEntity<T> putWithoutSession(String uri, Class<T> cls, Object body);
+    @Override
+    public String getPatientId() {
+        return patientId;
+    }
+
+    public abstract String getQuery(String namespace, String patientId);
 }

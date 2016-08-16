@@ -20,7 +20,7 @@ import java.util.Map;
 
 import org.hl7.fhir.instance.model.Condition;
 import org.rippleosi.common.exception.DataNotFoundException;
-import org.rippleosi.common.service.AbstractDetailsGetQueryStrategy;
+import org.rippleosi.common.service.strategies.query.details.AbstractDetailsGetQueryStrategy;
 
 public class FhirConditionQueryStrategy extends AbstractDetailsGetQueryStrategy<Condition> {
 

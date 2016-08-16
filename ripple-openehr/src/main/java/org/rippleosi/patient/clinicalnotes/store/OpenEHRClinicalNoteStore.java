@@ -20,9 +20,9 @@ import java.util.Map;
 
 import org.apache.camel.Consume;
 import org.rippleosi.common.service.AbstractOpenEhrService;
-import org.rippleosi.common.service.CreateStrategy;
-import org.rippleosi.common.service.DefaultStoreStrategy;
-import org.rippleosi.common.service.UpdateStrategy;
+import org.rippleosi.common.service.strategies.store.CreateStrategy;
+import org.rippleosi.common.service.strategies.store.DefaultStoreStrategy;
+import org.rippleosi.common.service.strategies.store.UpdateStrategy;
 import org.rippleosi.patient.clinicalnotes.model.ClinicalNoteDetails;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;

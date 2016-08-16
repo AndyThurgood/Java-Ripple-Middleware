@@ -1,6 +1,10 @@
-package org.rippleosi.common.service;
+package org.rippleosi.common.service.strategies.query.list;
 
 import java.util.List;
+
+import org.rippleosi.common.service.strategies.query.AbstractPostQueryStrategy;
+import org.rippleosi.common.service.strategies.query.details.AbstractDetailsGetQueryStrategy;
+import org.rippleosi.common.service.strategies.query.details.AbstractDetailsPostQueryStrategy;
 
 /**
  *  AbstractListPostQueryStrategy can be directly subclassed in order to retrieve a list of OpenEHR objects

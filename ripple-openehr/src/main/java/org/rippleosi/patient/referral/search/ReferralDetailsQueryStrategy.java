@@ -22,7 +22,7 @@ import java.util.Map;
 import org.apache.commons.collections4.CollectionUtils;
 import org.rippleosi.common.exception.DataNotFoundException;
 import org.rippleosi.common.exception.InvalidDataException;
-import org.rippleosi.common.service.AbstractDetailsGetQueryStrategy;
+import org.rippleosi.common.service.strategies.query.details.AbstractDetailsGetQueryStrategy;
 import org.rippleosi.patient.referral.model.ReferralDetails;
 
 /**

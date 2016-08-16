@@ -1,4 +1,4 @@
-package org.rippleosi.common.service;
+package org.rippleosi.common.service.strategies.query;
 
 import java.util.Map;
 

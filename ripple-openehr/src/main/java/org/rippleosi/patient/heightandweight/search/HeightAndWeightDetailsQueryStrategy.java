@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.rippleosi.common.exception.DataNotFoundException;
-import org.rippleosi.common.service.AbstractDetailsGetQueryStrategy;
+import org.rippleosi.common.service.strategies.query.details.AbstractDetailsGetQueryStrategy;
 import org.rippleosi.patient.heightandweight.model.HeightAndWeightDetails;
 
 public class HeightAndWeightDetailsQueryStrategy extends AbstractDetailsGetQueryStrategy<HeightAndWeightDetails> {

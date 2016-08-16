@@ -21,7 +21,7 @@ import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.hl7.fhir.instance.model.Condition;
-import org.rippleosi.common.service.AbstractListGetQueryStrategy;
+import org.rippleosi.common.service.strategies.query.list.AbstractListGetQueryStrategy;
 
 public class FhirConditionsQueryStrategy extends AbstractListGetQueryStrategy<Condition> {
 

@@ -13,11 +13,17 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.rippleosi.common.service;
+package org.rippleosi.common.service.strategies.store;
+
+import java.util.Map;
 
 /**
  */
-public interface UpdateStrategy extends CreateStrategy {
+public interface CreateStrategy {
 
-    String getCompositionId();
+    String getPatientId();
+
+    String getTemplate();
+
+    Map<String,Object> getContent();
 }

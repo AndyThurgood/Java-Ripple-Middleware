@@ -13,9 +13,13 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.rippleosi.common.service;
+package org.rippleosi.common.service.strategies.query.details;
 
 import java.util.List;
+
+import org.rippleosi.common.service.strategies.query.AbstractPostQueryStrategy;
+import org.rippleosi.common.service.strategies.query.list.AbstractListGetQueryStrategy;
+import org.rippleosi.common.service.strategies.query.list.AbstractListPostQueryStrategy;
 
 /**
  *  AbstractDetailsPostQueryStrategy can be directly subclassed in order to find the details of a single OpenEHR object.

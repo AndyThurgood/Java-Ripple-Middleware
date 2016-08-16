@@ -14,7 +14,7 @@
  *      limitations under the License.
  */
 
-package org.rippleosi.common.service;
+package org.rippleosi.common.service.strategies.query;
 
 import org.springframework.web.util.UriComponents;
 

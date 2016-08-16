@@ -13,22 +13,16 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.rippleosi.common.service;
+package org.rippleosi.common.service.strategies.query;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  */
-public abstract class AbstractGetQueryStrategy<T> implements QueryStrategy<T> {
+public interface QueryStrategy<T> {
 
-    private final String patientId;
+    String getPatientId();
 
-    protected AbstractGetQueryStrategy(String patientId) {
-        this.patientId = patientId;
-    }
-
-    @Override
-    public String getPatientId() {
-        return patientId;
-    }
-
-    public abstract String getQuery(String namespace, String patientId);
+    T transform(List<Map<String, Object>> resultSet);
 }

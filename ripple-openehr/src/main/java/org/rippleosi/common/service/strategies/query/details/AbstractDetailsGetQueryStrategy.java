@@ -13,13 +13,14 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.rippleosi.common.service;
+package org.rippleosi.common.service.strategies.query.details;
 
-import java.util.List;
+import org.rippleosi.common.service.strategies.query.AbstractGetQueryStrategy;
+import org.rippleosi.common.service.strategies.query.list.AbstractListGetQueryStrategy;
+import org.rippleosi.common.service.strategies.query.list.AbstractListPostQueryStrategy;
 
 /**
- *  AbstractListGetQueryStrategy can be directly subclassed in order to retrieve a list of OpenEHR objects
- *  relating to a particular data type.
+ *  AbstractDetailsGetQueryStrategy can be directly subclassed in order to find the details of a single OpenEHR object.
  *  <p>
  *
  *  The query strategy is facilitated by an HTTP GET, which means that the query being used is a String and is
@@ -27,15 +28,15 @@ import java.util.List;
  *  <p>
  *
  *  If you are wanting to post the query in the body of the HTTP request then instead subclass
- *  AbstractListPostQueryStrategy
+ *  AbstractDetailsPostQueryStrategy
  *
- *  @see AbstractListPostQueryStrategy
- *  @see AbstractDetailsGetQueryStrategy
  *  @see AbstractDetailsPostQueryStrategy
+ *  @see AbstractListGetQueryStrategy
+ *  @see AbstractListPostQueryStrategy
  */
-public abstract class AbstractListGetQueryStrategy<T> extends AbstractGetQueryStrategy<List<T>> {
+public abstract class AbstractDetailsGetQueryStrategy<T> extends AbstractGetQueryStrategy<T> {
 
-    protected AbstractListGetQueryStrategy(String patientId) {
+    protected AbstractDetailsGetQueryStrategy(String patientId) {
         super(patientId);
     }
 }
