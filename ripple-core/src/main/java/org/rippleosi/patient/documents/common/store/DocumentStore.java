@@ -13,20 +13,18 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.rippleosi.common.service.strategies.query;
+package org.rippleosi.patient.documents.common.store;
+
+import org.apache.camel.Body;
+import org.apache.camel.Header;
+import org.apache.camel.InOnly;
+import org.rippleosi.common.repo.Repository;
+import org.rippleosi.patient.documents.common.model.GenericDocument;
 
 /**
  */
-public abstract class AbstractGetQueryStrategy<T> implements QueryStrategy<T> {
+@InOnly
+public interface DocumentStore extends Repository {
 
-    private final String patientId;
-
-    protected AbstractGetQueryStrategy(String patientId) {
-        this.patientId = patientId;
-    }
-
-    @Override
-    public String getPatientId() {
-        return patientId;
-    }
+    void create(@Header("patientId") String patientId, @Body GenericDocument document);
 }

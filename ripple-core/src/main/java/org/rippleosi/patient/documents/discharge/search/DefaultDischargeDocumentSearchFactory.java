@@ -13,20 +13,23 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.rippleosi.common.service.strategies.query;
+package org.rippleosi.patient.documents.discharge.search;
+
+import org.rippleosi.common.repo.AbstractRepositoryFactory;
+import org.springframework.stereotype.Service;
 
 /**
  */
-public abstract class AbstractGetQueryStrategy<T> implements QueryStrategy<T> {
+@Service
+public class DefaultDischargeDocumentSearchFactory extends AbstractRepositoryFactory<DischargeDocumentSearch> implements DischargeDocumentSearchFactory {
 
-    private final String patientId;
-
-    protected AbstractGetQueryStrategy(String patientId) {
-        this.patientId = patientId;
+    @Override
+    protected DischargeDocumentSearch defaultRepository() {
+        return new NotConfiguredDischargeDocumentSearch();
     }
 
     @Override
-    public String getPatientId() {
-        return patientId;
+    protected Class<DischargeDocumentSearch> repositoryClass() {
+        return DischargeDocumentSearch.class;
     }
 }

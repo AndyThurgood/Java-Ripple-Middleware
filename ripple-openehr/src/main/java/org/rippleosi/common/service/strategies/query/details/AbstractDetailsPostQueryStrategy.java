@@ -15,8 +15,6 @@
  */
 package org.rippleosi.common.service.strategies.query.details;
 
-import java.util.List;
-
 import org.rippleosi.common.service.strategies.query.AbstractPostQueryStrategy;
 import org.rippleosi.common.service.strategies.query.list.AbstractListGetQueryStrategy;
 import org.rippleosi.common.service.strategies.query.list.AbstractListPostQueryStrategy;
@@ -36,7 +34,7 @@ import org.rippleosi.common.service.strategies.query.list.AbstractListPostQueryS
  *  @see AbstractListGetQueryStrategy
  *  @see AbstractListPostQueryStrategy
  */
-public abstract class AbstractDetailsPostQueryStrategy<T> extends AbstractPostQueryStrategy<List<T>> {
+public abstract class AbstractDetailsPostQueryStrategy<T> extends AbstractPostQueryStrategy<T> {
 
     protected AbstractDetailsPostQueryStrategy(String patientId) {
         super(patientId);

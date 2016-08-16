@@ -13,20 +13,19 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.rippleosi.common.service.strategies.query;
+package org.rippleosi.patient.documents.discharge.search;
+
+import java.util.List;
+
+import org.rippleosi.common.repo.Repository;
+import org.rippleosi.patient.documents.discharge.model.DischargeDocumentDetails;
+import org.rippleosi.patient.documents.common.model.AbstractDocumentSummary;
 
 /**
  */
-public abstract class AbstractGetQueryStrategy<T> implements QueryStrategy<T> {
+public interface DischargeDocumentSearch extends Repository {
 
-    private final String patientId;
+    List<AbstractDocumentSummary> findAllDischargeDocuments(String patientId);
 
-    protected AbstractGetQueryStrategy(String patientId) {
-        this.patientId = patientId;
-    }
-
-    @Override
-    public String getPatientId() {
-        return patientId;
-    }
+    DischargeDocumentDetails findDischargeDocument(String patientId, String documentId);
 }

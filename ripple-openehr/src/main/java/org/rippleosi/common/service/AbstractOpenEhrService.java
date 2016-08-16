@@ -27,6 +27,7 @@ import org.rippleosi.common.exception.DataNotFoundException;
 import org.rippleosi.common.exception.UpdateFailedException;
 import org.rippleosi.common.model.ActionRestResponse;
 import org.rippleosi.common.model.EhrResponse;
+import org.rippleosi.common.model.QueryPost;
 import org.rippleosi.common.model.QueryResponse;
 import org.rippleosi.common.repo.Repository;
 import org.rippleosi.common.service.proxies.RequestProxy;
@@ -99,14 +100,20 @@ public abstract class AbstractOpenEhrService implements Repository {
 
         String query = queryStrategy.getQuery(openEhrSubjectNamespace, queryStrategy.getPatientId());
 
-        return requestProxy.getWithoutSession(getQueryByGetUri(query), QueryResponse.class);
+        return requestProxy.getQueryWithoutSession(getQueryByGetUri(query), QueryResponse.class);
     }
 
     private ResponseEntity<QueryResponse> queryByHttpPost(AbstractPostQueryStrategy queryStrategy) {
 
-        Map query = queryStrategy.getQuery(openEhrSubjectNamespace, queryStrategy.getPatientId());
+        String query = queryStrategy.getQuery(openEhrSubjectNamespace, queryStrategy.getPatientId());
 
-        return requestProxy.postWithoutSession(getQueryByPostUri(), QueryResponse.class, query);
+        Map queryParams = queryStrategy.getQueryParameters(openEhrSubjectNamespace, queryStrategy.getPatientId());
+
+        QueryPost queryPost = new QueryPost();
+        queryPost.setAql(query);
+        queryPost.setAqlParameters(queryParams);
+
+        return requestProxy.postQueryWithoutSession(getQueryByPostUri(), QueryResponse.class, queryPost);
     }
 
     protected void createData(CreateStrategy createStrategy) {
@@ -189,7 +196,7 @@ public abstract class AbstractOpenEhrService implements Repository {
 
         @Override
         public String transform(String nhsNumber) {
-            ResponseEntity<EhrResponse> response = requestProxy.getWithoutSession(getEhrIdUri(nhsNumber), EhrResponse.class);
+            ResponseEntity<EhrResponse> response = requestProxy.getQueryWithoutSession(getEhrIdUri(nhsNumber), EhrResponse.class);
             if (response.getStatusCode() != HttpStatus.OK) {
                 throw new DataNotFoundException("OpenEHR query returned with status code " + response.getStatusCode());
             }

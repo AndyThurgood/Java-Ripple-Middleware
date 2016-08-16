@@ -13,20 +13,23 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.rippleosi.common.service.strategies.query;
+package org.rippleosi.patient.documents.referral.search;
+
+import org.rippleosi.common.repo.AbstractRepositoryFactory;
+import org.springframework.stereotype.Service;
 
 /**
  */
-public abstract class AbstractGetQueryStrategy<T> implements QueryStrategy<T> {
+@Service
+public class DefaultReferralDocumentSearchFactory extends AbstractRepositoryFactory<ReferralDocumentSearch> implements ReferralDocumentSearchFactory {
 
-    private final String patientId;
-
-    protected AbstractGetQueryStrategy(String patientId) {
-        this.patientId = patientId;
+    @Override
+    protected ReferralDocumentSearch defaultRepository() {
+        return new NotConfiguredReferralDocumentSearch();
     }
 
     @Override
-    public String getPatientId() {
-        return patientId;
+    protected Class<ReferralDocumentSearch> repositoryClass() {
+        return ReferralDocumentSearch.class;
     }
 }

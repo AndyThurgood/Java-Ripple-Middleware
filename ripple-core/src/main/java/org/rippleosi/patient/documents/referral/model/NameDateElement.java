@@ -13,20 +13,28 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.rippleosi.common.service.strategies.query;
+package org.rippleosi.patient.documents.referral.model;
 
 /**
  */
-public abstract class AbstractGetQueryStrategy<T> implements QueryStrategy<T> {
+public class NameDateElement {
+    
+    private String value;
+    private String date;
 
-    private final String patientId;
-
-    protected AbstractGetQueryStrategy(String patientId) {
-        this.patientId = patientId;
+    public String getValue() {
+        return value;
     }
 
-    @Override
-    public String getPatientId() {
-        return patientId;
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

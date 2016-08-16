@@ -15,5 +15,5 @@ public abstract class AbstractPostQueryStrategy<T> implements QueryStrategy<T> {
         return patientId;
     }
 
-    public abstract Map<String, String> getQuery(String namespace, String patientId);
+    public abstract Map<String, Object> getQueryParameters(String namespace, String patientId);
 }

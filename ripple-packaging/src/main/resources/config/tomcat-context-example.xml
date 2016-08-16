@@ -33,7 +33,7 @@
     <Environment name="c4hOpenEHR.jointScoresTemplate"      type="java.lang.String" override="false" value="NCHCD - Patient visit - Scores.v0"/>
     <Environment name="c4hOpenEHR.eq5lTemplate"             type="java.lang.String" override="false" value="NCHCD - Patient visit - Scores.v0"/>
     <Environment name="c4hOpenEHR.clinicalNotesTemplate"    type="java.lang.String" override="false" value="NCHCD - Clinical notes.v0"/>
-    <Environment name="c4hOpenEHR.referralDocumentTemplate" type="java.lang.String" override="false" value="iEHR - Generic Referral Template.v0"/>
+    <Environment name="c4hOpenEHR.referralDocumentTemplate" type="java.lang.String" override="false" value="iEHR - Healthlink - Referral.v0"/>
     <Environment name="c4hOpenEHR.dischargeDocumentTemplate" type="java.lang.String" override="false" value="iEHR - Healthlink - Discharge Sumary.v0"/>
 
     <Environment name="etherCIS.address"                    type="java.lang.String" override="false" value="http://188.166.246.78:8080/rest/v1"/>

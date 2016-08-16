@@ -15,10 +15,13 @@
  */
 package org.rippleosi.common.service.proxies;
 
+import java.util.Map;
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.codec.binary.Base64;
 import org.rippleosi.common.exception.InvalidDataException;
+import org.rippleosi.common.model.QueryPost;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -48,7 +51,7 @@ public class DefaultRequestProxy implements RequestProxy {
     private String openEhrPassword;
 
     @Override
-    public <T> ResponseEntity<T> getWithoutSession(String uri, Class<T> cls) {
+    public <T> ResponseEntity<T> getQueryWithoutSession(String uri, Class<T> cls) {
 
         HttpEntity<String> request = buildRequestWithoutSession(null);
 
@@ -56,9 +59,19 @@ public class DefaultRequestProxy implements RequestProxy {
     }
 
     @Override
+    public <T> ResponseEntity<T> postQueryWithoutSession(String uri, Class<T> cls, QueryPost body) {
+
+        String json = convertObjectToJson(body);
+
+        HttpEntity<String> request = buildRequestWithoutSession(json);
+
+        return restTemplate().exchange(uri, HttpMethod.POST, request, cls);
+    }
+
+    @Override
     public <T> ResponseEntity<T> postWithoutSession(String uri, Class<T> cls, Object body) {
 
-        String json = convertToJson(body);
+        String json = convertObjectToJson(body);
 
         HttpEntity<String> request = buildRequestWithoutSession(json);
 
@@ -68,7 +81,7 @@ public class DefaultRequestProxy implements RequestProxy {
     @Override
     public <T> ResponseEntity<T> putWithoutSession(String uri, Class<T> cls, Object body) {
 
-        String json = convertToJson(body);
+        String json = convertObjectToJson(body);
 
         HttpEntity<String> request = buildRequestWithoutSession(json);
 
@@ -93,11 +106,12 @@ public class DefaultRequestProxy implements RequestProxy {
         return new RestTemplate(new SimpleClientHttpRequestFactory());
     }
 
-    private String convertToJson(Object body) {
+    private String convertObjectToJson(Object body) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             return objectMapper.writeValueAsString(body);
-        } catch (JsonProcessingException ex) {
+        }
+        catch (JsonProcessingException ex) {
             throw new InvalidDataException(ex.getMessage(), ex);
         }
     }
