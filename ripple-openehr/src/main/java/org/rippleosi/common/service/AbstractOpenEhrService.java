@@ -77,7 +77,7 @@ public abstract class AbstractOpenEhrService implements Repository {
         ResponseEntity<QueryResponse> response;
 
         if (queryStrategy instanceof AbstractGetQueryStrategy) {
-            response = queryByHttpGet((AbstractGetQueryStrategy) queryStrategy);
+            response = queryByHttpGet(queryStrategy);
         }
         else if (queryStrategy instanceof AbstractPostQueryStrategy) {
             response = queryByHttpPost((AbstractPostQueryStrategy) queryStrategy);
@@ -95,18 +95,20 @@ public abstract class AbstractOpenEhrService implements Repository {
         return queryStrategy.transform(results);
     }
 
-    private ResponseEntity<QueryResponse> queryByHttpGet(AbstractGetQueryStrategy queryStrategy) {
+    private ResponseEntity<QueryResponse> queryByHttpGet(QueryStrategy queryStrategy) {
 
         String query = queryStrategy.getQuery(openEhrSubjectNamespace, queryStrategy.getPatientId());
 
-        return requestProxy.getWithoutSession(getQueryByGetUri(query), QueryResponse.class);
+        return requestProxy.getQueryWithoutSession(getQueryByGetUri(query), QueryResponse.class);
     }
 
     private ResponseEntity<QueryResponse> queryByHttpPost(AbstractPostQueryStrategy queryStrategy) {
 
-        Map query = queryStrategy.getQuery(openEhrSubjectNamespace, queryStrategy.getPatientId());
+        String query = queryStrategy.getQuery(openEhrSubjectNamespace, queryStrategy.getPatientId());
 
-        return requestProxy.postWithoutSession(getQueryByPostUri(), QueryResponse.class, query);
+        Map queryParams = queryStrategy.getQueryVariables();
+
+        return requestProxy.postQueryWithoutSession(getQueryByPostUri(), QueryResponse.class, query, queryParams);
     }
 
     protected void createData(CreateStrategy createStrategy) {
@@ -189,7 +191,7 @@ public abstract class AbstractOpenEhrService implements Repository {
 
         @Override
         public String transform(String nhsNumber) {
-            ResponseEntity<EhrResponse> response = requestProxy.getWithoutSession(getEhrIdUri(nhsNumber), EhrResponse.class);
+            ResponseEntity<EhrResponse> response = requestProxy.getQueryWithoutSession(getEhrIdUri(nhsNumber), EhrResponse.class);
             if (response.getStatusCode() != HttpStatus.OK) {
                 throw new DataNotFoundException("OpenEHR query returned with status code " + response.getStatusCode());
             }

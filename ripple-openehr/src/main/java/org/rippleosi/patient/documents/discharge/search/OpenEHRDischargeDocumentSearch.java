@@ -60,7 +60,7 @@ public class OpenEHRDischargeDocumentSearch extends AbstractOpenEhrService imple
 
         // Query openEHR for individual (Non repeating fields)
         String query = queryStrategy.getQuery(openEhrSubjectNamespace, queryStrategy.getPatientId());
-        ResponseEntity<QueryResponse> response = requestProxy.getWithoutSession(getQueryURI(query), QueryResponse.class);
+        ResponseEntity<QueryResponse> response = requestProxy.getQueryWithoutSession(getQueryURI(query), QueryResponse.class);
         List<Map<String, Object>> results = new ArrayList<>();
         if (response.getStatusCode() == HttpStatus.OK) {
             results = response.getBody().getResultSet();
@@ -69,7 +69,7 @@ public class OpenEHRDischargeDocumentSearch extends AbstractOpenEhrService imple
 
         // Query repeating patient identifier
         query = queryStrategy.getIdentifierQuery(openEhrSubjectNamespace, queryStrategy.getPatientId());
-        response = requestProxy.getWithoutSession(getQueryURI(query), QueryResponse.class);
+        response = requestProxy.getQueryWithoutSession(getQueryURI(query), QueryResponse.class);
         results = new ArrayList<>();
         if (response.getStatusCode() == HttpStatus.OK) {
             results = response.getBody().getResultSet();
@@ -78,7 +78,7 @@ public class OpenEHRDischargeDocumentSearch extends AbstractOpenEhrService imple
 
         // Query repeating diagnosis
         query = queryStrategy.getDiagnosisQuery(openEhrSubjectNamespace, queryStrategy.getPatientId());
-        response = requestProxy.getWithoutSession(getQueryURI(query), QueryResponse.class);
+        response = requestProxy.getQueryWithoutSession(getQueryURI(query), QueryResponse.class);
         results = new ArrayList<>();
         if (response.getStatusCode() == HttpStatus.OK) {
             results = response.getBody().getResultSet();

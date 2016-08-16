@@ -15,13 +15,17 @@
  */
 package org.rippleosi.common.service.proxies;
 
+import java.util.Map;
+
 import org.springframework.http.ResponseEntity;
 
 /**
  */
 public interface RequestProxy {
 
-    <T> ResponseEntity<T> getWithoutSession(String uri, Class<T> cls);
+    <T> ResponseEntity<T> getQueryWithoutSession(String uri, Class<T> cls);
+
+    <T> ResponseEntity<T> postQueryWithoutSession(String uri, Class<T> cls, String query, Map queryParams);
 
     <T> ResponseEntity<T> postWithoutSession(String uri, Class<T> cls, Object body);
 

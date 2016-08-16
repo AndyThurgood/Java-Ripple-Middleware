@@ -19,12 +19,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.rippleosi.common.exception.DataNotFoundException;
-import org.rippleosi.common.service.strategies.query.details.AbstractDetailsGetQueryStrategy;
+import org.rippleosi.common.service.strategies.query.details.AbstractDetailsPostQueryStrategy;
 import org.rippleosi.patient.documents.referral.model.ReferralDocumentDetails;
 
 /**
  */
-public class ReferralDocumentDetailsQueryStrategy extends AbstractDetailsGetQueryStrategy<ReferralDocumentDetails> {
+public class ReferralDocumentDetailsQueryStrategy extends AbstractDetailsPostQueryStrategy<ReferralDocumentDetails> {
 
     private final String documentId;
 
@@ -98,5 +98,10 @@ public class ReferralDocumentDetailsQueryStrategy extends AbstractDetailsGetQuer
         }
 
         return new ReferralDocumentDetailsTransformer().transformWithRepeatingGroups(resultSet);
+    }
+
+    @Override
+    public Map<String, Object> getQueryVariables() {
+        return null;
     }
 }

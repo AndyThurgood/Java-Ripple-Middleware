@@ -29,6 +29,4 @@ public abstract class AbstractGetQueryStrategy<T> implements QueryStrategy<T> {
     public String getPatientId() {
         return patientId;
     }
-
-    public abstract String getQuery(String namespace, String patientId);
 }
