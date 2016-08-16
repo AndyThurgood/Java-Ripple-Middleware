@@ -33,20 +33,25 @@ public class DischargeDocumentDetailsTransformer implements Transformer<Map<Stri
     public DischargeDocumentDetails transform(Map<String, Object> input) {
 
         DischargeDocumentDetails dischargeDocument = new DischargeDocumentDetails();
+
         dischargeDocument.setSource("Marand");
-        dischargeDocument.setDateTimeOfDischarge(MapUtils.getString(input, "dischargeDate"));
         dischargeDocument.setSourceId(MapUtils.getString(input, "uid"));
+
         dischargeDocument.setDocumentType("Healthlink " + MapUtils.getString(input, "documentType"));
         dischargeDocument.setDocumentDate(MapUtils.getString(input, "dischargeDate"));
+
         dischargeDocument.setAuthor_name(MapUtils.getString(input, "authorName"));
         dischargeDocument.setAuthor_id(MapUtils.getString(input, "authorId"));
         dischargeDocument.setAuthor_idScheme(MapUtils.getString(input, "authorIdScheme"));
+
         dischargeDocument.setFacility(MapUtils.getString(input, "facility"));
         dischargeDocument.setDateOfAdmission(MapUtils.getString(input, "dateOfAdmission"));
+
         dischargeDocument.setResponsibleProfessional_name(MapUtils.getString(input, "professionalName"));
         dischargeDocument.setResponsibleProfessional_id(MapUtils.getString(input, "professionalId"));
         dischargeDocument.setResponsibleProfessional_id(MapUtils.getString(input, "professionalId"));
         dischargeDocument.setResponsibleProfessional_idType(MapUtils.getString(input, "professionalType"));
+
         dischargeDocument.setDischargingOrganisation(MapUtils.getString(input, "dischargeOrganisation"));
         dischargeDocument.setDateTimeOfDischarge(MapUtils.getString(input, "dischargeDateTime"));
         dischargeDocument.setClinicalSynopsis(MapUtils.getString(input, "synopsis"));
@@ -65,18 +70,20 @@ public class DischargeDocumentDetailsTransformer implements Transformer<Map<Stri
             String id = MapUtils.getString(result, "patientIdMrn");
             String type = MapUtils.getString(result, "patientIdMrnType");
 
-            if(mrnSet == false && "MRN".equalsIgnoreCase(type)){
+            if(!mrnSet && type.equalsIgnoreCase("MRN")){
                 currentDocumentDetails.setPatientIdentifier_mrn(id);
                 currentDocumentDetails.setPatientIdentifier_mrnType(type);
-                mrnSet=true;
-            } else if(othSet == false && "OTH".equalsIgnoreCase(type)){
+                mrnSet = true;
+            }
+            else if(!othSet && type.equalsIgnoreCase("OTH")){
                 currentDocumentDetails.setPatientIdentifier_oth(id);
                 currentDocumentDetails.setPatientIdentifier_othType(type);
-                othSet=true;
-            } else if(gmsSet == false && "GMS".equalsIgnoreCase(type)){
+                othSet = true;
+            }
+            else if(!gmsSet && type.equalsIgnoreCase("GMS")){
                 currentDocumentDetails.setPatientIdentifier_gms(id);
                 currentDocumentDetails.setPatientIdentifier_gmsType(type);
-                gmsSet=true;
+                gmsSet = true;
             }
         }
         
@@ -91,11 +98,12 @@ public class DischargeDocumentDetailsTransformer implements Transformer<Map<Stri
             
             String name = MapUtils.getString(result, "diagnosisName");
             String time = MapUtils.getString(result, "diagnosisTime");
+
             ProblemDetails problemDetails = new ProblemDetails();
             problemDetails.setProblem(name);
             problemDetails.setDateOfOnset(DateFormatter.toDate(time));
+
             diagnosisList.add(problemDetails);
-            
         }
         
         currentDocumentDetails.setDiagnosisList(diagnosisList);

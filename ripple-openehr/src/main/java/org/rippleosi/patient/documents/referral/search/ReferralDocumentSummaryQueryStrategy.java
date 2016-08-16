@@ -33,14 +33,14 @@ public class ReferralDocumentSummaryQueryStrategy extends AbstractListGetQuerySt
 
     @Override
     public String getQuery(String namespace, String patientId) {
-        return  "select a/uid/value as uid, " +
-                "a/name/value as documentType, " +
-                "a/context/start_time/value as referralDate " +
-                "from EHR e " +
-                "contains COMPOSITION a[openEHR-EHR-COMPOSITION.request.v1] " +
-                "where a/name/value='Referral' " +
-                "and e/ehr_status/subject/external_ref/namespace = '" + namespace + "' " +
-                "and e/ehr_status/subject/external_ref/id/value = '" + patientId + "'";
+        return "select a/uid/value as uid, " +
+            "a/name/value as documentType, " +
+            "a/context/start_time/value as referralDate " +
+            "from EHR e " +
+            "contains COMPOSITION a[openEHR-EHR-COMPOSITION.request.v1] " +
+            "where a/name/value='Referral' " +
+            "and e/ehr_status/subject/external_ref/namespace = '" + namespace + "' " +
+            "and e/ehr_status/subject/external_ref/id/value = '" + patientId + "'";
     }
 
     @Override

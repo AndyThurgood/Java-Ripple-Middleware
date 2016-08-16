@@ -33,7 +33,7 @@ public class ReferralDocumentSummaryTransformer implements Transformer<Map<Strin
         referralDocument.setSourceId(MapUtils.getString(input, "uid"));
         referralDocument.setDocumentType("Healthlink " + MapUtils.getString(input, "documentType"));
         referralDocument.setDocumentDate(MapUtils.getString(input, "referralDate"));
-        
+
         return referralDocument;
     }
 }

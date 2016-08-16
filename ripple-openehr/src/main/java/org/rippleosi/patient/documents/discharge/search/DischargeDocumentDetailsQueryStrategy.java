@@ -35,8 +35,13 @@ public class DischargeDocumentDetailsQueryStrategy extends AbstractDetailsGetQue
 
     @Override
     public String getQuery(String namespace, String patientId) {
-        return "select a/uid/value as uid, a/name/value as documentType, a/context/start_time/value as dischargeDate, a/composer/name as authorName, " +
-            "a/composer/external_ref/id/value as authorId, a/composer/external_ref/id/scheme as authorIdScheme, a/context/health_care_facility/name as facility, " +
+        return "select a/uid/value as uid, " +
+            "a/name/value as documentType, " +
+            "a/context/start_time/value as dischargeDate, " +
+            "a/composer/name as authorName, " +
+            "a/composer/external_ref/id/value as authorId, " +
+            "a/composer/external_ref/id/scheme as authorIdScheme, " +
+            "a/context/health_care_facility/name as facility, " +
             "a/content[openEHR-EHR-SECTION.admission_details_rcp.v1|Admission details|]/items[openEHR-EHR-ADMIN_ENTRY.inpatient_admission_uk.v1|Inpatient admission|]/data[at0001]/items[at0002|Date of admission|]/value/value as dateOfAdmission, " +
             "a/content[openEHR-EHR-SECTION.adhoc.v1, 'Discharge details']/items[openEHR-EHR-ADMIN_ENTRY.discharge_details_uk_v1.v1]/data[at0001]/items[openEHR-EHR-CLUSTER.individual_professional.v1, 'Responsible professional']/items[openEHR-EHR-CLUSTER.person_name.v1, 'Professional name']/items[at0001, 'Name']/value/value as professionalName, " +
             "a/content[openEHR-EHR-SECTION.adhoc.v1, 'Discharge details']/items[openEHR-EHR-ADMIN_ENTRY.discharge_details_uk_v1.v1]/data[at0001]/items[openEHR-EHR-CLUSTER.individual_professional.v1, 'Responsible professional']/items[at0011]/value/id as professionalId, " +
@@ -45,19 +50,13 @@ public class DischargeDocumentDetailsQueryStrategy extends AbstractDetailsGetQue
             "a/content[openEHR-EHR-SECTION.adhoc.v1, 'Discharge details']/items[openEHR-EHR-ADMIN_ENTRY.discharge_details_uk_v1.v1]/data[at0001]/items[at0006]/value/value as dischargeDateTime, " +
             "a/content[openEHR-EHR-SECTION.clinical_summary_rcp.v1]/items[openEHR-EHR-EVALUATION.clinical_synopsis.v1]/data[at0001]/items[at0002]/value/value as synopsis " +
             "from EHR e contains COMPOSITION a[openEHR-EHR-COMPOSITION.transfer_summary.v1] " +
-            "where a/name/value='Discharge summary' " +
-            "and a/uid/value='" + documentId + "' " +
-            "and e/ehr_status/subject/external_ref/namespace='" + namespace + "' " +
-            "and e/ehr_status/subject/external_ref/id/value='" + patientId + "'";
+            whereClause(namespace, patientId);
     }
 
     public String getIdentifierQuery(String namespace, String patientId) {
         return "select a/uid/value as uid, b_a/items[at0016|MRN|]/value/id as patientIdMrn, b_a/items[at0016|MRN|]/value/type as patientIdMrnType " +
             "from EHR e contains COMPOSITION a[openEHR-EHR-COMPOSITION.transfer_summary.v1] contains CLUSTER b_a[openEHR-EHR-CLUSTER.individual_personal_uk.v1] " +
-            "where a/name/value='Discharge summary'" +
-            "and a/uid/value='" + documentId + "' " +
-            "and e/ehr_status/subject/external_ref/namespace='" + namespace + "' " +
-            "and e/ehr_status/subject/external_ref/id/value='" + patientId + "'";
+            whereClause(namespace, patientId);
     }
 
     public String getDiagnosisQuery(String namespace, String patientId) {
@@ -66,7 +65,11 @@ public class DischargeDocumentDetailsQueryStrategy extends AbstractDetailsGetQue
             "a/content[openEHR-EHR-SECTION.diagnoses_rcp.v1]/items[openEHR-EHR-EVALUATION.problem_diagnosis.v1]/data[at0001]/items[at0003, 'Diagnosis Date/time']/value/value as diagnosisTime " +
             "from EHR e " +
             "contains COMPOSITION a[openEHR-EHR-COMPOSITION.transfer_summary.v1] " +
-            "where a/name/value='Discharge summary' " +
+            whereClause(namespace, patientId);
+    }
+
+    private String whereClause(String namespace, String patientId) {
+        return "where a/name/value='Discharge summary' " +
             "and a/uid/value='" + documentId + "' " +
             "and e/ehr_status/subject/external_ref/namespace='" + namespace + "' " +
             "and e/ehr_status/subject/external_ref/id/value='" + patientId + "'";
@@ -74,28 +77,28 @@ public class DischargeDocumentDetailsQueryStrategy extends AbstractDetailsGetQue
 
     @Override
     public DischargeDocumentDetails transform(List<Map<String, Object>> resultSet) {
-
         if (resultSet.isEmpty()) {
             throw new DataNotFoundException("No results found");
         }
 
         Map<String, Object> data = resultSet.get(0);
+
         return new DischargeDocumentDetailsTransformer().transform(data);
     }
 
     public DischargeDocumentDetails transformPatientIdentifiers(List<Map<String, Object>> resultSet, DischargeDocumentDetails currentDocumentDetails) {
-
         if (!resultSet.isEmpty()) {
             currentDocumentDetails = new DischargeDocumentDetailsTransformer().transformIdentifiers(resultSet, currentDocumentDetails);
         }
+
         return currentDocumentDetails;
     }
 
     public DischargeDocumentDetails transformDiagnosis(List<Map<String, Object>> resultSet, DischargeDocumentDetails currentDocumentDetails) {
-
         if (!resultSet.isEmpty()) {
             currentDocumentDetails = new DischargeDocumentDetailsTransformer().transformDiagnosis(resultSet, currentDocumentDetails);
         }
+
         return currentDocumentDetails;
     }
 }

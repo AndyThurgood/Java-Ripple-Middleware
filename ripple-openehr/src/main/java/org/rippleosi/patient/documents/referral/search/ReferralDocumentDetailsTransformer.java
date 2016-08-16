@@ -20,6 +20,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.collections4.Transformer;
 import org.rippleosi.common.util.DateFormatter;
@@ -46,9 +47,10 @@ public class ReferralDocumentDetailsTransformer implements Transformer<Map<Strin
 
         referralDocument.setSource("Marand");
         referralDocument.setSourceId(MapUtils.getString(input, "uid"));
-        referralDocument.setDocumentType("Healthlink " + MapUtils.getString(input, "documentType"));
 
+        referralDocument.setDocumentType("Healthlink " + MapUtils.getString(input, "documentType"));
         referralDocument.setDocumentDate(MapUtils.getString(input, "referralDateTime"));
+
         referralDocument.setReferralDateTime(DateFormatter.toDate(MapUtils.getString(input, "referralDateTime")));
         referralDocument.setComposerName(MapUtils.getString(input, "authorName"));
         referralDocument.setFacility(MapUtils.getString(input, "facility"));
@@ -67,11 +69,19 @@ public class ReferralDocumentDetailsTransformer implements Transformer<Map<Strin
 
         referralDocument.setReferralStatus_code(MapUtils.getString(input, "referralStatusCode"));
         referralDocument.setReferralStatus_value(MapUtils.getString(input, "referralStatusValue"));
-        switch(MapUtils.getString(input, "referralStatusCode")){
-            case "526": referralDocument.setReferralStatus_mapped("Pending"); break;
-            case "529": referralDocument.setReferralStatus_mapped("Accepted"); break;
-            case "528": referralDocument.setReferralStatus_mapped("Rejected"); break;
-            case "531": referralDocument.setReferralStatus_mapped("Expired"); break;
+        switch (MapUtils.getString(input, "referralStatusCode")) {
+            case "526":
+                referralDocument.setReferralStatus_mapped("Pending");
+                break;
+            case "529":
+                referralDocument.setReferralStatus_mapped("Accepted");
+                break;
+            case "528":
+                referralDocument.setReferralStatus_mapped("Rejected");
+                break;
+            case "531":
+                referralDocument.setReferralStatus_mapped("Expired");
+                break;
         }
 
         referralDocument.setClinicalNarrative(MapUtils.getString(input, "clinicalNarrative"));
@@ -102,7 +112,7 @@ public class ReferralDocumentDetailsTransformer implements Transformer<Map<Strin
         HashSet medications = new HashSet();
         HashSet allergies = new HashSet();
 
-        for(Map<String, Object> row : resultSet){
+        for (Map<String, Object> row : resultSet) {
 
             referralReasons.add(MapUtils.getString(input, "reasonForReferral"));
 

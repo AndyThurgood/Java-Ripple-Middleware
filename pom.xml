@@ -15,7 +15,8 @@
 ~      limitations under the License.
 ~
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -74,6 +75,7 @@
         <swagger.version>2.2.2</swagger.version>
         <tomcat.version>8.0.26</tomcat.version>
         <xbean.spring.version>3.18</xbean.spring.version>
+        <xml.apis.version>1.4.01</xml.apis.version>
 
         <clean.plugin.version>3.0.0</clean.plugin.version>
         <compiler.plugin.version>3.5.1</compiler.plugin.version>
@@ -408,7 +410,7 @@
                 <artifactId>pac4j-openid</artifactId>
                 <version>${pac4j.version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
@@ -528,11 +530,17 @@
                 <artifactId>spring-security-web</artifactId>
                 <version>${spring.security.version}</version>
             </dependency>
-            
+
             <dependency>
                 <groupId>org.pac4j</groupId>
                 <artifactId>spring-webmvc-pac4j</artifactId>
                 <version>${spring-webmvc-pac4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>xml-apis</groupId>
+                <artifactId>xml-apis</artifactId>
+                <version>${xml.apis.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
