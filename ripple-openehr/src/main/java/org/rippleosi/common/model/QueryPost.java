@@ -4,22 +4,22 @@ import java.util.Map;
 
 public class QueryPost {
 
-    private String query;
-    private Map queryParams;
+    private String aql;
+    private Map aqlParameters;
 
-    public String getQuery() {
-        return query;
+    public String getAql() {
+        return aql;
     }
 
-    public void setQuery(String query) {
-        this.query = query;
+    public void setAql(String aql) {
+        this.aql = aql;
     }
 
-    public Map getQueryParams() {
-        return queryParams;
+    public Map getAqlParameters() {
+        return aqlParameters;
     }
 
-    public void setQueryParams(Map queryParams) {
-        this.queryParams = queryParams;
+    public void setAqlParameters(Map aqlParameters) {
+        this.aqlParameters = aqlParameters;
     }
 }

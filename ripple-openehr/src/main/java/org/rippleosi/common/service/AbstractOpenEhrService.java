@@ -27,6 +27,7 @@ import org.rippleosi.common.exception.DataNotFoundException;
 import org.rippleosi.common.exception.UpdateFailedException;
 import org.rippleosi.common.model.ActionRestResponse;
 import org.rippleosi.common.model.EhrResponse;
+import org.rippleosi.common.model.QueryPost;
 import org.rippleosi.common.model.QueryResponse;
 import org.rippleosi.common.repo.Repository;
 import org.rippleosi.common.service.proxies.RequestProxy;
@@ -77,7 +78,7 @@ public abstract class AbstractOpenEhrService implements Repository {
         ResponseEntity<QueryResponse> response;
 
         if (queryStrategy instanceof AbstractGetQueryStrategy) {
-            response = queryByHttpGet(queryStrategy);
+            response = queryByHttpGet((AbstractGetQueryStrategy) queryStrategy);
         }
         else if (queryStrategy instanceof AbstractPostQueryStrategy) {
             response = queryByHttpPost((AbstractPostQueryStrategy) queryStrategy);
@@ -95,7 +96,7 @@ public abstract class AbstractOpenEhrService implements Repository {
         return queryStrategy.transform(results);
     }
 
-    private ResponseEntity<QueryResponse> queryByHttpGet(QueryStrategy queryStrategy) {
+    private ResponseEntity<QueryResponse> queryByHttpGet(AbstractGetQueryStrategy queryStrategy) {
 
         String query = queryStrategy.getQuery(openEhrSubjectNamespace, queryStrategy.getPatientId());
 
@@ -106,9 +107,13 @@ public abstract class AbstractOpenEhrService implements Repository {
 
         String query = queryStrategy.getQuery(openEhrSubjectNamespace, queryStrategy.getPatientId());
 
-        Map queryParams = queryStrategy.getQueryVariables();
+        Map queryParams = queryStrategy.getQueryParameters(openEhrSubjectNamespace, queryStrategy.getPatientId());
 
-        return requestProxy.postQueryWithoutSession(getQueryByPostUri(), QueryResponse.class, query, queryParams);
+        QueryPost queryPost = new QueryPost();
+        queryPost.setAql(query);
+        queryPost.setAqlParameters(queryParams);
+
+        return requestProxy.postQueryWithoutSession(getQueryByPostUri(), QueryResponse.class, queryPost);
     }
 
     protected void createData(CreateStrategy createStrategy) {

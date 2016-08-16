@@ -59,13 +59,9 @@ public class DefaultRequestProxy implements RequestProxy {
     }
 
     @Override
-    public <T> ResponseEntity<T> postQueryWithoutSession(String uri, Class<T> cls, String query, Map queryParams) {
+    public <T> ResponseEntity<T> postQueryWithoutSession(String uri, Class<T> cls, QueryPost body) {
 
-        QueryPost queryPost = new QueryPost();
-        queryPost.setQuery(query);
-        queryPost.setQueryParams(queryParams);
-
-        String json = convertObjectToJson(queryPost);
+        String json = convertObjectToJson(body);
 
         HttpEntity<String> request = buildRequestWithoutSession(json);
 
