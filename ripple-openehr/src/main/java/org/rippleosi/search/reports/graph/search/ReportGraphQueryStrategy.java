@@ -17,7 +17,7 @@
 package org.rippleosi.search.reports.graph.search;
 
 import org.apache.commons.lang3.StringUtils;
-import org.rippleosi.common.service.C4HUriQueryStrategy;
+import org.rippleosi.common.service.strategies.query.C4HUriQueryStrategy;
 import org.rippleosi.search.reports.graph.model.ReportGraphQuery;
 import org.rippleosi.search.reports.graph.model.ReportGraphResults;
 import org.springframework.beans.factory.annotation.Value;

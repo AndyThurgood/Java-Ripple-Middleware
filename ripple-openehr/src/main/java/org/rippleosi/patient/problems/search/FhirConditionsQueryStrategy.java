@@ -21,11 +21,9 @@ import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.hl7.fhir.instance.model.Condition;
-import org.rippleosi.common.service.AbstractListQueryStrategy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.rippleosi.common.service.strategies.query.list.AbstractListGetQueryStrategy;
 
-public class FhirConditionsQueryStrategy extends AbstractListQueryStrategy<Condition> {
+public class FhirConditionsQueryStrategy extends AbstractListGetQueryStrategy<Condition> {
 
     private final String ehrId;
     private final String openEhrAddress;

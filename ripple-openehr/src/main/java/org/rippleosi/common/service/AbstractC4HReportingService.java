@@ -20,6 +20,9 @@ import java.util.Map;
 import org.rippleosi.common.exception.DataNotFoundException;
 import org.rippleosi.common.model.QueryResponse;
 import org.rippleosi.common.repo.Repository;
+import org.rippleosi.common.service.proxies.C4HReportingRequestProxy;
+import org.rippleosi.common.service.strategies.query.AbstractGetQueryStrategy;
+import org.rippleosi.common.service.strategies.query.C4HUriQueryStrategy;
 import org.rippleosi.common.types.RepoSourceType;
 import org.rippleosi.common.types.RepoSourceTypes;
 import org.rippleosi.search.common.model.OpenEHRDatesAndCountsResponse;
@@ -86,7 +89,7 @@ public abstract class AbstractC4HReportingService implements Repository {
         return queryStrategy.transform((I) response.getBody());
     }
 
-    protected <T> T findTableData(QueryStrategy<T> queryStrategy, Map<String, String> uriVars) {
+    protected <T> T findTableData(AbstractGetQueryStrategy<T> queryStrategy, Map<String, String> uriVars) {
 
         String query = queryStrategy.getQuery(externalNamespace, queryStrategy.getPatientId());
 

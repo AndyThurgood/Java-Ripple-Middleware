@@ -1,21 +1,19 @@
 /*
- *   Copyright 2015 Ripple OSI
+ * Copyright 2015 Ripple OSI
  *
- *      Licensed under the Apache License, Version 2.0 (the "License");
- *      you may not use this file except in compliance with the License.
- *      You may obtain a copy of the License at
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
  *
- *          http://www.apache.org/licenses/LICENSE-2.0
+ *        http://www.apache.org/licenses/LICENSE-2.0
  *
- *      Unless required by applicable law or agreed to in writing, software
- *      distributed under the License is distributed on an "AS IS" BASIS,
- *      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *      See the License for the specific language governing permissions and
- *      limitations under the License.
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
  */
-package org.rippleosi.common.service;
-
-import java.util.Map;
+package org.rippleosi.common.service.proxies;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,9 +32,11 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+/**
+ */
 @Service
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class C4HReportingRequestProxy {
+public class DefaultRequestProxy implements RequestProxy {
 
     @Value("${c4hOpenEHR.address}")
     private String openEhrAddress;
@@ -47,27 +47,36 @@ public class C4HReportingRequestProxy {
     @Value("${c4hOpenEHR.password}")
     private String openEhrPassword;
 
-    public <T> ResponseEntity<T> getWithoutSession(String uri, Class<T> cls, Map<String, String> uriVars) {
-        HttpEntity request = buildRequest(null);
+    @Override
+    public <T> ResponseEntity<T> getWithoutSession(String uri, Class<T> cls) {
 
-        return restTemplate().exchange(uri, HttpMethod.GET, request, cls, uriVars);
-    }
-
-     public <T> ResponseEntity<T> getWithoutSession(String uri, Class<T> cls, Object rawBody) {
-        String jsonBody = convertToJson(rawBody);
-        HttpEntity request = buildRequest(jsonBody);
+        HttpEntity<String> request = buildRequestWithoutSession(null);
 
         return restTemplate().exchange(uri, HttpMethod.GET, request, cls);
     }
 
-    public <T> ResponseEntity<T> postWithoutSession(String uri, Class<T> cls, Object rawBody) {
-        String jsonBody = convertToJson(rawBody);
-        HttpEntity request = buildRequest(jsonBody);
+    @Override
+    public <T> ResponseEntity<T> postWithoutSession(String uri, Class<T> cls, Object body) {
+
+        String json = convertToJson(body);
+
+        HttpEntity<String> request = buildRequestWithoutSession(json);
 
         return restTemplate().exchange(uri, HttpMethod.POST, request, cls);
     }
 
-    private HttpEntity<String> buildRequest(String body) {
+    @Override
+    public <T> ResponseEntity<T> putWithoutSession(String uri, Class<T> cls, Object body) {
+
+        String json = convertToJson(body);
+
+        HttpEntity<String> request = buildRequestWithoutSession(json);
+
+        return restTemplate().exchange(uri, HttpMethod.PUT, request, cls);
+    }
+
+    private HttpEntity<String> buildRequestWithoutSession(String body) {
+
         String credentials = openEhrUsername + ":" + openEhrPassword;
         byte[] base64 = Base64.encodeBase64(credentials.getBytes());
         String encoded = new String(base64);
@@ -80,17 +89,16 @@ public class C4HReportingRequestProxy {
         return new HttpEntity<>(body, headers);
     }
 
+    private RestTemplate restTemplate() {
+        return new RestTemplate(new SimpleClientHttpRequestFactory());
+    }
+
     private String convertToJson(Object body) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             return objectMapper.writeValueAsString(body);
-        }
-        catch (JsonProcessingException ex) {
+        } catch (JsonProcessingException ex) {
             throw new InvalidDataException(ex.getMessage(), ex);
         }
-    }
-
-    private RestTemplate restTemplate() {
-        return new RestTemplate(new SimpleClientHttpRequestFactory());
     }
 }

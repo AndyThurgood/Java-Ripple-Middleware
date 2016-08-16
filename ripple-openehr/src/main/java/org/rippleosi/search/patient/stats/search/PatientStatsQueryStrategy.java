@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.StringJoiner;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.rippleosi.common.service.C4HUriQueryStrategy;
+import org.rippleosi.common.service.strategies.query.C4HUriQueryStrategy;
 import org.rippleosi.patient.summary.model.PatientSummary;
 import org.rippleosi.search.common.model.OpenEHRDatesAndCountsResponse;
 import org.rippleosi.search.common.model.PageableTableQuery;

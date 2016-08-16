@@ -29,6 +29,12 @@ import org.rippleosi.common.model.ActionRestResponse;
 import org.rippleosi.common.model.EhrResponse;
 import org.rippleosi.common.model.QueryResponse;
 import org.rippleosi.common.repo.Repository;
+import org.rippleosi.common.service.proxies.RequestProxy;
+import org.rippleosi.common.service.strategies.query.AbstractGetQueryStrategy;
+import org.rippleosi.common.service.strategies.query.AbstractPostQueryStrategy;
+import org.rippleosi.common.service.strategies.query.QueryStrategy;
+import org.rippleosi.common.service.strategies.store.CreateStrategy;
+import org.rippleosi.common.service.strategies.store.UpdateStrategy;
 import org.rippleosi.common.types.RepoSourceType;
 import org.rippleosi.common.types.RepoSourceTypes;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,9 +74,17 @@ public abstract class AbstractOpenEhrService implements Repository {
 
     protected <T> T findData(QueryStrategy<T> queryStrategy) {
 
-        String query = queryStrategy.getQuery(openEhrSubjectNamespace, queryStrategy.getPatientId());
+        ResponseEntity<QueryResponse> response;
 
-        ResponseEntity<QueryResponse> response = requestProxy.getWithoutSession(getQueryURI(query), QueryResponse.class);
+        if (queryStrategy instanceof AbstractGetQueryStrategy) {
+            response = queryByHttpGet((AbstractGetQueryStrategy) queryStrategy);
+        }
+        else if (queryStrategy instanceof AbstractPostQueryStrategy) {
+            response = queryByHttpPost((AbstractPostQueryStrategy) queryStrategy);
+        }
+        else {
+            throw new DataNotFoundException("Could not query for data using " + queryStrategy.getClass());
+        }
 
         List<Map<String, Object>> results = new ArrayList<>();
 
@@ -81,6 +95,20 @@ public abstract class AbstractOpenEhrService implements Repository {
         return queryStrategy.transform(results);
     }
 
+    private ResponseEntity<QueryResponse> queryByHttpGet(AbstractGetQueryStrategy queryStrategy) {
+
+        String query = queryStrategy.getQuery(openEhrSubjectNamespace, queryStrategy.getPatientId());
+
+        return requestProxy.getWithoutSession(getQueryByGetUri(query), QueryResponse.class);
+    }
+
+    private ResponseEntity<QueryResponse> queryByHttpPost(AbstractPostQueryStrategy queryStrategy) {
+
+        Map query = queryStrategy.getQuery(openEhrSubjectNamespace, queryStrategy.getPatientId());
+
+        return requestProxy.postWithoutSession(getQueryByPostUri(), QueryResponse.class, query);
+    }
+
     protected void createData(CreateStrategy createStrategy) {
 
         String patientId = createStrategy.getPatientId();
@@ -88,7 +116,7 @@ public abstract class AbstractOpenEhrService implements Repository {
         String template = createStrategy.getTemplate();
         Map<String, Object> content = createStrategy.getContent();
 
-        String uri = getCreateURI(template, ehrId);
+        String uri = getCreateUri(template, ehrId);
 
         ResponseEntity<ActionRestResponse> response = requestProxy.postWithoutSession(uri, ActionRestResponse.class, content);
 
@@ -105,7 +133,7 @@ public abstract class AbstractOpenEhrService implements Repository {
         String template = updateStrategy.getTemplate();
         Map<String, Object> content = updateStrategy.getContent();
 
-        String uri = getUpdateURI(compositionId, template, ehrId);
+        String uri = getUpdateUri(compositionId, template, ehrId);
 
         ResponseEntity<ActionRestResponse> response = requestProxy.putWithoutSession(uri, ActionRestResponse.class, content);
 
@@ -118,15 +146,24 @@ public abstract class AbstractOpenEhrService implements Repository {
         return idCache.get(nhsNumber);
     }
 
-    private String getQueryURI(String query) {
+    private String getQueryByGetUri(String query) {
         UriComponents components = UriComponentsBuilder
                 .fromHttpUrl(openEhrAddress + "/query")
                 .queryParam("aql", query)
                 .build();
+
         return components.toUriString();
     }
 
-    private String getCreateURI(String template, String ehrId) {
+    private String getQueryByPostUri() {
+        UriComponents components = UriComponentsBuilder
+                .fromHttpUrl(openEhrAddress + "/query")
+                .build();
+
+        return components.toUriString();
+    }
+
+    private String getCreateUri(String template, String ehrId) {
         UriComponents components = UriComponentsBuilder
                 .fromHttpUrl(openEhrAddress + "/composition")
                 .queryParam("templateId", template)
@@ -137,7 +174,7 @@ public abstract class AbstractOpenEhrService implements Repository {
         return components.toUriString();
     }
 
-    private String getUpdateURI(String compositionId, String template, String ehrId) {
+    private String getUpdateUri(String compositionId, String template, String ehrId) {
         UriComponents components = UriComponentsBuilder
                 .fromHttpUrl(openEhrAddress + "/composition/" + compositionId)
                 .queryParam("templateId", template)
@@ -166,6 +203,7 @@ public abstract class AbstractOpenEhrService implements Repository {
                     .queryParam("subjectId", nhsNumber)
                     .queryParam("subjectNamespace", openEhrSubjectNamespace)
                     .build();
+
             return components.toUriString();
         }
     }

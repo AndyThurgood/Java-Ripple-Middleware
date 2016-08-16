@@ -13,11 +13,17 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.rippleosi.common.service;
+package org.rippleosi.common.service.proxies;
+
+import org.springframework.http.ResponseEntity;
 
 /**
  */
-public interface UpdateStrategy extends CreateStrategy {
+public interface RequestProxy {
 
-    String getCompositionId();
+    <T> ResponseEntity<T> getWithoutSession(String uri, Class<T> cls);
+
+    <T> ResponseEntity<T> postWithoutSession(String uri, Class<T> cls, Object body);
+
+    <T> ResponseEntity<T> putWithoutSession(String uri, Class<T> cls, Object body);
 }

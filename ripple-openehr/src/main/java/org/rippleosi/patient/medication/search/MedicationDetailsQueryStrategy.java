@@ -19,12 +19,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.rippleosi.common.exception.DataNotFoundException;
-import org.rippleosi.common.service.AbstractQueryStrategy;
+import org.rippleosi.common.service.strategies.query.details.AbstractDetailsGetQueryStrategy;
 import org.rippleosi.patient.medication.model.MedicationDetails;
 
 /**
  */
-public class MedicationDetailsQueryStrategy extends AbstractQueryStrategy<MedicationDetails> {
+public class MedicationDetailsQueryStrategy extends AbstractDetailsGetQueryStrategy<MedicationDetails> {
 
     private final String medicationId;
 
