@@ -161,7 +161,7 @@ public class OpenEHRDocumentStore extends AbstractOpenEhrService implements Docu
                     content.put(REFERRAL_REQUEST_PREFIX + "request:0/priority|code", "at0138");
                 }
 
-                content.put(REFERRAL_REQUEST_PREFIX + "request:0/comments", evaluateXPath(xPath, "//*:RF1.3/*:CE.2", hl7Document));
+                content.put(REFERRAL_REQUEST_PREFIX + "request:0/comments", priority);
             }
 
             content.put(REFERRAL_REQUEST_PREFIX + "referring_provider/identifier", evaluateXPath(xPath, "//*:RF1.6/*:EI.1", hl7Document));
@@ -199,14 +199,14 @@ public class OpenEHRDocumentStore extends AbstractOpenEhrService implements Docu
                 }
             }
 
-            String referringProviderId = "//*:REF_I12.PROVIDER_CONTACT[1]/*:PRD/*:PRD.7/*:PI.1";
-            if (!(evaluateXPath(xPath, referringProviderId, hl7Document).isEmpty())) {
-                content.put(REFERRAL_REQUEST_PREFIX + "referring_provider/identifier", evaluateXPath(xPath, referringProviderId, hl7Document));
+            String referringProviderId = evaluateXPath(xPath, "//*:REF_I12.PROVIDER_CONTACT[1]/*:PRD/*:PRD.7/*:PI.1", hl7Document);
+            if (!(referringProviderId.isEmpty())) {
+                content.put(REFERRAL_REQUEST_PREFIX + "referring_provider/identifier", referringProviderId);
             }
 
-            String referringProviderName = "//*:REF_I12.PROVIDER_CONTACT[2]/*:PRD/*:PRD.3/*:XAD.2";
-            if (!(evaluateXPath(xPath, referringProviderName, hl7Document)).isEmpty()) {
-                content.put(REFERRAL_REQUEST_PREFIX + "referred_to_provider/name_of_organisation", evaluateXPath(xPath, referringProviderName, hl7Document));
+            String referringProviderName = evaluateXPath(xPath, "//*:REF_I12.PROVIDER_CONTACT[2]/*:PRD/*:PRD.3/*:XAD.2", hl7Document);
+            if (!referringProviderName.isEmpty()) {
+                content.put(REFERRAL_REQUEST_PREFIX + "referred_to_provider/name_of_organisation", referringProviderName);
             }
 
             String observationsXPath = "//*:REF_I12.OBSERVATION";
