@@ -21,4 +21,5 @@ import org.rippleosi.common.repo.RepositoryFactory;
  */
 @FunctionalInterface
 public interface ReferralDocumentSearchFactory extends RepositoryFactory<ReferralDocumentSearch> {
+
 }

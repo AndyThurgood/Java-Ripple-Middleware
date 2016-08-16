@@ -18,9 +18,10 @@ package org.rippleosi.patient.documents.discharge.search;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 import org.rippleosi.common.model.QueryResponse;
 import org.rippleosi.common.service.AbstractOpenEhrService;
-import org.rippleosi.common.service.RequestProxy;
+import org.rippleosi.common.service.proxies.RequestProxy;
 import org.rippleosi.patient.documents.common.model.AbstractDocumentSummary;
 import org.rippleosi.patient.documents.discharge.model.DischargeDocumentDetails;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,6 +93,7 @@ public class OpenEHRDischargeDocumentSearch extends AbstractOpenEhrService imple
             .fromHttpUrl(openEhrAddress + "/query")
             .queryParam("aql", query)
             .build();
+
         return components.toUriString();
     }
 }

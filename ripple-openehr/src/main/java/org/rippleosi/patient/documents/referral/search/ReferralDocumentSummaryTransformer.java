@@ -16,6 +16,7 @@
 package org.rippleosi.patient.documents.referral.search;
 
 import java.util.Map;
+
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.collections4.Transformer;
 import org.rippleosi.patient.documents.referral.model.ReferralDocumentSummary;
@@ -28,7 +29,7 @@ public class ReferralDocumentSummaryTransformer implements Transformer<Map<Strin
     public ReferralDocumentSummary transform(Map<String, Object> input) {
 
         ReferralDocumentSummary referralDocument = new ReferralDocumentSummary();
-        referralDocument.setSource("openehr");
+        referralDocument.setSource("Marand");
         referralDocument.setSourceId(MapUtils.getString(input, "uid"));
         referralDocument.setDocumentType("Healthlink " + MapUtils.getString(input, "documentType"));
         referralDocument.setDocumentDate(MapUtils.getString(input, "referralDate"));

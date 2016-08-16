@@ -46,5 +46,4 @@ public class NotConfiguredReferralDocumentSearch implements ReferralDocumentSear
     public ReferralDocumentDetails findReferralDocument(String patientId, String documentId) {
         throw ConfigurationException.unimplementedTransaction(ReferralDocumentSearch.class);
     }
-
 }

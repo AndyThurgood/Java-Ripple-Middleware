@@ -19,12 +19,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.rippleosi.common.exception.DataNotFoundException;
-import org.rippleosi.common.service.AbstractQueryStrategy;
+import org.rippleosi.common.service.strategies.query.details.AbstractDetailsGetQueryStrategy;
 import org.rippleosi.patient.documents.referral.model.ReferralDocumentDetails;
 
 /**
  */
-public class ReferralDocumentDetailsQueryStrategy extends AbstractQueryStrategy<ReferralDocumentDetails> {
+public class ReferralDocumentDetailsQueryStrategy extends AbstractDetailsGetQueryStrategy<ReferralDocumentDetails> {
 
     private final String documentId;
 

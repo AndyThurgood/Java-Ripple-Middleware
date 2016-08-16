@@ -34,8 +34,7 @@ public class ReferralDocumentDetailsTransformer implements Transformer<Map<Strin
 
     @Override
     public ReferralDocumentDetails transform(Map<String, Object> input) {
-        ReferralDocumentDetails referralDocument = new ReferralDocumentDetails();
-        return referralDocument;
+        return new ReferralDocumentDetails();
     }
 
     public ReferralDocumentDetails transformWithRepeatingGroups(List<Map<String, Object>> resultSet) {
@@ -45,7 +44,7 @@ public class ReferralDocumentDetailsTransformer implements Transformer<Map<Strin
         // From first row/map set all the none repeating groups as they will be the same on all rows.
         Map<String, Object> input = resultSet.get(0);
 
-        referralDocument.setSource("openehr");
+        referralDocument.setSource("Marand");
         referralDocument.setSourceId(MapUtils.getString(input, "uid"));
         referralDocument.setDocumentType("Healthlink " + MapUtils.getString(input, "documentType"));
 

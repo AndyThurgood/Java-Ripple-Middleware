@@ -203,5 +203,4 @@ public class DischargeDocumentDetails extends AbstractDocumentSummary {
     public void setClinicalSynopsis(String clinicalSynopsis) {
         this.clinicalSynopsis = clinicalSynopsis;
     }
-
 }
