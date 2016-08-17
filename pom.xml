@@ -51,6 +51,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
+        <apache.httpclient.version>4.5.2</apache.httpclient.version>
         <activemq.version>5.12.2</activemq.version>
         <camel.version>2.15.3</camel.version>
         <commons.lang.version>3.3.2</commons.lang.version>
@@ -361,6 +362,12 @@
                 <groupId>org.apache.cxf</groupId>
                 <artifactId>cxf-rt-frontend-jaxrs</artifactId>
                 <version>${cxf.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.httpcomponents</groupId>
+                <artifactId>httpclient</artifactId>
+                <version>${apache.httpclient.version}</version>
             </dependency>
 
             <dependency>

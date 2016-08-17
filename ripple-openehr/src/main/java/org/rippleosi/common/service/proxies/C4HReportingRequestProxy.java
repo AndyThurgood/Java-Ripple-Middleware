@@ -30,9 +30,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 @Service
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE, proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -47,14 +45,33 @@ public class C4HReportingRequestProxy {
     @Value("${c4hOpenEHR.password}")
     private String openEhrPassword;
 
+    @Value("${network.proxy.enabled}")
+    private boolean proxyEnabled;
+
+    @Value("${network.proxy.scheme}")
+    private String proxyScheme;
+
+    @Value("${network.proxy.host}")
+    private String proxyHost;
+
+    @Value("${network.proxy.port}")
+    private Integer proxyPort;
+
+    @Value("${network.proxy.user}")
+    private String proxyUser;
+
+    @Value("${network.proxy.password}")
+    private String proxyPassword;
+
     public <T> ResponseEntity<T> getWithoutSession(String uri, Class<T> cls, Map<String, String> uriVars) {
         HttpEntity request = buildRequest(null);
 
         return restTemplate().exchange(uri, HttpMethod.GET, request, cls, uriVars);
     }
 
-     public <T> ResponseEntity<T> getWithoutSession(String uri, Class<T> cls, Object rawBody) {
+    public <T> ResponseEntity<T> getWithoutSession(String uri, Class<T> cls, Object rawBody) {
         String jsonBody = convertToJson(rawBody);
+
         HttpEntity request = buildRequest(jsonBody);
 
         return restTemplate().exchange(uri, HttpMethod.GET, request, cls);
@@ -62,6 +79,7 @@ public class C4HReportingRequestProxy {
 
     public <T> ResponseEntity<T> postWithoutSession(String uri, Class<T> cls, Object rawBody) {
         String jsonBody = convertToJson(rawBody);
+
         HttpEntity request = buildRequest(jsonBody);
 
         return restTemplate().exchange(uri, HttpMethod.POST, request, cls);
@@ -90,7 +108,12 @@ public class C4HReportingRequestProxy {
         }
     }
 
-    private RestTemplate restTemplate() {
-        return new RestTemplate(new SimpleClientHttpRequestFactory());
+    private RippleRestTemplate restTemplate() {
+        if (proxyEnabled) {
+            return new RippleRestTemplate(proxyScheme, proxyHost, proxyPort, proxyUser, proxyPassword);
+        }
+        else {
+            return new RippleRestTemplate();
+        }
     }
 }

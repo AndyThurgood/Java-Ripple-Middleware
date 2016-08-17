@@ -18,6 +18,7 @@ package org.rippleosi.common.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.rippleosi.common.exception.InvalidDataException;
+import org.rippleosi.common.service.proxies.RippleRestTemplate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
@@ -44,7 +45,23 @@ public class DefaultEtherCISRequestProxy implements EtherCISRequestProxy {
     @Value("${etherCIS.password}")
     private String etherCISPassword;
 
-    private RestTemplate restTemplate;
+    @Value("${network.proxy.enabled}")
+    private boolean proxyEnabled;
+
+    @Value("${network.proxy.scheme}")
+    private String proxyScheme;
+
+    @Value("${network.proxy.host}")
+    private String proxyHost;
+
+    @Value("${network.proxy.port}")
+    private Integer proxyPort;
+
+    @Value("${network.proxy.user}")
+    private String proxyUser;
+
+    @Value("${network.proxy.password}")
+    private String proxyPassword;
 
     @Override
     public <T> ResponseEntity<T> getWithSession(String uri, Class<T> cls, String ehrSessionId) {
@@ -112,13 +129,18 @@ public class DefaultEtherCISRequestProxy implements EtherCISRequestProxy {
         return headers;
     }
 
-    private RestTemplate restTemplate() {
-        if (restTemplate == null) {
-            restTemplate = new RestTemplate(new SimpleClientHttpRequestFactory());
-            restTemplate.setUriTemplateHandler(new DefaultEtherCISURITemplateHandler());
+    private RippleRestTemplate restTemplate() {
+        RippleRestTemplate template;
+
+        if (proxyEnabled) {
+            template = new RippleRestTemplate(proxyScheme, proxyHost, proxyPort, proxyUser, proxyPassword);
+        }
+        else {
+            template = new RippleRestTemplate();
         }
 
-        return restTemplate;
+        template.setUriTemplateHandler(new DefaultEtherCISURITemplateHandler());
+        return template;
     }
 
     private String convertToJson(Object body) {

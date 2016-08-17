@@ -15,8 +15,6 @@
  */
 package org.rippleosi.common.service.proxies;
 
-import java.util.Map;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.codec.binary.Base64;
@@ -31,9 +29,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
 /**
  */
@@ -49,6 +45,24 @@ public class DefaultRequestProxy implements RequestProxy {
 
     @Value("${c4hOpenEHR.password}")
     private String openEhrPassword;
+
+    @Value("${network.proxy.enabled}")
+    private boolean proxyEnabled;
+
+    @Value("${network.proxy.scheme}")
+    private String proxyScheme;
+
+    @Value("${network.proxy.host}")
+    private String proxyHost;
+
+    @Value("${network.proxy.port}")
+    private Integer proxyPort;
+
+    @Value("${network.proxy.user}")
+    private String proxyUser;
+
+    @Value("${network.proxy.password}")
+    private String proxyPassword;
 
     @Override
     public <T> ResponseEntity<T> getQueryWithoutSession(String uri, Class<T> cls) {
@@ -102,8 +116,13 @@ public class DefaultRequestProxy implements RequestProxy {
         return new HttpEntity<>(body, headers);
     }
 
-    private RestTemplate restTemplate() {
-        return new RestTemplate(new SimpleClientHttpRequestFactory());
+    private RippleRestTemplate restTemplate() {
+        if (proxyEnabled) {
+            return new RippleRestTemplate(proxyScheme, proxyHost, proxyPort, proxyUser, proxyPassword);
+        }
+        else {
+            return new RippleRestTemplate();
+        }
     }
 
     private String convertObjectToJson(Object body) {

@@ -4,6 +4,13 @@
     <Environment name="queue.broker.name"                   type="java.lang.String" override="false" value="embedded"/>
     <Environment name="queue.broker.directory"              type="java.lang.String" override="false" value="/opt/tomcat/ripple/activemq-data"/>
 
+    <Environment name="network.proxy.enabled"               type="java.lang.Boolean" override="false" value="false"/>
+    <Environment name="network.proxy.scheme"                type="java.lang.String"  override="false" value="null"/>
+    <Environment name="network.proxy.host"                  type="java.lang.String"  override="false" value="null"/>
+    <Environment name="network.proxy.port"                  type="java.lang.Integer" override="false" value="0"/>
+    <Environment name="network.proxy.user"                  type="java.lang.String"  override="false" value="null"/>
+    <Environment name="network.proxy.password"              type="java.lang.String"  override="false" value="null"/>
+
     <Environment name="authentication.client.id"            type="java.lang.String" override="false" value="Ripple-Development"/>
     <Environment name="authentication.server.url"           type="java.lang.String" override="false" value="https://ripple-identity-uat.answerappcloud.com"/>
     <Environment name="authentication.redirect.uri"         type="java.lang.String" override="false" value="http://localhost:19191/api/token"/>
