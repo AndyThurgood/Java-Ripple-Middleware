@@ -13,15 +13,12 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.rippleosi.common.service;
+package org.rippleosi.patient.documents.discharge.model;
 
-import java.util.List;
+import org.rippleosi.patient.documents.common.model.AbstractDocumentSummary;
 
 /**
  */
-public abstract class AbstractListQueryStrategy<T> extends AbstractQueryStrategy<List<T>> {
+public class DischargeDocumentSummary extends AbstractDocumentSummary {
 
-    protected AbstractListQueryStrategy(String patientId) {
-        super(patientId);
-    }
 }

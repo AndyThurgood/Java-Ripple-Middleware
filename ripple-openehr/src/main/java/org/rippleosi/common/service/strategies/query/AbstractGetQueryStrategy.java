@@ -13,11 +13,20 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.rippleosi.common.service;
+package org.rippleosi.common.service.strategies.query;
 
 /**
  */
-public interface UpdateStrategy extends CreateStrategy {
+public abstract class AbstractGetQueryStrategy<T> implements QueryStrategy<T> {
 
-    String getCompositionId();
+    private final String patientId;
+
+    protected AbstractGetQueryStrategy(String patientId) {
+        this.patientId = patientId;
+    }
+
+    @Override
+    public String getPatientId() {
+        return patientId;
+    }
 }

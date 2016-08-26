@@ -13,20 +13,12 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.rippleosi.common.service;
+package org.rippleosi.patient.documents.referral.model;
+
+import org.rippleosi.patient.documents.common.model.AbstractDocumentSummary;
 
 /**
  */
-public abstract class AbstractQueryStrategy<T> implements QueryStrategy<T> {
-
-    private final String patientId;
-
-    protected AbstractQueryStrategy(String patientId) {
-        this.patientId = patientId;
-    }
-
-    @Override
-    public String getPatientId() {
-        return patientId;
-    }
+public class ReferralDocumentSummary extends AbstractDocumentSummary {
+    
 }

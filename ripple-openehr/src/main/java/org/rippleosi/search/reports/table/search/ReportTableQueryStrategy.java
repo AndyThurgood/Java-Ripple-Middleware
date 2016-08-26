@@ -23,12 +23,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.rippleosi.common.service.AbstractQueryStrategy;
+import org.rippleosi.common.service.strategies.query.AbstractGetQueryStrategy;
 import org.rippleosi.search.reports.table.model.ReportTableQuery;
 
-public class ReportTableQueryStrategy extends AbstractQueryStrategy<List<String>> {
+public class ReportTableQueryStrategy extends AbstractGetQueryStrategy<List<String>> {
 
     private ReportTableQuery tableQuery;
     private Integer yearFrom;

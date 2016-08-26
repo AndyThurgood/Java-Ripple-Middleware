@@ -13,18 +13,13 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.rippleosi.common.service;
+package org.rippleosi.patient.documents.common.store;
 
-import java.util.List;
-import java.util.Map;
+import org.rippleosi.common.repo.RepositoryFactory;
 
 /**
  */
-public interface QueryStrategy<T> {
+@FunctionalInterface
+public interface DocumentStoreFactory extends RepositoryFactory<DocumentStore> {
 
-    String getPatientId();
-
-    String getQuery(String namespace, String patientId);
-
-    T transform(List<Map<String, Object>> resultSet);
 }

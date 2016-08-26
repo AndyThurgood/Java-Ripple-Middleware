@@ -13,17 +13,13 @@
  *    See the License for the specific language governing permissions and
  *    limitations under the License.
  */
-package org.rippleosi.common.service;
+package org.rippleosi.patient.documents.discharge.search;
 
-import org.springframework.http.ResponseEntity;
+import org.rippleosi.common.repo.RepositoryFactory;
 
 /**
  */
-public interface RequestProxy {
+@FunctionalInterface
+public interface DischargeDocumentSearchFactory extends RepositoryFactory<DischargeDocumentSearch> {
 
-    <T> ResponseEntity<T> getWithoutSession(String uri, Class<T> cls);
-
-    <T> ResponseEntity<T> postWithoutSession(String uri, Class<T> cls, Object body);
-
-    <T> ResponseEntity<T> putWithoutSession(String uri, Class<T> cls, Object body);
 }

@@ -20,12 +20,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.rippleosi.common.service.AbstractListQueryStrategy;
+import org.rippleosi.common.service.strategies.query.list.AbstractListGetQueryStrategy;
 import org.rippleosi.patient.allergies.model.AllergySummary;
 
 /**
  */
-public class AllergySummaryQueryStrategy extends AbstractListQueryStrategy<AllergySummary> {
+public class AllergySummaryQueryStrategy extends AbstractListGetQueryStrategy<AllergySummary> {
 
     AllergySummaryQueryStrategy(String patientId) {
         super(patientId);

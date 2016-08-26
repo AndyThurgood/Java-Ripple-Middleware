@@ -20,12 +20,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.rippleosi.common.service.AbstractListQueryStrategy;
+import org.rippleosi.common.service.strategies.query.list.AbstractListGetQueryStrategy;
 import org.rippleosi.patient.mdtreports.model.MDTReportSummary;
 
 /**
  */
-public class MDTReportSummaryQueryStrategy extends AbstractListQueryStrategy<MDTReportSummary> {
+public class MDTReportSummaryQueryStrategy extends AbstractListGetQueryStrategy<MDTReportSummary> {
 
     MDTReportSummaryQueryStrategy(String patientId) {
         super(patientId);

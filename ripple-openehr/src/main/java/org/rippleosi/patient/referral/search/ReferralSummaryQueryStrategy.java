@@ -21,12 +21,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections4.CollectionUtils;
-import org.rippleosi.common.service.AbstractListQueryStrategy;
+import org.rippleosi.common.service.strategies.query.list.AbstractListGetQueryStrategy;
 import org.rippleosi.patient.referral.model.ReferralSummary;
 
 /**
  */
-public class ReferralSummaryQueryStrategy extends AbstractListQueryStrategy<ReferralSummary> {
+public class ReferralSummaryQueryStrategy extends AbstractListGetQueryStrategy<ReferralSummary> {
 
     ReferralSummaryQueryStrategy(String patientId) {
         super(patientId);
