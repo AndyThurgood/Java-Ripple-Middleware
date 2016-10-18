@@ -629,7 +629,6 @@
                     </dependencies>
                     <configuration>
                         <tagNameFormat>v@{project.version}</tagNameFormat>
-                        <!-- <pushChanges>false</pushChanges> -->
                         <localCheckout>true</localCheckout>
                         <updateWorkingCopyVersions>false</updateWorkingCopyVersions>
                     </configuration>
