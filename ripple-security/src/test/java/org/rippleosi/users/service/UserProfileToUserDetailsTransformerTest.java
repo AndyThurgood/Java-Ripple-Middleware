@@ -5,6 +5,7 @@ import org.junit.Test;
 import org.pac4j.core.profile.UserProfile;
 import org.rippleosi.users.model.UserDetails;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
@@ -56,7 +57,7 @@ public class UserProfileToUserDetailsTransformerTest {
 
         assertEquals("UserDetails 'nhs_number' field was not set.", userProfile.getAttribute("nhs_number"), userDetails.getNhsNumber());
 
-        assertEquals("UserDetails 'role' field was not set.", userProfile.getRoles().get(0), userDetails.getRole());
+        assertArrayEquals("UserDetails 'roles' field was not set.", userProfile.getRoles().toArray(), userDetails.getRoles());
 
         assertNotNull("UserDetails 'permissions' field was not set.", userDetails.getPermissions());
 
