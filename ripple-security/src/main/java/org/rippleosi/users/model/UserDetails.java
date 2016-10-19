@@ -24,6 +24,7 @@ public class UserDetails {
     private String givenName;
     private String familyName;
     private String email;
+    private String role;
     private String[] roles;
     private String tenant;
     private String nhsNumber;
@@ -67,6 +68,14 @@ public class UserDetails {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public String[] getRoles() {

@@ -42,6 +42,7 @@ public class UserProfileToUserDetailsTransformer implements Transformer<UserProf
         List<String> rolesList = userProfile.getRoles();
         String[] roles = new String[rolesList.size()];
 
+        userDetails.setRole(rolesList.get(0));
         userDetails.setRoles(rolesList.toArray(roles));
         userDetails.setTenant(MapUtils.getString(profileAttributes, "tenant"));
         userDetails.setNhsNumber(MapUtils.getString(profileAttributes, "nhs_number"));

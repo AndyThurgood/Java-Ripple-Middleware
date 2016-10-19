@@ -1,5 +1,7 @@
 package org.rippleosi.users.service;
 
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.pac4j.core.profile.UserProfile;
@@ -27,7 +29,7 @@ public class UserProfileToUserDetailsTransformerTest {
         userProfile.addAttribute("tenant", "Test Tenant");
         userProfile.addAttribute("nhs_number", "1234567890");
 
-        userProfile.addRole("");
+        userProfile.addRole("PHR");
 
         transformer = new UserProfileToUserDetailsTransformer();
     }
@@ -57,10 +59,12 @@ public class UserProfileToUserDetailsTransformerTest {
 
         assertEquals("UserDetails 'nhs_number' field was not set.", userProfile.getAttribute("nhs_number"), userDetails.getNhsNumber());
 
-        assertArrayEquals("UserDetails 'roles' field was not set.", userProfile.getRoles().toArray(), userDetails.getRoles());
+        Object[] roles = userProfile.getRoles().toArray();
+        assertEquals("User details 'role' field was not set", roles[0], userDetails.getRole());
+        assertArrayEquals("UserDetails 'roles' field was not set.", roles, userDetails.getRoles());
 
-        assertNotNull("UserDetails 'permissions' field was not set.", userDetails.getPermissions());
-
-        assertFalse("UserDetails 'permissions' field is empty.", userDetails.getPermissions().isEmpty());
+        List<String> permissions = userDetails.getPermissions();
+        assertNotNull("UserDetails 'permissions' field was not set.", permissions);
+        assertFalse("UserDetails 'permissions' field is empty.", permissions.isEmpty());
     }
 }
