@@ -20,7 +20,7 @@ public class UserProfileToUserDetailsTransformerTest {
         userProfile = new UserProfile();
 
         userProfile.addAttribute("sub", "1234567890");
-        userProfile.addAttribute("preferred_username", "test.user");
+        userProfile.addAttribute("username", "test.user");
         userProfile.addAttribute("given_name", "Test");
         userProfile.addAttribute("family_name", "User");
         userProfile.addAttribute("email", "test.user@email.com");
@@ -45,7 +45,7 @@ public class UserProfileToUserDetailsTransformerTest {
 
         assertEquals("UserDetails 'sub' field was not set.", userProfile.getAttribute("sub"), userDetails.getSub());
 
-        assertEquals("UserDetails 'preferred_username' field was not set.", userProfile.getAttribute("preferred_username"), userDetails.getUsername());
+        assertEquals("UserDetails 'preferred_username' field was not set.", userProfile.getAttribute("username"), userDetails.getUsername());
 
         assertEquals("UserDetails 'given_name' field was not set.", userProfile.getAttribute("given_name"), userDetails.getGivenName());
 

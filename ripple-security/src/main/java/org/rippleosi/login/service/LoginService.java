@@ -61,6 +61,10 @@ public class LoginService {
         if (profile.getFamilyName() == null) {
             profile.addAttribute("family_name", userMetadata.get("family_name"));
         }
+
+        if (profile.getAttribute("username") == null) {
+            profile.addAttribute("username", profile.getAttribute("nickname"));
+        }
     }
 
     private void loadAppMetadata(JWTClaimsSet idClaimsSet, Map<String, Object> claims, OidcProfile profile) {

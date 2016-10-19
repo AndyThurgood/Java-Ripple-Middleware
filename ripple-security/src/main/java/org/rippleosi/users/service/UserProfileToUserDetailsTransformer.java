@@ -34,7 +34,7 @@ public class UserProfileToUserDetailsTransformer implements Transformer<UserProf
 
         final UserDetails userDetails = new UserDetails();
         userDetails.setSub(MapUtils.getString(profileAttributes, "sub"));
-        userDetails.setUsername(MapUtils.getString(profileAttributes, "preferred_username"));
+        userDetails.setUsername(MapUtils.getString(profileAttributes, "username"));
         userDetails.setGivenName(MapUtils.getString(profileAttributes, "given_name"));
         userDetails.setFamilyName(MapUtils.getString(profileAttributes, "family_name"));
         userDetails.setEmail(MapUtils.getString(profileAttributes, "email"));
