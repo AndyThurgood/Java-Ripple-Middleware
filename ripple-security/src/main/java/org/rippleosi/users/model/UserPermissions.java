@@ -16,7 +16,7 @@ public class UserPermissions {
     }
 
     public List<String> loadUserPermissions() {
-        final List<String> permissions = new ArrayList<>();
+        List<String> permissions = new ArrayList<>();
 
         for (String role : getRoles()) {
             switch (role.toUpperCase()) {
@@ -49,7 +49,7 @@ public class UserPermissions {
         }
 
         if (!permissions.contains("NONE")) {
-            addPermissions(permissions);
+            permissions = addPermissions(permissions);
         }
 
         return permissions;
