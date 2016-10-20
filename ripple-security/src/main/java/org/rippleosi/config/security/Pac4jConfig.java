@@ -38,6 +38,9 @@ public class Pac4jConfig {
     @Value("${authentication.client.id}")
     private String clientId;
 
+    @Value("${authentication.client.secret}")
+    private String clientSecret;
+
     @Value("${authentication.redirect.uri}")
     private String redirectUri;
     
@@ -45,11 +48,11 @@ public class Pac4jConfig {
     public Config config() {
         final OidcClient oidcClient = new OidcClient();
         oidcClient.setClientID(clientId);
-        oidcClient.setSecret("secret");
-        oidcClient.setDiscoveryURI(authenticationServerUrl + "/identity/.well-known/openid-configuration");
+        oidcClient.setSecret(clientSecret);
+        oidcClient.setDiscoveryURI(authenticationServerUrl + "/.well-known/openid-configuration");
         oidcClient.addCustomParam("client_id", clientId);
-        oidcClient.addCustomParam("scope", "openid profile email api");
-        oidcClient.addCustomParam("response_type", "id_token token");
+        oidcClient.addCustomParam("scope", "openid profile email"); // api");
+        oidcClient.addCustomParam("response_type", "code token"); // "id_token token");
         oidcClient.addCustomParam("redirect_uri", redirectUri);
         oidcClient.addCustomParam("nonce", "nonce");
         oidcClient.addCustomParam("response_mode", "form_post");

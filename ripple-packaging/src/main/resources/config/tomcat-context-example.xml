@@ -4,12 +4,13 @@
     <Environment name="queue.broker.name"                   type="java.lang.String" override="false" value="embedded"/>
     <Environment name="queue.broker.directory"              type="java.lang.String" override="false" value="/opt/tomcat/ripple/activemq-data"/>
 
-    <Environment name="authentication.client.id"            type="java.lang.String" override="false" value="Ripple-Development"/>
-    <Environment name="authentication.server.url"           type="java.lang.String" override="false" value="https://ripple-identity-uat.answerappcloud.com"/>
+    <Environment name="authentication.client.id"            type="java.lang.String" override="false" value="YqKLUqvJFAiW0qofN6wO9eZm4WD7ZtiG"/>
+    <Environment name="authentication.client.secret"        type="java.lang.String" override="false" value="3_caOwZNmMhKaYd7nqA35rICxLOHeH-vCiPx2AYog4-9zG76zvHtJhIYYYXLWsol"/>
+    <Environment name="authentication.server.url"           type="java.lang.String" override="false" value="https://rippleosi.eu.auth0.com"/>
     <Environment name="authentication.redirect.uri"         type="java.lang.String" override="false" value="http://localhost:19191/api/token"/>
 
     <Environment name="pac4j.callback.defaultUrl"           type="java.lang.String" override="false" value="http://localhost:9000/"/>
-    <Environment name="pac4j.applicationLogout.logoutUrl"   type="java.lang.String" override="false" value="/identity/connect/endsession"/>
+    <Environment name="pac4j.applicationLogout.logoutUrl"   type="java.lang.String" override="false" value="/v2/logout"/>
 
     <Environment name="c4hOpenEHR.address"                  type="java.lang.String" override="false" value="https://ehrscape.code-4-health.org/rest/v1/"/>
     <Environment name="c4hOpenEHR.user"                     type="java.lang.String" override="false" value="c4h_ripple_osi"/>
