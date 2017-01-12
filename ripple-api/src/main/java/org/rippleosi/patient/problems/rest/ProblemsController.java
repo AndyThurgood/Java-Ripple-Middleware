@@ -60,9 +60,6 @@ public class ProblemsController {
         ProblemSearch openehrSearch = problemSearchFactory.select(RepoSourceTypes.MARAND);
         problems.addAll(openehrSearch.findAllProblems(patientId));
 
-        ProblemSearch vistaSearch = problemSearchFactory.select(RepoSourceTypes.VISTA);
-        problems.addAll(vistaSearch.findAllProblems("17"));
-
         return problems;
     }
 
@@ -73,9 +70,6 @@ public class ProblemsController {
         ProblemSearch problemSearch = problemSearchFactory.select(sourceType);
         List<ProblemHeadline> problemHeadlines = problemSearch.findProblemHeadlines(patientId);
 
-        ProblemSearch vistaSearch = problemSearchFactory.select(RepoSourceTypes.VISTA);
-        problemHeadlines.addAll(vistaSearch.findProblemHeadlines("17"));
-
         return problemHeadlines;
     }
 
@@ -85,10 +79,6 @@ public class ProblemsController {
                                       @RequestParam(required = false) String source) {
         final RepoSourceType sourceType = repoSourceLookup.lookup(source);
         ProblemSearch problemSearch = problemSearchFactory.select(sourceType);
-
-        if (source != null && source.equalsIgnoreCase(RepoSourceTypes.VISTA.name())) {
-            patientId = "17";
-        }
 
         return problemSearch.findProblem(patientId, problemId);
     }
