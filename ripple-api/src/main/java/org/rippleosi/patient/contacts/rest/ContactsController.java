@@ -18,6 +18,7 @@ package org.rippleosi.patient.contacts.rest;
 import java.util.List;
 
 import org.rippleosi.common.types.RepoSourceType;
+import org.rippleosi.common.types.RepoSourceTypes;
 import org.rippleosi.common.types.lookup.RepoSourceLookupFactory;
 import org.rippleosi.patient.contacts.model.ContactDetails;
 import org.rippleosi.patient.contacts.model.ContactHeadline;
@@ -52,19 +53,32 @@ public class ContactsController {
     @RequestMapping(method = RequestMethod.GET)
     public List<ContactSummary> findAllContacts(@PathVariable("patientId") String patientId,
                                                 @RequestParam(required = false) String source) {
-        final RepoSourceType sourceType = repoSourceLookup.lookup(source);
-        ContactSearch contactSearch = contactSearchFactory.select(sourceType);
 
-        return contactSearch.findAllContacts(patientId);
+        final RepoSourceType sourceType = repoSourceLookup.lookup("SC-CIS");
+        ContactSearch contactSearch = contactSearchFactory.select(sourceType);
+        List<ContactSummary> contacts = contactSearch.findAllContacts(patientId);
+
+        contactSearch = contactSearchFactory.select(RepoSourceTypes.MARAND);
+        List<ContactSummary> marandContacts = contactSearch.findAllContacts(patientId);
+
+        contacts.addAll(marandContacts);
+
+        return contacts;
     }
 
     @RequestMapping(value = "/headlines", method = RequestMethod.GET)
     public List<ContactHeadline> findContactHeadlines(@PathVariable("patientId") String patientId,
                                                       @RequestParam(required = false) String source) {
-        final RepoSourceType sourceType = repoSourceLookup.lookup(source);
+        final RepoSourceType sourceType = repoSourceLookup.lookup("SC-CIS");
         ContactSearch contactSearch = contactSearchFactory.select(sourceType);
+        List<ContactHeadline> contacts = contactSearch.findContactHeadlines(patientId);
 
-        return contactSearch.findContactHeadlines(patientId);
+        contactSearch = contactSearchFactory.select(RepoSourceTypes.MARAND);
+        List<ContactHeadline> marandContacts = contactSearch.findContactHeadlines(patientId);
+
+        contacts.addAll(marandContacts);
+
+        return contacts;
     }
 
     @RequestMapping(value = "/{contactId}", method = RequestMethod.GET)

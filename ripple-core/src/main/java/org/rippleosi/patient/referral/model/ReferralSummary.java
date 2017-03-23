@@ -26,6 +26,8 @@ public class ReferralSummary {
     private Date dateOfReferral;
     private String referralFrom;
     private String referralTo;
+    private String referralState;
+    private String referralType;
 
     public String getSourceId() {
         return sourceId;
@@ -66,4 +68,13 @@ public class ReferralSummary {
     public void setReferralTo(String referralTo) {
         this.referralTo = referralTo;
     }
+
+    public String getReferralState() { return referralState; }
+
+    public void setReferralState(String referralState) { this.referralState = referralState; }
+
+    public String getReferralType() { return referralType; }
+
+    public void setReferralType(String referralType) { this.referralType = referralType; }
+
 }

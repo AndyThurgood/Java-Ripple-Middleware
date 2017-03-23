@@ -28,7 +28,7 @@ public class RepoSourceTypeTest {
     //
     @Test
     public void validateTSESize() {
-        assertEquals(9, RepoSourceTypes.values().length);
+        assertEquals(10, RepoSourceTypes.values().length);
     }
 
     @Test
@@ -83,6 +83,12 @@ public class RepoSourceTypeTest {
     public void verifyTERMINOLOGYSourceName() {
         final String repoSourceName = RepoSourceTypes.TERMINOLOGY.getSourceName();
         assertEquals("Terminology", repoSourceName);
+    }
+
+    @Test
+    public void verifySCCISSourceName() {
+        final String repoSourceName = RepoSourceTypes.SCCIS.getSourceName();
+        assertEquals("SC-CIS", repoSourceName);
     }
 
     // Reverse Lookup Tests

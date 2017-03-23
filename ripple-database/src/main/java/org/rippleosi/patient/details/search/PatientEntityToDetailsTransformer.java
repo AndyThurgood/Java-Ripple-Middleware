@@ -123,13 +123,20 @@ public class PatientEntityToDetailsTransformer implements Transformer<PatientEnt
 
     private List<PatientHeadline> findContacts(String patientId) {
         try {
-            ContactSearch contactSearch = contactSearchFactory.select(null);
 
+            // Find Contacts on OpenEHR
+            ContactSearch contactSearch = contactSearchFactory.select(RepoSourceTypes.MARAND);
             List<ContactHeadline> contacts = contactSearch.findContactHeadlines(patientId);
+
+            // Find Contacts from Social Care CIS
+            contactSearch = contactSearchFactory.select(RepoSourceTypes.SCCIS);
+            List<ContactHeadline> marandContacts = contactSearch.findContactHeadlines(patientId);
+
+            contacts.addAll(marandContacts);
 
             return CollectionUtils.collect(contacts, new ContactTransformer(), new ArrayList<>());
         } catch (DataNotFoundException dex) {
-            LOGGER.warn("No Data Dound",dex);
+            LOGGER.warn("No Data Found",dex);
             return Collections.emptyList();
         }
     }
@@ -149,11 +156,20 @@ public class PatientEntityToDetailsTransformer implements Transformer<PatientEnt
 
     private List<PatientHeadline> findProblems(String patientId) {
         try {
-            ProblemSearch problemSearch = problemSearchFactory.select(null);
+            // Find Problems on EtherCIS
+            ProblemSearch problemSearch = problemSearchFactory.select(RepoSourceTypes.ETHERCIS);
             List<ProblemHeadline> problems = problemSearch.findProblemHeadlines(patientId);
 
-            //ProblemSearch vistaSearch = problemSearchFactory.select(RepoSourceTypes.VISTA);
-            //problems.addAll(vistaSearch.findProblemHeadlines("17"));
+            ProblemSearch vistaSearch = problemSearchFactory.select(RepoSourceTypes.VISTA);
+            problems.addAll(vistaSearch.findProblemHeadlines("17"));
+
+            // Find Problems on OpenEHR (Marand)
+            ProblemSearch marandProblemSearch = problemSearchFactory.select(RepoSourceTypes.MARAND);
+            problems.addAll(marandProblemSearch.findProblemHeadlines(patientId));
+
+            // Find Problems on Social Care CIS
+            ProblemSearch scCISProblemSearch = problemSearchFactory.select(RepoSourceTypes.SCCIS);
+            problems.addAll(scCISProblemSearch.findProblemHeadlines(patientId));
 
             return CollectionUtils.collect(problems, new ProblemTransformer(), new ArrayList<>());
         } catch (DataNotFoundException dex) {

@@ -36,16 +36,18 @@ public class ContactDetailsTransformer implements Transformer<Map<String, Object
         contact.setSourceId(MapUtils.getString(input, "uid"));
         contact.setName(MapUtils.getString(input, "name"));
         contact.setNextOfKin(nextOfKin != null && nextOfKin.booleanValue());
-        contact.setRelationship(MapUtils.getString(input, "relationship"));
+        contact.setRelationship(MapUtils.getString(input, "relationshipRoleType"));
         contact.setRelationshipType(MapUtils.getString(input, "relationship_type"));
-        contact.setRelationshipCode(MapUtils.getString(input, "relationship_code"));
-        contact.setRelationshipTerminology(MapUtils.getString(input, "relationship_terminology"));
-        contact.setContactInformation(MapUtils.getString(input, "contact_information"));
+        contact.setRelationshipCode(MapUtils.getString(input, "relationshipCategoryCode"));
+        contact.setRelationshipTerminology(MapUtils.getString(input, "relationshipCategoryTerminology"));
+        contact.setPhone(MapUtils.getString(input, "contact_information"));
         contact.setNotes(MapUtils.getString(input, "notes"));
         contact.setAuthor(MapUtils.getString(input, "author"));
 
         String dateCreated = MapUtils.getString(input, "date_created");
         contact.setDateCreated(DateFormatter.toDate(dateCreated));
+        contact.setAddress(MapUtils.getString(input, "address"));
+
 
         return contact;
     }

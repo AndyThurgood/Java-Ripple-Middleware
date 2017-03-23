@@ -18,18 +18,15 @@ import static org.junit.Assert.assertTrue;
 
 public class LoginServiceTest {
 
-    private static final String ID_TOKEN = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InJpcHBsZW9zaS5jbGluaWNpY" +
-        "W5AbWFpbC5jb20iLCJ1c2VybmFtZSI6ImNsaW5pY2lhbiIsInVzZXJfbWV0YWRhdGEiOnsiZ2l2ZW5fbmFtZSI6IlRlc3QiLCJmYW1pbHlfbm" +
-        "FtZSI6IkNsaW5pY2lhbiJ9LCJuYW1lIjoicmlwcGxlb3NpLmNsaW5pY2lhbkBtYWlsLmNvbSIsInBpY3R1cmUiOiJodHRwczovL3MuZ3JhdmF" +
-        "0YXIuY29tL2F2YXRhci9iNTk0Y2NhYWFhZDAyMDNjZGNjZWQyMTA1YjMzYTliOD9zPTQ4MCZyPXBnJmQ9aHR0cHMlM0ElMkYlMkZjZG4uYXV0" +
-        "aDAuY29tJTJGYXZhdGFycyUyRnJpLnBuZyIsIm5pY2tuYW1lIjoiY2xpbmljaWFuIiwiYXBwX21ldGFkYXRhIjp7InJvbGUiOiJJRENSIiwic" +
-        "GVybWlzc2lvbnMiOlsiTWFyYW5kIiwiRXRoZXJDSVMiXSwicm9sZVR5cGUiOiJEb2N0b3I6IENsaW5pY2lhbiIsInRlbmFudCI6IlJpcHBsZS" +
-        "BDYXJlIFJlY29yZCIsIm5oc19udW1iZXIiOm51bGx9LCJyb2xlIjoiSURDUiIsInBlcm1pc3Npb25zIjpbIk1hcmFuZCIsIkV0aGVyQ0lTIl0" +
-        "sInJvbGVUeXBlIjoiRG9jdG9yOiBDbGluaWNpYW4iLCJ0ZW5hbnQiOiJSaXBwbGUgQ2FyZSBSZWNvcmQiLCJlbWFpbF92ZXJpZmllZCI6ZmFs" +
-        "c2UsInVwZGF0ZWRfYXQiOiIyMDE2LTEwLTE4VDE0OjU1OjIyLjAwOFoiLCJ1c2VyX2lkIjoiYXV0aDB8NTgwNGU1NzFmNmM3MmE3NDUxZTBlM" +
-        "jFkIiwiY3JlYXRlZF9hdCI6IjIwMTYtMTAtMTdUMTQ6NTE6MjkuNjIwWiIsImlzcyI6Imh0dHBzOi8vcmlwcGxlb3NpLmV1LmF1dGgwLmNvbS" +
-        "8iLCJzdWIiOiJhdXRoMHw1ODA0ZTU3MWY2YzcyYTc0NTFlMGUyMWQiLCJhdWQiOiJZcUtMVXF2SkZBaVcwcW9mTjZ3TzllWm00V0Q3WnRpRyI" +
-        "sImV4cCI6MTQ3NjgwNTUyMiwiaWF0IjoxNDc2ODAyNTIyLCJub25jZSI6Im5vbmNlIn0.PGYRIplx7ZPH4CtQ4yjlBs9p9RnX5MS4_EliX1KbEJw";
+    private static final String ID_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyOEFEODU3Ni0xOTQ4LTRDOD" +
+        "QtOEI1RS01NUZCN0VFMDI3Q0UiLCJnaXZlbl9uYW1lIjoiSm9obiIsImZhbWlseV9uYW1lIjoiU21pdGgiLCJlbWFpbCI6ImpvaG4uc21" +
+        "pdGhAbmhzLmdvdi51ayIsImVtYWlsX3ZlcmlmaWVkIjoidHJ1ZSIsImV4cCI6MTQ2MzY3MzIzM30.RqlR3KFgxTgERllenBUyZlpMYd3w" +
+        "iMI4EfBjHQqBNio";
+
+    private static final String ACCESS_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGllbnRfaWQiOiJUZXN0LUNsa" +
+        "WVudCIsInNjb3BlIjpbInRlc3RTY29wZSJdLCJzdWIiOiIyOEFEODU3Ni0xOTQ4LTRDODQtOEI1RS01NUZCN0VFMDI3Q0UiLCJ0ZW5hbn" +
+        "QiOiJUZXN0LVRlbmFudCIsInJvbGUiOiJQSFIiLCJuaHNfbnVtYmVyIjoiOTk5OTk5OTAwMCIsImV4cCI6MTQ2MzY3NjUzM30.DyqEi4b" +
+        "8fNLR-HouJvGA0YHn86FxNx4j6sfmH7_N2Ko";
 
     private LoginService loginService;
 
@@ -40,6 +37,7 @@ public class LoginServiceTest {
 
     private J2EContext setUpWebContext() {
         final MockHttpServletRequest request = new MockHttpServletRequest("GET", "/test");
+        request.setParameter("access_token", ACCESS_TOKEN);
         request.setParameter("id_token", ID_TOKEN);
         request.setParameter("scope", "test");
         request.setParameter("expires_in", "3600");
@@ -88,7 +86,7 @@ public class LoginServiceTest {
         final List<String> roles = userProfile.getRoles();
 
         assertNotNull("The user role wasn't saved whilst setting up the security context.", roles);
-        assertEquals("The user role saved doesn't correspond to the input value.", "IDCR", roles.get(0));
+        assertEquals("The user role saved doesn't correspond to the input value.", "PHR", roles.get(0));
     }
 
     @Test

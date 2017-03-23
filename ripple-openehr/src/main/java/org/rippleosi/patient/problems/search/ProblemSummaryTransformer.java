@@ -15,6 +15,8 @@
  */
 package org.rippleosi.patient.problems.search;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
@@ -29,14 +31,18 @@ public class ProblemSummaryTransformer implements Transformer<Map<String, Object
 
     @Override
     public ProblemSummary transform(Map<String, Object> input) {
-        Date dateOfOnset = DateFormatter.toDate(MapUtils.getString(input, "onset_date"));
-        Date dateTimeOfOnset = DateFormatter.toDate(MapUtils.getString(input, "onset_date_time"));
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date dateOfOnset = null;
+        try {
+            dateOfOnset = sdf.parse(MapUtils.getString(input, "Date_of_onset"));
+        }
+        catch   (ParseException pe) { }
 
         ProblemSummary problem = new ProblemSummary();
         problem.setSource("Marand");
-        problem.setSourceId(MapUtils.getString(input, "uid"));
-        problem.setProblem(MapUtils.getString(input, "problem"));
-        problem.setDateOfOnset(dateOfOnset != null ? dateOfOnset : dateTimeOfOnset);
+        problem.setSourceId(MapUtils.getString(input, "compositionID"));
+        problem.setProblem(MapUtils.getString(input, "Problem_Diagnosis"));
+        problem.setDateOfOnset(dateOfOnset);
 
         return problem;
     }

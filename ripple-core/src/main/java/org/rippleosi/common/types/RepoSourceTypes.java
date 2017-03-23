@@ -30,7 +30,8 @@ public enum RepoSourceTypes implements RepoSourceType {
     ORTHANC("Orthanc"),
     VISTA("Vista"),
     AUDIT("Audit"),
-    TERMINOLOGY("Terminology");
+    TERMINOLOGY("Terminology"),
+    SCCIS("SC-CIS");
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RepoSourceType.class);
 

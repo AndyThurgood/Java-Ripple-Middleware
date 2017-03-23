@@ -28,4 +28,8 @@ public interface ReferralSearch extends Repository {
     List<ReferralSummary> findAllReferrals(String patientId);
 
     ReferralDetails findReferral(String patientId, String referralId);
+
+    ReferralDetails findReferralByReference(String patientId, String referralReference);
+
+    ReferralDetails findReferralByReference(String patientId, String referralReference, String stateCode);
 }

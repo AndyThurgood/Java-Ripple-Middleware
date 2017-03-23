@@ -15,6 +15,8 @@
  */
 package org.rippleosi.patient.referral.model;
 
+import org.rippleosi.common.util.UUIDGenerator;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -31,6 +33,12 @@ public class ReferralDetails implements Serializable {
     private String clinicalSummary;
     private String author;
     private Date dateCreated;
+    private String reference;
+    private String referralState;
+    private String referralType;
+    private String referralOutcome;
+    private Date dateResponded;
+    private String responseSourceId;
 
     public String getSourceId() {
         return sourceId;
@@ -100,7 +108,34 @@ public class ReferralDetails implements Serializable {
         return dateCreated;
     }
 
-    public void setDateCreated(Date dateCreated) {
-        this.dateCreated = dateCreated;
+    public void setDateCreated(Date dateCreated) { this.dateCreated = dateCreated; }
+
+    public String getReference() { return reference; }
+
+    public void setReference(String reference) { this.reference = reference; }
+
+    public String getReferralState() { return referralState; }
+
+    public void setReferralState(String referralState) { this.referralState = referralState; }
+
+    public String getReferralType() { return referralType; }
+
+    public void setReferralType(String referralType) { this.referralType = referralType; }
+
+    public String getReferralOutcome() { return referralOutcome; }
+
+    public void setReferralOutcome(String referralOutcome) { this.referralOutcome = referralOutcome; }
+
+    public Date getDateResponded() { return dateResponded; }
+
+    public void setDateResponded(Date dateResponded) { this.dateResponded = dateResponded; }
+
+    public void generateReference()
+    {
+        this.setReference(UUIDGenerator.generate());
     }
+
+    public String getResponseSourceId() { return responseSourceId; }
+
+    public void setResponseSourceId(String responseSourceId) { this.responseSourceId = responseSourceId; }
 }

@@ -33,12 +33,14 @@ public class ProblemHeadlineQueryStrategy extends AbstractListGetQueryStrategy<P
 
     @Override
     public String getQuery(String namespace, String patientId) {
-        return "select a/uid/value as uid, " +
-                "a_a/items/data[at0001]/items[at0002]/value/value as problem " +
+        return "select " +
+                " a/uid/value as compositionID, " +
+                " b_a/data[at0001]/items[at0002]/value/value as problem " +
                 "from EHR e " +
-                "contains COMPOSITION a[openEHR-EHR-COMPOSITION.care_summary.v0] " +
-                "contains SECTION a_a[openEHR-EHR-SECTION.problems_issues_rcp.v1] " +
-                "where a/name/value='Problem list' " +
+                "contains COMPOSITION a[openEHR-EHR-COMPOSITION.problem_list.v1] " +
+                "contains EVALUATION b_a[openEHR-EHR-EVALUATION.problem_diagnosis.v1] " +
+                "where " +
+                " a/name/value='Problem list' " +
                 "and e/ehr_status/subject/external_ref/namespace = '" + namespace + "' " +
                 "and e/ehr_status/subject/external_ref/id/value = '" + patientId + "'";
     }

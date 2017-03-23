@@ -20,6 +20,8 @@ import java.util.List;
 import org.rippleosi.common.service.AbstractOpenEhrService;
 import org.rippleosi.patient.referral.model.ReferralDetails;
 import org.rippleosi.patient.referral.model.ReferralSummary;
+import org.rippleosi.patient.referral.types.ReferralState;
+import org.rippleosi.patient.referral.types.ReferralStates;
 import org.springframework.stereotype.Service;
 
 /**
@@ -39,5 +41,20 @@ public class OpenEHRReferralSearch extends AbstractOpenEhrService implements Ref
         ReferralDetailsQueryStrategy query = new ReferralDetailsQueryStrategy(patientId, referralId);
 
         return findData(query);
+    }
+
+    @Override
+    public ReferralDetails findReferralByReference(String patientId, String referralId, String stateCode) {
+        ReferralDetailsByReferenceQueryStrategy query =
+                new ReferralDetailsByReferenceQueryStrategy(patientId, referralId, stateCode);
+
+        return findData(query);
+
+    }
+
+    @Override
+    public ReferralDetails findReferralByReference(String patientId, String referralRef) {
+        // Default to Referral Requests if the state hasn't been supplied
+        return findReferralByReference(patientId, referralRef, ReferralStates.PLANNED.getReferralStateCode());
     }
 }

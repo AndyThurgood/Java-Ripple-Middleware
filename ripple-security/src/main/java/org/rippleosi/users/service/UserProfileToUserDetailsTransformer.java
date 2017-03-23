@@ -20,7 +20,6 @@ import java.util.Map;
 
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.collections4.Transformer;
-import org.apache.commons.lang3.ArrayUtils;
 import org.pac4j.core.profile.UserProfile;
 import org.rippleosi.users.model.UserDetails;
 import org.rippleosi.users.model.UserPermissions;
@@ -34,20 +33,15 @@ public class UserProfileToUserDetailsTransformer implements Transformer<UserProf
 
         final UserDetails userDetails = new UserDetails();
         userDetails.setSub(MapUtils.getString(profileAttributes, "sub"));
-        userDetails.setUsername(MapUtils.getString(profileAttributes, "username"));
+        userDetails.setUsername(MapUtils.getString(profileAttributes, "preferred_username"));
         userDetails.setGivenName(MapUtils.getString(profileAttributes, "given_name"));
         userDetails.setFamilyName(MapUtils.getString(profileAttributes, "family_name"));
         userDetails.setEmail(MapUtils.getString(profileAttributes, "email"));
-
-        List<String> rolesList = userProfile.getRoles();
-        String[] roles = new String[rolesList.size()];
-
-        userDetails.setRole(rolesList.get(0));
-        userDetails.setRoles(rolesList.toArray(roles));
+        userDetails.setRole(userProfile.getRoles().get(0));
         userDetails.setTenant(MapUtils.getString(profileAttributes, "tenant"));
         userDetails.setNhsNumber(MapUtils.getString(profileAttributes, "nhs_number"));
 
-        final UserPermissions userPermissions = new UserPermissions(userDetails.getRoles());
+        final UserPermissions userPermissions = new UserPermissions(userDetails.getRole());
         final List<String> permissions = userPermissions.loadUserPermissions();
 
         userDetails.setPermissions(permissions);

@@ -15,10 +15,16 @@
  */
 package org.rippleosi.patient.details.search;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.Transformer;
+import org.apache.commons.lang3.StringUtils;
 import org.rippleosi.patient.details.model.PatientEntity;
 import org.rippleosi.patient.summary.model.PatientSummary;
 import org.springframework.stereotype.Component;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 
 @Component
 public class PatientEntityToSummaryTransformer implements Transformer<PatientEntity, PatientSummary> {
@@ -28,10 +34,15 @@ public class PatientEntityToSummaryTransformer implements Transformer<PatientEnt
         PatientSummary patientSummary = new PatientSummary();
 
         String name = patientEntity.getFirstName() + " " + patientEntity.getLastName();
-        String address = patientEntity.getAddress1() + ", " +
-            patientEntity.getAddress2() + ", " +
-            patientEntity.getAddress3() + ", " +
-            patientEntity.getPostcode();
+
+        Collection<String> addressList = Arrays.asList(StringUtils.trimToNull(patientEntity.getAddress1()),
+                StringUtils.trimToNull(patientEntity.getAddress2()),
+                StringUtils.trimToNull(patientEntity.getAddress3()),
+                StringUtils.trimToNull(patientEntity.getPostcode()));
+
+        addressList = CollectionUtils.removeAll(addressList, Collections.singletonList(null));
+
+        String address = StringUtils.join(addressList, ", ");
 
         patientSummary.setId(patientEntity.getNhsNumber());
         patientSummary.setName(name);

@@ -58,7 +58,14 @@ public class ProblemsController {
         List<ProblemSummary> problems = problemSearch.findAllProblems(patientId);
 
         ProblemSearch openehrSearch = problemSearchFactory.select(RepoSourceTypes.MARAND);
-        problems.addAll(openehrSearch.findAllProblems(patientId));
+        List<ProblemSummary> openEHRProbs = openehrSearch.findAllProblems(patientId);
+        problems.addAll(openEHRProbs);
+
+        ProblemSearch vistaSearch = problemSearchFactory.select(RepoSourceTypes.VISTA);
+        problems.addAll(vistaSearch.findAllProblems("17"));
+
+        ProblemSearch scCISSearch = problemSearchFactory.select(RepoSourceTypes.SCCIS);
+        problems.addAll(scCISSearch.findAllProblems(patientId));
 
         return problems;
     }
@@ -70,6 +77,12 @@ public class ProblemsController {
         ProblemSearch problemSearch = problemSearchFactory.select(sourceType);
         List<ProblemHeadline> problemHeadlines = problemSearch.findProblemHeadlines(patientId);
 
+        ProblemSearch vistaSearch = problemSearchFactory.select(RepoSourceTypes.VISTA);
+        problemHeadlines.addAll(vistaSearch.findProblemHeadlines("17"));
+
+        ProblemSearch scCISSearch = problemSearchFactory.select(RepoSourceTypes.SCCIS);
+        problemHeadlines.addAll(scCISSearch.findProblemHeadlines(patientId));
+
         return problemHeadlines;
     }
 
@@ -80,6 +93,10 @@ public class ProblemsController {
         final RepoSourceType sourceType = repoSourceLookup.lookup(source);
         ProblemSearch problemSearch = problemSearchFactory.select(sourceType);
 
+        if (source != null && source.equalsIgnoreCase(RepoSourceTypes.VISTA.name())) {
+            patientId = "17";
+        }
+
         return problemSearch.findProblem(patientId, problemId);
     }
 
@@ -87,7 +104,9 @@ public class ProblemsController {
     public void createProblem(@PathVariable("patientId") String patientId,
                               @RequestParam(required = false) String source,
                               @RequestBody ProblemDetails problem) {
-        final RepoSourceType sourceType = repoSourceLookup.lookup(source);
+        // Conventionally, data is written to EtherCIS.  If source is null then this will default to EtherCIS
+        // Until SC-CIS is available, write data to MARAND.
+        final RepoSourceType sourceType = RepoSourceTypes.MARAND;  // Default to MARAND for Sprint 2
         ProblemStore problemStore = problemStoreFactory.select(sourceType);
 
         problemStore.create(patientId, problem);

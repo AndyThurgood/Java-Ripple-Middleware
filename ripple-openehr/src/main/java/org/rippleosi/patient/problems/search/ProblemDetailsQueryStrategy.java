@@ -35,22 +35,24 @@ public class ProblemDetailsQueryStrategy extends AbstractDetailsGetQueryStrategy
 
     @Override
     public String getQuery(String namespace, String patientId) {
-        return "select a/uid/value as uid, " +
-            "a/composer/name as author, " +
-            "a/context/start_time/value as date_created," +
-            "a_a/items/data[at0001]/items[at0002]/value/value as problem, " +
-            "a_a/items/data[at0001]/items[at0002]/value/defining_code/code_string as problem_code, " +
-            "a_a/items/data[at0001]/items[at0002]/value/defining_code/terminology_id/value as problem_terminology, " +
-            "a_a/items/data[at0001]/items[at0009]/value/value as description, " +
-            "a_a/items/data[at0001]/items[at0003]/value/value as onset_date, " +
-            "a_a/items/data[at0001]/items[at0077]/value/value as onset_date_time " +
-            "from EHR e " +
-            "contains COMPOSITION a[openEHR-EHR-COMPOSITION.care_summary.v0] " +
-            "contains SECTION a_a[openEHR-EHR-SECTION.problems_issues_rcp.v1] " +
-            "where a/name/value='Problem list' " +
-            "and a/uid/value='" + problemId + "' " +
-            "and e/ehr_status/subject/external_ref/namespace = '" + namespace + "' " +
-            "and e/ehr_status/subject/external_ref/id/value = '" + patientId + "'";
+        return "select " +
+                " a/uid/value as compositionID, " +
+                " a/composer/name as author, " +
+                " a/composer/external_ref/id/value as authorId, " +
+                " a/context/start_time/value as dateCreated, " +
+                " b_a/data[at0001]/items[at0002]/value/value as problem, " +
+                " b_a/data[at0001]/items[at0002]/value/defining_code/code_string as problemCode, " +
+                " b_a/data[at0001]/items[at0002]/value/defining_code/terminology_id/value as problemTerminology, " +
+                " b_a/data[at0001]/items[at0077]/value/value as onsetDate, " +
+                " b_a/data[at0001]/items[at0009]/value/value as description " +
+                "from EHR e " +
+                "contains COMPOSITION a[openEHR-EHR-COMPOSITION.problem_list.v1] " +
+                "contains EVALUATION b_a[openEHR-EHR-EVALUATION.problem_diagnosis.v1] " +
+                "where " +
+                " a/name/value='Problem list' and " +
+                " a/uid/value = '" + problemId + "' and " +
+                "(e/ehr_status/subject/external_ref/namespace='" + namespace + "' and " +
+                "e/ehr_status/subject/external_ref/id/value='" + patientId + "')";
     }
 
     @Override

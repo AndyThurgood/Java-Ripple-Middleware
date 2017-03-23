@@ -35,7 +35,7 @@ public class ContactSummaryTransformer implements Transformer<Map<String, Object
         contact.setSourceId(MapUtils.getString(input, "uid"));
         contact.setName(MapUtils.getString(input, "name"));
         contact.setNextOfKin(nextOfKin != null && nextOfKin.booleanValue());
-        contact.setRelationship(MapUtils.getString(input, "relationship"));
+        contact.setRelationship(MapUtils.getString(input, "relationshipRoleType"));
 
         return contact;
     }

@@ -56,7 +56,7 @@ public class OpenEHRProblemStore extends AbstractOpenEhrService implements Probl
 
         Map<String, Object> content = createFlatJsonContent(problem);
 
-        UpdateStrategy updateStrategy = new DefaultStoreStrategy(problem.getSourceId(), patientId, problemTemplate, content);
+        UpdateStrategy updateStrategy = new DefaultStoreStrategy(null, patientId, problemTemplate, content);
 
         updateData(updateStrategy);
     }
@@ -80,11 +80,15 @@ public class OpenEHRProblemStore extends AbstractOpenEhrService implements Probl
         }
 
         String dateOfOnset = DateFormatter.toString(problem.getDateOfOnset());
+        /*
+        if (problem.getSourceId() != null && !problem.getSourceId().equals("")) {
+            content.put("problem_list/_uid", problem.getSourceId());
+        } */
 
-        content.put(PROBLEM_PREFIX + "/problem_diagnosis|value", problem.getProblem());
+        content.put(PROBLEM_PREFIX + "/problem_diagnosis_name|value", problem.getProblem());
         content.put(PROBLEM_PREFIX + "/clinical_description", problem.getDescription());
-        content.put(PROBLEM_PREFIX + "/problem_diagnosis|code", problem.getCode());
-        content.put(PROBLEM_PREFIX + "/problem_diagnosis|terminology", problem.getTerminology());
+        content.put(PROBLEM_PREFIX + "/problem_diagnosis_name|code", problem.getCode());
+        content.put(PROBLEM_PREFIX + "/problem_diagnosis_name|terminology", problem.getTerminology());
         content.put(PROBLEM_PREFIX + "/date_time_of_onset", dateOfOnset);
 
         return content;

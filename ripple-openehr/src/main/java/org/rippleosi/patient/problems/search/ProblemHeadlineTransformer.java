@@ -30,7 +30,7 @@ public class ProblemHeadlineTransformer implements Transformer<Map<String, Objec
 
         ProblemHeadline problem = new ProblemHeadline();
         problem.setSource("Marand");
-        problem.setSourceId(MapUtils.getString(input, "uid"));
+        problem.setSourceId(MapUtils.getString(input, "compositionID"));
         problem.setProblem(MapUtils.getString(input, "problem"));
 
         return problem;

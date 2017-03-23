@@ -25,30 +25,27 @@ public class LogoutController {
     @Value("${authentication.server.url}")
     protected String authServerUrl;
 
-    @Value("${authentication.client.id}")
-    private String clientId;
-
     @Value("${pac4j.applicationLogout.logoutUrl}")
     protected String logoutUrl;
-
-    @Value("${pac4j.callback.defaultUrl}")
-    private String defaultUrl;
 
     @Autowired
     private SecurityService securityService;
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public ResponseEntity<String> logout(final HttpServletRequest request, final HttpServletResponse response) {
-        WebContext context = new J2EContext(request, response);
+        final WebContext context = new J2EContext(request, response);
 
-        ProfileManager<OidcProfile> manager = new ProfileManager<>(context);
+        final ProfileManager<OidcProfile> manager = new ProfileManager<>(context);
+
+        final OidcProfile oidcProfile = manager.get(true);
+        final String idToken = oidcProfile.getIdTokenString();
+
         manager.logout();
 
-        String fullLogoutUrl = authServerUrl + logoutUrl;
+        final String fullLogoutUrl = authServerUrl + logoutUrl;
 
-        Map<String, String> queryParams = new HashMap<>();
-        queryParams.put("returnTo", defaultUrl);
-        queryParams.put("client_id", clientId);
+        final Map<String, String> queryParams = new HashMap<>();
+        queryParams.put("id_token_hint", idToken);
 
         return securityService.generateRedirectResponseEntity(fullLogoutUrl, queryParams, HttpStatus.OK);
     }

@@ -25,6 +25,6 @@ public class ReferralOnlyPredicate implements Predicate<Map<String, Object>> {
 
     @Override
     public boolean evaluate(Map<String, Object> input) {
-        return input.get("referral_from") != null && input.get("referral_to") != null;
+        return input.get("referralFrom") != null && input.get("referralTo") != null;
     }
 }

@@ -33,16 +33,47 @@ public class ContactSummaryQueryStrategy extends AbstractListGetQueryStrategy<Co
 
     @Override
     public String getQuery(String namespace, String patientId) {
-        return "select a/uid/value as uid, " +
-                "a_a/items/data[at0001]/items/items[openEHR-EHR-CLUSTER.person_name.v1]/items/value/value as name, " +
-                "a_a/items/data[at0001]/items[at0030]/value/value as relationship, " +
-                "a_a/items/data[at0001]/items[at0025]/value/value as next_of_kin " +
-                "from EHR e " +
-                "contains COMPOSITION a[openEHR-EHR-COMPOSITION.care_summary.v0] " +
-                "contains SECTION a_a[openEHR-EHR-SECTION.relevant_contacts_rcp.v1] " +
-                "where a/name/value='Relevant contacts' " +
-                "and e/ehr_status/subject/external_ref/namespace = '" + namespace + "' " +
-                "and e/ehr_status/subject/external_ref/id/value = '" + patientId + "'";
+/*
+        return "select    a/uid/value as uid,    b_a/items[at0001]/value/value as name, " +
+                "b_b/data[at0001]/items[at0030]/value/value as relationship, " +
+                "b_b/data[at0001]/items[at0025]/value/value as next_of_kin,  " +
+                "b_c/items[at0002]/value/value as contactInformation,  " +
+                "b_b/data[at0001]/items[at0017]/value/value as notes,  " +
+                "b_b/data[at0001]/items[at0035]/value/value as relationshipType, " +
+                "b_b/data[at0001]/items[at0035]/value/defining_code/code_string as relationshipCode,  " +
+                "b_b/data[at0001]/items[at0035]/value/defining_code/terminologyId/value as relationshipTerminology,  " +
+                "b_d/items[at0002]/value/value as address, " +
+                "b_c/items[at0002]/value/value as comms " +
+                "from EHR e contains COMPOSITION a[openEHR-EHR-COMPOSITION.health_summary.v1] " +
+                "contains (    CLUSTER b_a[openEHR-EHR-CLUSTER.person_name.v1] or  " +
+                "ADMIN_ENTRY b_b[openEHR-EHR-ADMIN_ENTRY.relevant_contact_rcp.v1] or  " +
+                "CLUSTER b_c[openEHR-EHR-CLUSTER.telecom_uk.v1] or  " +
+                "CLUSTER b_d[openEHR-EHR-CLUSTER.address_uk.v0]) " +
+                "where    a/name/value='Relevant Contacts List'  " +
+                "and e/ehr_status/subject/external_ref/namespace = '" + namespace + "'  and " +
+                "e/ehr_status/subject/external_ref/id/value = '" + patientId + "'";
+    */
+        return "select" +
+                " a/uid/value as uid, " +
+                " a/context/start_time/value as dateCreated, " +
+                " a/composer/name as author, " +
+                " b_b/data[at0001]/items[at0030]/value/value as relationshipRoleType, " +
+                " b_b/data[at0001]/items[at0025]/value/value as next_of_kin, " +
+                " b_b/data[at0001]/items[at0017]/value/value as notes, " +
+                " b_b/data[at0001]/items[at0035]/value/value as relationshipCategory, " +
+                " b_b/data[at0001]/items[at0035]/value/defining_code/code_string as relationshipCategoryCode, " +
+                " b_b/data[at0001]/items[at0035]/value/defining_code/terminologyId/value as relationshipCategoryTerminology, " +
+                " b_b/data[at0001]/items[openEHR-EHR-CLUSTER.individual_person_uk.v1]/items[openEHR-EHR-CLUSTER.person_name.v1]/items[at0001]/value/value as name, " +
+                " b_b/data[at0001]/items[openEHR-EHR-CLUSTER.individual_person_uk.v1]/items[openEHR-EHR-CLUSTER.address_uk.v0]/items[at0002]/value/value as address, " +
+                " b_b/data[at0001]/items[openEHR-EHR-CLUSTER.individual_person_uk.v1]/items[openEHR-EHR-CLUSTER.telecom_uk.v1]/items[at0002]/value/value as comms " +
+                " from EHR e " +
+                " contains COMPOSITION a[openEHR-EHR-COMPOSITION.health_summary.v1] " +
+                " contains (" +
+                " ADMIN_ENTRY b_b[openEHR-EHR-ADMIN_ENTRY.relevant_contact_rcp.v1]) " +
+                " where " +
+                " a/name/value='Relevant Contacts List' and (" +
+                " e/ehr_status/subject/external_ref/namespace='" + namespace + "'  and " +
+                " e/ehr_status/subject/external_ref/id/value='" + patientId + "')";
     }
 
     @Override

@@ -5,51 +5,46 @@ import java.util.List;
 
 public class UserPermissions {
 
-    private String[] roles;
+    private String role;
 
-    private UserPermissions() {
-        // roles must be set in construction
-    }
-
-    public UserPermissions(final String[] roles) {
-        this.roles = roles;
+    public UserPermissions(final String role) {
+        this.role = role;
     }
 
     public List<String> loadUserPermissions() {
-        List<String> permissions = new ArrayList<>();
+        final List<String> permissions = new ArrayList<>();
+        final String role = getRole();
 
-        for (String role : getRoles()) {
-            switch (role.toUpperCase()) {
-                case "IDCR": {
-                    permissions.add("READ");
-                    permissions.add("WRITE");
-                    break;
-                }
-                case "PHR": {
-                    permissions.add("READ");
-                    break;
-                }
-                case "ADMIN": {
-                    permissions.add("ADMIN");
-                    break;
-                }
-                case "IG": {
-                    permissions.add("IG");
-                    break;
-                }
-                case "NONE": {
-                    permissions.add("NONE");
-                    break;
-                }
-                case "": {
-                    permissions.add("NONE");
-                    break;
-                }
+        switch (role.toUpperCase()) {
+            case "IDCR": {
+                permissions.add("READ");
+                permissions.add("WRITE");
+                break;
+            }
+            case "PHR": {
+                permissions.add("READ");
+                break;
+            }
+            case "ADMIN": {
+                permissions.add("ADMIN");
+                break;
+            }
+            case "IG": {
+                permissions.add("IG");
+                break;
+            }
+            case "NONE": {
+                permissions.add("NONE");
+                break;
+            }
+            case "": {
+                permissions.add("NONE");
+                break;
             }
         }
 
         if (!permissions.contains("NONE")) {
-            permissions = addPermissions(permissions);
+            addPermissions(permissions);
         }
 
         return permissions;
@@ -59,7 +54,11 @@ public class UserPermissions {
         return permissions;
     }
 
-    public String[] getRoles() {
-        return roles;
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }

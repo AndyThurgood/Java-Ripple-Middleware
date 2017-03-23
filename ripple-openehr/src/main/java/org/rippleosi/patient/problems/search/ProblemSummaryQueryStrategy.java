@@ -33,16 +33,15 @@ public class ProblemSummaryQueryStrategy extends AbstractListGetQueryStrategy<Pr
 
     @Override
     public String getQuery(String namespace, String patientId) {
-        return "select a/uid/value as uid, " +
-            "a_a/items/data[at0001]/items[at0002]/value/value as problem, " +
-            "a_a/items/data[at0001]/items[at0003]/value/value as onset_date, " +
-            "a_a/items/data[at0001]/items[at0077]/value/value as onset_date_time " +
-            "from EHR e " +
-            "contains COMPOSITION a[openEHR-EHR-COMPOSITION.care_summary.v0] " +
-            "contains SECTION a_a[openEHR-EHR-SECTION.problems_issues_rcp.v1] " +
-            "where a/name/value='Problem list' " +
-            "and e/ehr_status/subject/external_ref/namespace = '" + namespace + "' " +
-            "and e/ehr_status/subject/external_ref/id/value = '" + patientId + "'";
+        return "select a/uid/value as compositionID, " +
+                "b_a/data[at0001]/items[at0002]/value/value as Problem_Diagnosis, " +
+                "b_a/data[at0001]/items[at0077]/value/value as Date_of_onset " +
+                "from EHR e " +
+                "contains COMPOSITION a[openEHR-EHR-COMPOSITION.problem_list.v1] " +
+                "contains EVALUATION b_a[openEHR-EHR-EVALUATION.problem_diagnosis.v1] " +
+                "where a/name/value='Problem list' and " +
+                "(e/ehr_status/subject/external_ref/namespace='" + namespace + "' and " +
+                "e/ehr_status/subject/external_ref/id/value='" + patientId + "')";
     }
 
     @Override

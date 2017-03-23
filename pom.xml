@@ -21,7 +21,7 @@
 
     <groupId>org.rippleosi</groupId>
     <artifactId>ripple</artifactId>
-    <version>0.9.1.1-SNAPSHOT</version>
+    <version>0.8.0.0</version>
     <packaging>pom</packaging>
 
     <name>Ripple OSI</name>
@@ -116,7 +116,8 @@
         <module>ripple-openehr</module>
         <module>ripple-packaging</module>
         <module>ripple-terminology-example</module>
-        
+        <module>ripple-sccis</module>
+        <module>ripple-vista</module>
         <module>ripple-security</module>
     </modules>
 
@@ -176,6 +177,17 @@
                 <version>${project.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.rippleosi</groupId>
+                <artifactId>ripple-vista</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.rippleosi</groupId>
+                <artifactId>ripple-sccis</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
@@ -241,7 +253,6 @@
                 <groupId>javax.servlet</groupId>
                 <artifactId>javax.servlet-api</artifactId>
                 <version>${servlet.api.version}</version>
-                <scope>provided</scope>
             </dependency>
 
             <dependency>
@@ -537,6 +548,7 @@
                 <artifactId>xml-apis</artifactId>
                 <version>${xml.apis.version}</version>
             </dependency>
+
         </dependencies>
     </dependencyManagement>
 
@@ -624,6 +636,7 @@
                     </dependencies>
                     <configuration>
                         <tagNameFormat>v@{project.version}</tagNameFormat>
+                        <!-- <pushChanges>false</pushChanges> -->
                         <localCheckout>true</localCheckout>
                         <updateWorkingCopyVersions>false</updateWorkingCopyVersions>
                     </configuration>

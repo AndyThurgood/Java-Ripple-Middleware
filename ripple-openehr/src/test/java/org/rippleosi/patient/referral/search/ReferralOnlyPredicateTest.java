@@ -39,7 +39,7 @@ public class ReferralOnlyPredicateTest {
     @Test
     public void shouldReturnFalseWhenReferralFromIsMissing() {
 
-        Map<String, Object> input = Collections.singletonMap("referral_to", "to");
+        Map<String, Object> input = Collections.singletonMap("referralTo", "to");
 
         boolean result = predicate.evaluate(input);
 
@@ -49,7 +49,7 @@ public class ReferralOnlyPredicateTest {
     @Test
     public void shouldReturnFalseWhenReferralToIsMissing() {
 
-        Map<String, Object> input = Collections.singletonMap("referral_from", "from");
+        Map<String, Object> input = Collections.singletonMap("referralFrom", "from");
 
         boolean result = predicate.evaluate(input);
 
@@ -70,8 +70,8 @@ public class ReferralOnlyPredicateTest {
     public void shouldReturnTrueWhenBothEntriesArePresent() {
 
         Map<String, Object> input = new HashMap<>();
-        input.put("referral_from", "from");
-        input.put("referral_to", "to");
+        input.put("referralFrom", "from");
+        input.put("referralTo", "to");
 
         boolean result = predicate.evaluate(input);
 

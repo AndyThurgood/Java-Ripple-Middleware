@@ -46,4 +46,14 @@ public class NotConfiguredReferralSearch implements ReferralSearch {
     public ReferralDetails findReferral(String patientId, String referralId) {
         throw ConfigurationException.unimplementedTransaction(ReferralSearch.class);
     }
+
+    @Override
+    public ReferralDetails findReferralByReference(String patientId, String reference) {
+        throw ConfigurationException.unimplementedTransaction(ReferralSearch.class);
+    }
+    @Override
+    public ReferralDetails findReferralByReference(String patientId, String reference, String stateCode) {
+        throw ConfigurationException.unimplementedTransaction(ReferralSearch.class);
+    }
+
 }

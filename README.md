@@ -42,7 +42,7 @@ PATH should contain the bin directory of both M2_HOME and JAVA_HOME, e.g.
 
 Ensure that you have a context file located in the root directory of the project. This file contains configuration
 which is vital to the application. You can copy the a fully working example of one, which is located here:  
-ripple-packaging/src/main/resources/config/tomcat-context-example.xml
+ripple-demonstrator-api\src\main\resources\config\tomcat-context-example.xml
 
 ### Running the Application
 

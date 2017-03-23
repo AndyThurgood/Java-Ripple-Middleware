@@ -30,19 +30,27 @@ public class ReferralDetailsTransformer implements Transformer<Map<String,Object
     @Override
     public ReferralDetails transform(Map<String, Object> input) {
 
-        Date dateOfReferral = DateFormatter.toDate(MapUtils.getString(input, "referral_date"));
-        Date dateCreated = DateFormatter.toDate(MapUtils.getString(input, "date_submitted"));
+        Date dateOfReferral = DateFormatter.toDate(MapUtils.getString(input, "dateOfState"));
+        Date dateCreated = DateFormatter.toDate(MapUtils.getString(input, "date"));
 
         ReferralDetails referral = new ReferralDetails();
         referral.setSource("Marand");
-        referral.setSourceId(MapUtils.getString(input, "uid"));
-        referral.setReferralFrom(MapUtils.getString(input, "referral_from"));
-        referral.setReferralTo(MapUtils.getString(input, "referral_to"));
+        referral.setReferralState(MapUtils.getString(input, "state"));
+        referral.setSourceId(MapUtils.getString(input, "compositionId"));
+        referral.setReferralFrom(MapUtils.getString(input, "referralFrom"));
+        referral.setReferralTo(MapUtils.getString(input, "referralTo"));
         referral.setDateOfReferral(dateOfReferral);
-        referral.setReason(MapUtils.getString(input, "referral_reason"));
-        referral.setClinicalSummary(MapUtils.getString(input, "clinical_summary"));
+        referral.setReason(MapUtils.getString(input, "reason"));
+        referral.setClinicalSummary(MapUtils.getString(input, "summary"));
         referral.setAuthor(MapUtils.getString(input, "author"));
         referral.setDateCreated(dateCreated);
+        referral.setReference(MapUtils.getString(input,"referral_ref"));
+        referral.setReferralType(MapUtils.getString(input, "type"));
+        if (referral.getReferralState().equalsIgnoreCase("completed")) {
+            // This is a Referral Response
+            referral.setDateResponded(dateOfReferral);
+            referral.setReferralOutcome(MapUtils.getString(input, "Outcome"));
+        }
 
         return referral;
     }

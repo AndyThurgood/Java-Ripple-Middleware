@@ -15,6 +15,8 @@
  */
 package org.rippleosi.patient.problems.search;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
@@ -29,20 +31,24 @@ public class ProblemDetailsTransformer implements Transformer<Map<String, Object
 
     @Override
     public ProblemDetails transform(Map<String, Object> input) {
-        Date dateOfOnset = DateFormatter.toDate(MapUtils.getString(input, "onset_date"));
-        Date dateTimeOfOnset = DateFormatter.toDate(MapUtils.getString(input, "onset_date_time"));
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date dateOfOnset = null;
+        try {
+            dateOfOnset = sdf.parse(MapUtils.getString(input, "onsetDate"));
+        }
+        catch   (ParseException pe) { }
 
         ProblemDetails problem = new ProblemDetails();
         problem.setSource("Marand");
-        problem.setSourceId(MapUtils.getString(input, "uid"));
+        problem.setSourceId(MapUtils.getString(input, "compositionID"));
         problem.setProblem(MapUtils.getString(input, "problem"));
-        problem.setDateOfOnset(dateOfOnset != null ? dateOfOnset : dateTimeOfOnset);
-        problem.setCode(MapUtils.getString(input, "problem_code"));
-        problem.setTerminology(MapUtils.getString(input, "problem_terminology"));
+        problem.setDateOfOnset(dateOfOnset);
+        problem.setCode(MapUtils.getString(input, "problemCode"));
+        problem.setTerminology(MapUtils.getString(input, "problemTerminology"));
         problem.setDescription(MapUtils.getString(input, "description"));
         problem.setAuthor(MapUtils.getString(input, "author"));
 
-        String dateCreated = MapUtils.getString(input, "date_created");
+        String dateCreated = MapUtils.getString(input, "dateCreated");
         problem.setDateCreated(DateFormatter.toDate(dateCreated));
 
         return problem;
